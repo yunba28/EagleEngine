@@ -65,6 +65,8 @@ namespace EagleEngine
 
 		Function& operator=(std::nullptr_t);
 
+	public:
+
 		ReturnType operator()(Args&&..._args) const
 		{
 			if (mFunction.invalid())

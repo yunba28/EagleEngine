@@ -950,5 +950,8 @@
     <ClInclude Include="Framework\include\Utility\Concepts.hpp">
       <Filter>Framework\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\include\Utility\Assert.hpp">
+      <Filter>Framework\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

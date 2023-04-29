@@ -24,7 +24,13 @@ namespace EagleEngine
 
 		bool empty()const noexcept;
 
+	public:
+
 		static HashedString Make(const String& tag);
+
+		static bool Exist(const String& tag);
+
+	public:
 
 		bool operator==(const HashedString& _other)const noexcept;
 

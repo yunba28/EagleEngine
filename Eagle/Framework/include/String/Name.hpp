@@ -8,6 +8,17 @@ namespace EagleEngine
 
 	class Name final
 	{
+	private:
+
+		struct Param final
+		{
+			String name = U""_s;
+			NameID base = 0;
+			int32 count = 0;
+			int32 max = 0;
+			bool used = false;
+		};
+
 	public:
 
 		Name();
@@ -26,17 +37,6 @@ namespace EagleEngine
 
 		Name& operator=(Name&& _other)noexcept;
 
-	private:
-
-		struct Param final
-		{
-			String name = U""_s;
-			NameID base = 0;
-			int32 count = 0;
-			int32 max = 0;
-			bool used = false;
-		};
-
 	public:
 
 		NameID id()const noexcept;
@@ -51,6 +51,8 @@ namespace EagleEngine
 
 		bool empty()const noexcept;
 
+	public:
+
 		static Name Make(const String& name);
 
 		static NameView Find(const String& name);
@@ -62,6 +64,8 @@ namespace EagleEngine
 		static bool Used(const String& name);
 
 		static bool Used(NameID id);
+
+	public:
 
 		bool operator==(const Name& _other)const noexcept;
 

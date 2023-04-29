@@ -44,6 +44,8 @@ namespace EagleEngine
 		{
 			return (*found);
 		}
+
+		return ObjectPtr<Component>{};
 	}
 
 	Array<ObjectPtr<Component>> Actor::getComponentsByTag(const String& _tag) const

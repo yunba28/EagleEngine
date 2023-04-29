@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <Util/InitializerList.hpp>
+#include <Utility/InitializerList.hpp>
 
 namespace EagleEngine
 {
@@ -44,11 +44,6 @@ namespace EagleEngine
 			}
 		}
 
-		Type* operator[](size_t _idx)
-		{
-			return mElem[_idx];
-		}
-
 		iterator begin() noexcept
 		{
 			return iterator(mElem, 0);
@@ -67,6 +62,11 @@ namespace EagleEngine
 		const_iterator end() const noexcept
 		{
 			return const_iterator(mElem, Row * Column);
+		}
+
+		Type* operator[](size_t _idx)
+		{
+			return mElem[_idx];
 		}
 
 	private:

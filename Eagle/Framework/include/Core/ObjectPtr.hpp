@@ -17,7 +17,7 @@ namespace EagleEngine
 
 	bool UnregisterObjectHandle(Object* object);
 
-	bool IsValidByObject(Object* object);
+	bool IsValidByObject(const Object* object);
 
 	template<class ObjectType>
 	class ObjectPtr final

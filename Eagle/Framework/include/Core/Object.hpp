@@ -103,6 +103,22 @@ namespace EagleEngine
 
 		void destroy();
 
+		bool invalid()const;
+
+	public:
+
+		bool operator==(const Object& _other)const noexcept;
+
+		template<class ObjectType>
+		bool operator==(const ObjectPtr<ObjectType>& _other)const noexcept;
+
+		bool operator!=(const Object& _other)const noexcept;
+
+		template<class ObjectType>
+		bool operator!=(const ObjectPtr<ObjectType>& _other)const noexcept;
+
+		explicit operator bool()const noexcept;
+
 	private:
 
 		ObjectPtr<SceneObject> mSceneObject;
@@ -125,4 +141,15 @@ namespace EagleEngine
 
 	};
 
+	template<class ObjectType>
+	bool Object::operator==(const ObjectPtr<ObjectType>& _other)const noexcept
+	{
+		return this == _other.get();
+	}
+
+	template<class ObjectType>
+	bool Object::operator!=(const ObjectPtr<ObjectType>& _other)const noexcept
+	{
+		return this != _other.get();
+	}
 }

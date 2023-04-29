@@ -47,6 +47,11 @@ namespace EagleEngine
 		return HashedString{ HashedString::MakeHash(tag) };
 	}
 
+	bool HashedString::Exist(const String& tag)
+	{
+		return sTagTable.contains(tag.hash());
+	}
+
 	bool HashedString::operator==(const HashedString& _other) const noexcept
 	{
 		return mTagHash == _other.mTagHash;

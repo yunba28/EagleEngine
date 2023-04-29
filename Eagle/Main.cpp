@@ -23,6 +23,7 @@ class PrintComponent :public Component
 
 	void update(double delta)override
 	{
+		(void)delta;
 		if (doOnce)
 		{
 			Print << U"do update";
@@ -72,14 +73,14 @@ public:
 		{
 			actor->detachComponent<PrintComponent>();
 		}
-
-		Print << ExecutionOrder::EnumrateExecutionOrder();
 	}
 
 	ObjectPtr<Actor> actor;
 
 	bool onceFlag = true;
 };
+
+constexpr auto s = sizeof(Actor);
 
 void Main()
 {

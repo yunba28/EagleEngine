@@ -41,6 +41,8 @@ namespace EagleEngine
 
 		bool empty()const noexcept;
 
+	public:
+
 		bool operator==(const Name& _other)const noexcept;
 
 		bool operator==(const NameView& _other)const noexcept;

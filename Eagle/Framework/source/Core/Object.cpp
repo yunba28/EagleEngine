@@ -17,27 +17,27 @@ namespace EagleEngine
 		, mUpdateEnabled(UpdateEnable::EnableAll)
 	{
 		bool result = RegisterObjectHandle(this);
-		assert(result, "failed register by object");
+		assert(("failed register by object", result));
 	}
 
 	Object::~Object()
 	{
 		bool result = UnregisterObjectHandle(this);
-		assert(result, "failed unregister by object");
+		assert(("failed unregister by object", result));
 	}
 
 	void Object::_internalConstruct()
 	{
 		awake()
 			? start()
-			: assert(false, "failed on awake");
+			: assert(("failed on awake", false));
 	}
 
 	void Object::_internalDestruct()
 	{
 		if (!dispose())
 		{
-			assert(false, "failed on dispose");
+			assert(("failed on dispose", false));
 		}
 	}
 
@@ -203,5 +203,25 @@ namespace EagleEngine
 			mActive = false;
 			_internalDestruct();
 		}
+	}
+
+	bool Object::invalid() const
+	{
+		return !IsValidByObject(this);
+	}
+
+	bool Object::operator==(const Object& _other) const noexcept
+	{
+		return this == &_other;
+	}
+
+	bool Object::operator!=(const Object& _other) const noexcept
+	{
+		return this != &_other;
+	}
+
+	Object::operator bool() const noexcept
+	{
+		return IsValidByObject(this);
 	}
 }

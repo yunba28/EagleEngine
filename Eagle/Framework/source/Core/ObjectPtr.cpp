@@ -25,7 +25,7 @@ namespace EagleEngine
 		return gObjectHandleSet.erase(reinterpret_cast<uintptr_t>(object)) == 1;
 	}
 
-	bool IsValidByObject(Object* object)
+	bool IsValidByObject(const Object* object)
 	{
 		if (object == nullptr)
 			return false;
