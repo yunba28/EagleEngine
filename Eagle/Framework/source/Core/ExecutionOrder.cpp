@@ -35,6 +35,6 @@ namespace EagleEngine::ExecutionOrder
 
 	int32 GetOrder(const TypeID& typeID)
 	{
-		return gObjectOrders.contains(typeID) ? gObjectOrders[typeID] : 9999;
+		return gObjectOrders.contains(typeID) ? gObjectOrders[typeID] : 500;
 	}
 }

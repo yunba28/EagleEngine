@@ -6,6 +6,7 @@ namespace EagleEngine
 {
 	Actor::Actor()
 		: mComponents()
+		, mTransform(MakeUnique<Transform>())
 	{
 	}
 
@@ -16,6 +17,11 @@ namespace EagleEngine
 		{
 			component->destroy();
 		}
+	}
+
+	void Actor::_internalAttachToActor(Actor* _actor)
+	{
+		Object::_internalAttachToActor(_actor);
 	}
 
 	ObjectPtr<Component> Actor::getComponentByTypeID(const TypeID& _type) const
@@ -92,6 +98,30 @@ namespace EagleEngine
 				return true;
 			}
 			return false;
+		});
+	}
+
+	bool Actor::hasComponentByTypeID(const TypeID& _type) const
+	{
+		return mComponents.any([&_type](const ObjectPtr<Component>& component)
+		{
+			return component->sameTypeID(_type);
+		});
+	}
+
+	bool Actor::hasComponentByName(const String& _name) const
+	{
+		return mComponents.any([&_name](const ObjectPtr<Component>& component)
+		{
+			return component->sameName(_name);
+		});
+	}
+
+	bool Actor::hasComponentByTag(const String& _tag) const
+	{
+		return mComponents.any([&_tag](const ObjectPtr<Component>& component)
+		{
+			return component->hasTag(_tag);
 		});
 	}
 

@@ -207,6 +207,9 @@
     <ClCompile Include="Framework\source\Utility\TypeID.cpp">
       <Filter>Framework\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="Framework\source\Math\Transform.cpp">
+      <Filter>Framework\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="App\icon.ico">
@@ -952,6 +955,9 @@
     </ClInclude>
     <ClInclude Include="Framework\include\Utility\Assert.hpp">
       <Filter>Framework\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\include\Math\Transform.hpp">
+      <Filter>Framework\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

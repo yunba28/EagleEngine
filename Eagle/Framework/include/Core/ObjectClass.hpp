@@ -19,7 +19,7 @@ namespace EagleEngine
 			using Type = ClassType;
 		};
 
-		using FactoryType = Function<Object*(void)>;
+		using factory_t = Function<Object*(void)>;
 
 	public:
 
@@ -58,7 +58,7 @@ namespace EagleEngine
 
 	private:
 
-		FactoryType mFactory = nullptr;
+		factory_t mFactory = nullptr;
 
 		TypeID mTypeID = typeid(void);
 

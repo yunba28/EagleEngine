@@ -80,8 +80,6 @@ public:
 	bool onceFlag = true;
 };
 
-constexpr auto s = sizeof(Actor);
-
 void Main()
 {
 	GameManager<String> manager;

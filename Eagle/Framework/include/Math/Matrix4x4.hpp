@@ -4,5 +4,5 @@
 
 namespace EagleEngine
 {
-	using s3d::Mat4x4;
+	using Matrix4x4 =  s3d::Mat4x4;
 }

@@ -32,9 +32,13 @@ namespace EagleEngine
 
 		virtual void _internalDestruct()override;
 
+		virtual void _internalAttachToActor(Actor* _actor)override;
+
 	public:
 
 		/* category 'common' */
+
+		void attachToActor(Actor* _owner);
 
 		template<Concept::IsComponent ComponentType>
 		ObjectPtr<ComponentType> attachComponent(const String& _name = U"");
@@ -57,6 +61,31 @@ namespace EagleEngine
 
 		void detachComponentsByTag(const String& _tag);
 
+		template<Concept::IsComponent ComponentType>
+		bool hasComponent()const;
+
+		bool hasComponentByTypeID(const TypeID& _type)const;
+
+		bool hasComponentByName(const String& _name)const;
+
+		bool hasComponentByTag(const String& _tag)const;
+
+		void setTransform(const Transform& _transform)noexcept;
+
+		const Transform& getTransform()const noexcept;
+
+		void setActorPosition(const Vector3& _position)noexcept;
+
+		Vector3 getActorPosition()const noexcept;
+
+		void setActorRotation(const Quaternion& _rotation)noexcept;
+
+		Quaternion getActorRotation()const noexcept;
+
+		void setActorScale(const Vector3& _scale)noexcept;
+
+		Vector3 getActorScale()const noexcept;
+
 	private:
 
 		ObjectPtr<Component> attachComponentByObjectClass(const ObjectClass& _objectClass, const String& _name);
@@ -65,7 +94,14 @@ namespace EagleEngine
 
 		Array<ObjectPtr<Component>> mComponents;
 
+		UniquePtr<Transform> mTransform;
+
 	};
+
+	inline void Actor::attachToActor(Actor* _owner)
+	{
+		_internalAttachToActor(_owner);
+	}
 
 	template<Concept::IsComponent ComponentType>
 	inline ObjectPtr<ComponentType> Actor::attachComponent(const String& _name)
@@ -88,4 +124,51 @@ namespace EagleEngine
 	{
 		detachComponentByTypeID(typeid(ComponentType));
 	}
+
+	template<Concept::IsComponent ComponentType>
+	inline bool Actor::hasComponent() const
+	{
+		return hasComponentByTypeID(typeid(ComponentType));
+	}
+
+	inline void Actor::setTransform(const Transform& _transform)noexcept
+	{
+		(*mTransform) = _transform;
+	}
+
+	inline const Transform& Actor::getTransform()const noexcept
+	{
+		return *mTransform;
+	}
+
+	inline void Actor::setActorPosition(const Vector3& _position)noexcept
+	{
+		mTransform->setPosition(_position);
+	}
+
+	inline Vector3 Actor::getActorPosition()const noexcept
+	{
+		return mTransform->getPosition();
+	}
+
+	inline void Actor::setActorRotation(const Quaternion& _rotation)noexcept
+	{
+		mTransform->setRotation(_rotation);
+	}
+
+	inline Quaternion Actor::getActorRotation()const noexcept
+	{
+		return mTransform->getRotation();
+	}
+
+	inline void Actor::setActorScale(const Vector3& _scale)noexcept
+	{
+		mTransform->setScale(_scale);
+	}
+
+	inline Vector3 Actor::getActorScale()const noexcept
+	{
+		return mTransform->getScale();
+	}
+
 }

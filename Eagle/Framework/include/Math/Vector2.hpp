@@ -4,5 +4,5 @@
 
 namespace EagleEngine
 {
-	using s3d::Vec2;
+	using Vector2 = s3d::Vec2;
 }

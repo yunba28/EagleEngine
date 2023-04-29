@@ -8,6 +8,11 @@
 #include <Container/HashSet.hpp>
 #include <Container/HashTable.hpp>
 
+#include <Math/Vector2.hpp>
+#include <Math/Transform.hpp>
+
+#include <Misc/SmartPtr.hpp>
+
 #include <String/Name.hpp>
 #include <String/HashedString.hpp>
 
