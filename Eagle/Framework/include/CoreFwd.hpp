@@ -2,21 +2,17 @@
 
 namespace EagleEngine
 {
+	class ObjectClass;
+
 	class Object;
 
 	class Actor;
 
 	class Component;
 
-	class Scene;
+	class LevelBase;
 
-	class SceneObject;
+	class Level;
 
-	template<class State, class SharedData>
-	class SceneBase;
-
-	template<class State, class SharedData>
-	class GameManager;
-
-	class ObjectClass;
+	class World;
 }

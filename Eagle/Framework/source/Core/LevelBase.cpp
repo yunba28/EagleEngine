@@ -1,37 +1,32 @@
-﻿#include <Core/Scene.hpp>
+﻿#include <Core/LevelBase.hpp>
+#include <Core/World.hpp>
 #include <Core/ExecutionOrder.hpp>
 
 namespace EagleEngine
 {
-	Scene::Scene()
-		: mObjectTable()
-		, mExecutionOrder()
-		, mOrderQueue()
+	LevelBase::LevelBase()
 	{
 	}
 
-	Scene::~Scene()
+	LevelBase::~LevelBase()
 	{
 	}
 
-	void Scene::_internalUpdate(double _deltaTime)
+	void LevelBase::_internalUpdate(double _deltaTime)
 	{
-		preUpdate();
-
-		for (const auto& type : mExecutionOrder)
-		{
-			mObjectTable[type].update(_deltaTime);
-		}
-
-		Object::_internalUpdate(_deltaTime);
 	}
 
-	ObjectPtr<Object> Scene::createObject(const ObjectClass& _objectClass, Actor* _owner, const String& _name)
+	void LevelBase::_internalAttachToWorld(World* _world)
+	{
+		mWorld = _world;
+	}
+
+	ObjectPtr<Object> LevelBase::createObject(const ObjectClass& _objectClass, Actor* _owner, const String& _name)
 	{
 		Object* object = _objectClass();
 		{
 			object->setName(_name);
-			object->_internalAttachToScene(this);
+			object->_internalAttachToLevel(this);
 			object->_internalAttachToActor(_owner);
 			object->_internalConstruct();
 		}
@@ -48,7 +43,7 @@ namespace EagleEngine
 		return ObjectPtr<Object>(object);
 	}
 
-	void Scene::preUpdate()
+	void LevelBase::preUpdate()
 	{
 		if (!mOrderQueue.empty())
 		{

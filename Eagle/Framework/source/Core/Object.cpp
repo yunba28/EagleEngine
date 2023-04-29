@@ -2,15 +2,13 @@
 #include <Core/ObjectPtr.hpp>
 #include <Core/ObjectClass.hpp>
 #include <Core/Actor.hpp>
-#include <Core/Scene.hpp>
-#include <Core/Internal/SceneObject.hpp>
+#include <Core/LevelBase.hpp>
 
 namespace EagleEngine
 {
 	Object::Object()
-		: mScene(nullptr)
-		, mSceneObject(nullptr)
-		, mActorOwner(nullptr)
+		: mLevel(nullptr)
+		, mOwner(nullptr)
 		, mName()
 		, mTags()
 		, mTypeID(typeid(void))
@@ -51,32 +49,22 @@ namespace EagleEngine
 		}
 	}
 
-	void Object::_internalAttachToScene(SceneObject* _scene)
+	void Object::_internalAttachToLevel(LevelBase* _level)
 	{
-		mSceneObject = _scene;
-	}
-
-	void Object::_internalAttachToScene(Scene* _scene)
-	{
-		mScene = _scene;
+		mLevel = _level;
 	}
 
 	void Object::_internalAttachToActor(Actor* _actor)
 	{
-		mActorOwner = _actor;
+		mOwner = _actor;
 	}
 
-	ObjectPtr<Scene> Object::getScene() const noexcept
+	ObjectPtr<LevelBase> Object::getLevel() const noexcept
 	{
-		return mScene;
+		return mLevel;
 	}
 
-	ObjectPtr<SceneObject> Object::getSceneObject() const noexcept
-	{
-		return mSceneObject;
-	}
-
-	ObjectPtr<Actor> Object::getActorOwner() const noexcept
+	ObjectPtr<Actor> Object::getOwner() const noexcept
 	{
 		return mActorOwner;
 	}

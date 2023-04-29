@@ -25,5 +25,11 @@ namespace EagleEngine::Concept
 	concept IsComponent = std::is_base_of_v<Component, InheritedType>;
 
 	template<class InheritedType>
+	concept IsLevel = std::is_base_of_v<Level, InheritedType>;
+
+	template<class InheritedType>
 	concept IsScene = std::is_base_of_v<Scene, InheritedType>;
+
+	template<class InheritedType>
+	concept IsSubScene = std::is_base_of_v<SubScene, InheritedType>;
 }

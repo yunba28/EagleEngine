@@ -8,13 +8,13 @@
 
 namespace EagleEngine
 {
-	class Scene : public Object
+	class LevelBase : public Object
 	{
 	public:
 
-		Scene();
+		LevelBase();
 
-		~Scene();
+		~LevelBase();
 
 	private:
 
@@ -32,6 +32,8 @@ namespace EagleEngine
 
 		virtual void _internalUpdate(double _deltaTime)override;
 
+		virtual void _internalAttachToWorld(World* _world);
+
 	public:
 
 		ObjectPtr<Object> createObject(const ObjectClass& _objectClass, Actor* _owner = nullptr, const String& _name = U"");
@@ -42,8 +44,8 @@ namespace EagleEngine
 		template<Concept::IsComponent ComponentType>
 		ObjectPtr<ComponentType> createComponent(Actor* _owner);
 
-		template<Concept::IsScene SceneType>
-		ObjectPtr<SceneType> addSubScene(const String& _name);
+		template<Concept::IsLevel LevelType>
+		ObjectPtr<LevelType> addSubLevel(const String& _name);
 
 	private:
 
@@ -57,23 +59,25 @@ namespace EagleEngine
 
 		Array<TypeID> mOrderQueue;
 
+		ObjectPtr<World> mWorld;
+
 	};
 
 	template<Concept::IsActor ActorType>
-	inline ObjectPtr<ActorType> Scene::createActor(const String& _name)
+	inline ObjectPtr<ActorType> LevelBase::createActor(const String& _name)
 	{
 		return Cast<ActorType>(createObject(CreateObjectClass<ActorType>(), nullptr, _name));
 	}
 
 	template<Concept::IsComponent ComponentType>
-	inline ObjectPtr<ComponentType> Scene::createComponent(Actor* _owner)
+	inline ObjectPtr<ComponentType> LevelBase::createComponent(Actor* _owner)
 	{
 		return Cast<ComponentType>(createObject(CreateObjectClass<ComponentType>(), _owner));
 	}
 
-	template<Concept::IsScene SceneType>
-	inline ObjectPtr<SceneType> Scene::addSubScene(const String& _name)
+	template<Concept::IsLevel LevelType>
+	inline ObjectPtr<LevelType> LevelBase::addSubLevel(const String& _name)
 	{
-		return Cast<SceneType>(createObject(CreateObjectClass<SceneType>(), nullptr, _name));
+		return Cast<LevelType>(createObject(CreateObjectClass<LevelBaseType>(), nullptr, _name));
 	}
 }

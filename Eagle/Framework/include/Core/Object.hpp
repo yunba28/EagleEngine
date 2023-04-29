@@ -43,9 +43,7 @@ namespace EagleEngine
 
 		virtual void _internalUpdate(double _deltaTime);
 
-		virtual void _internalAttachToScene(SceneObject* _scene);
-
-		virtual void _internalAttachToScene(Scene* _scene);
+		virtual void _internalAttachToLevel(LevelBase* _level);
 
 		virtual void _internalAttachToActor(Actor* _actor);
 
@@ -53,11 +51,9 @@ namespace EagleEngine
 
 		/* category 'common' */
 
-		ObjectPtr<SceneObject> getSceneObject()const noexcept;
+		ObjectPtr<LevelBase> getLevel()const noexcept;
 
-		ObjectPtr<Scene> getScene()const noexcept;
-
-		ObjectPtr<Actor> getActorOwner()const noexcept;
+		ObjectPtr<Actor> getOwner()const noexcept;
 
 		void setName(const String& _name);
 
@@ -113,11 +109,9 @@ namespace EagleEngine
 
 	private:
 
-		ObjectPtr<Scene> mScene;
+		ObjectPtr<LevelBase> mLevel;
 
-		ObjectPtr<SceneObject> mSceneObject;
-
-		ObjectPtr<Actor> mActorOwner;
+		ObjectPtr<Actor> mOwner;
 
 		Name mName;
 

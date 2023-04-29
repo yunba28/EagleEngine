@@ -198,9 +198,6 @@
     <ClCompile Include="Framework\source\Core\Internal\ObjectListener.cpp">
       <Filter>Framework\Core\Internal</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\source\Core\Internal\SceneObject.cpp">
-      <Filter>Framework\Core\Internal</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\source\Core\ObjectPtr.cpp">
       <Filter>Framework\Core</Filter>
     </ClCompile>
@@ -210,7 +207,7 @@
     <ClCompile Include="Framework\source\Math\Transform.cpp">
       <Filter>Framework\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\source\Core\Scene.cpp">
+    <ClCompile Include="Framework\source\Core\LevelBase.cpp">
       <Filter>Framework\Core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -920,12 +917,6 @@
     <ClInclude Include="Framework\include\Core\Internal\ObjectListener.hpp">
       <Filter>Framework\Core\Internal</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\include\Core\Internal\SceneObject.hpp">
-      <Filter>Framework\Core\Internal</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\include\Core\GameManager.hpp">
-      <Filter>Framework\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\include\Core\ObjectPtr.hpp">
       <Filter>Framework\Core</Filter>
     </ClInclude>
@@ -959,7 +950,13 @@
     <ClInclude Include="Framework\include\Math\Transform.hpp">
       <Filter>Framework\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\include\Core\Scene.hpp">
+    <ClInclude Include="Framework\include\Core\LevelBase.hpp">
+      <Filter>Framework\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\include\Core\World.hpp">
+      <Filter>Framework\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\include\Core\Level.hpp">
       <Filter>Framework\Core</Filter>
     </ClInclude>
   </ItemGroup>
