@@ -8,6 +8,8 @@ namespace EagleEngine
 
 	class Component;
 
+	class Scene;
+
 	class SceneObject;
 
 	template<class State, class SharedData>

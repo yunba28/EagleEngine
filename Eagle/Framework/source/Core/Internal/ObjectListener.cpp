@@ -25,28 +25,6 @@ namespace EagleEngine::Internal
 		}
 	}
 
-	void ObjectListener::updateFadeIn(double _deltaTime, double _progress)
-	{
-		preUpdate();
-
-		for (const auto& pObj : mObjects)
-		{
-			pObj->_internalUpdateFadeIn(_deltaTime, _progress);
-			mPendingRemove |= pObj->isPendingKill();
-		}
-	}
-
-	void ObjectListener::updateFadeOut(double _deltaTime, double _progress)
-	{
-		preUpdate();
-
-		for (const auto& pObj : mObjects)
-		{
-			pObj->_internalUpdateFadeOut(_deltaTime, _progress);
-			mPendingRemove |= pObj->isPendingKill();
-		}
-	}
-
 	void ObjectListener::addObject(Object* _object)
 	{
 		mQueue.push_back(_object);

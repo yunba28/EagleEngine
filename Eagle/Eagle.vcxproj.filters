@@ -210,6 +210,9 @@
     <ClCompile Include="Framework\source\Math\Transform.cpp">
       <Filter>Framework\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Framework\source\Core\Scene.cpp">
+      <Filter>Framework\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="App\icon.ico">
@@ -908,9 +911,6 @@
     <ClInclude Include="Framework\include\Core\ObjectClass.hpp">
       <Filter>Framework\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\include\Core\CoreFwd.hpp">
-      <Filter>Framework\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\include\Core\ExecutionOrder.hpp">
       <Filter>Framework\Core</Filter>
     </ClInclude>
@@ -958,6 +958,9 @@
     </ClInclude>
     <ClInclude Include="Framework\include\Math\Transform.hpp">
       <Filter>Framework\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\include\Core\Scene.hpp">
+      <Filter>Framework\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

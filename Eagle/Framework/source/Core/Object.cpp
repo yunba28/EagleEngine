@@ -2,19 +2,21 @@
 #include <Core/ObjectPtr.hpp>
 #include <Core/ObjectClass.hpp>
 #include <Core/Actor.hpp>
+#include <Core/Scene.hpp>
 #include <Core/Internal/SceneObject.hpp>
 
 namespace EagleEngine
 {
 	Object::Object()
-		: mSceneObject(nullptr)
+		: mScene(nullptr)
+		, mSceneObject(nullptr)
 		, mActorOwner(nullptr)
 		, mName()
 		, mTags()
 		, mTypeID(typeid(void))
+		, mUpdateEnabled(true)
 		, mActive(true)
 		, mPendingKill(false)
-		, mUpdateEnabled(UpdateEnable::EnableAll)
 	{
 		bool result = RegisterObjectHandle(this);
 		assert(("failed register by object", result));
@@ -43,25 +45,9 @@ namespace EagleEngine
 
 	void Object::_internalUpdate(double _deltaTime)
 	{
-		if (mActive && isUpdateEnabled(UpdateEnable::Update))
+		if (mActive && mUpdateEnabled)
 		{
 			update(_deltaTime);
-		}
-	}
-
-	void Object::_internalUpdateFadeIn(double _deltaTime, double _progress)
-	{
-		if (mActive && isUpdateEnabled(UpdateEnable::UpdateFadeIn))
-		{
-			updateFadeIn(_deltaTime, _progress);
-		}
-	}
-
-	void Object::_internalUpdateFadeOut(double _deltaTime, double _progress)
-	{
-		if (mActive && isUpdateEnabled(UpdateEnable::UpdateFadeOut))
-		{
-			updateFadeOut(_deltaTime, _progress);
 		}
 	}
 
@@ -70,9 +56,19 @@ namespace EagleEngine
 		mSceneObject = _scene;
 	}
 
+	void Object::_internalAttachToScene(Scene* _scene)
+	{
+		mScene = _scene;
+	}
+
 	void Object::_internalAttachToActor(Actor* _actor)
 	{
 		mActorOwner = _actor;
+	}
+
+	ObjectPtr<Scene> Object::getScene() const noexcept
+	{
+		return mScene;
 	}
 
 	ObjectPtr<SceneObject> Object::getSceneObject() const noexcept
@@ -165,15 +161,14 @@ namespace EagleEngine
 		return mTypeID == _typeID;
 	}
 
-	void Object::setUpdateEnable(UpdateEnable _enabled) noexcept
+	void Object::setUpdateEnable(bool _enabled) noexcept
 	{
 		mUpdateEnabled = _enabled;
 	}
 
-	bool Object::isUpdateEnabled(UpdateEnable _enabled) const noexcept
+	bool Object::isUpdateEnabled() const noexcept
 	{
-		const uint8 enabled = static_cast<uint8>(_enabled);
-		return static_cast<uint8>(mUpdateEnabled) & enabled;
+		return mUpdateEnabled;
 	}
 
 	void Object::setActive(bool _actived) noexcept

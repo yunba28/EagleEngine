@@ -22,12 +22,6 @@ namespace EagleEngine
 
 		virtual bool dispose()override { return true; }
 
-		/* category 'advanced' */
-
-		virtual void updateFadeIn([[maybe_unused]] double _deltaTime, [[maybe_unused]] double _progress) {}
-
-		virtual void updateFadeOut([[maybe_unused]] double _deltaTime, [[maybe_unused]] double _progress) {}
-
 	public:
 
 		virtual void _internalDestruct()override;

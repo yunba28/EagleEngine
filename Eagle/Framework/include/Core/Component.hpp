@@ -36,10 +36,6 @@ namespace EagleEngine
 
 		virtual void _internalUpdate(double _deltaTime)override;
 
-		virtual void _internalUpdateFadeIn(double _deltaTime, double _progress)override;
-
-		virtual void _internalUpdateFadeOut(double _deltaTime, double _progress)override;
-
 	public:
 
 		/* category 'common' */

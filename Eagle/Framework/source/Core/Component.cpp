@@ -15,28 +15,15 @@ namespace EagleEngine
 		}
 	}
 
-	void Component::_internalUpdateFadeIn(double _deltaTime, double _progress)
-	{
-		if (mComponentEnable)
-		{
-			Object::_internalUpdateFadeIn(_deltaTime, _progress);
-		}
-	}
-
-	void Component::_internalUpdateFadeOut(double _deltaTime, double _progress)
-	{
-		if (mComponentEnable)
-		{
-			Object::_internalUpdateFadeOut(_deltaTime, _progress);
-		}
-	}
-
 	void Component::setComponentEnable(bool _enabled) noexcept
 	{
-		if (!isPendingKill() && (mComponentEnable != _enabled))
+		if (!isPendingKill())
 		{
-			mComponentEnable = _enabled;
-			mComponentEnable ? onEnable() : onDisable();
+			if (mComponentEnable != _enabled)
+			{
+				mComponentEnable = _enabled;
+				mComponentEnable ? onEnable() : onDisable();
+			}
 		}
 	}
 

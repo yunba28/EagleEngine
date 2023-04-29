@@ -123,6 +123,7 @@
     <ClCompile Include="Framework\source\Core\Object.cpp" />
     <ClCompile Include="Framework\source\Core\ObjectClass.cpp" />
     <ClCompile Include="Framework\source\Core\ObjectPtr.cpp" />
+    <ClCompile Include="Framework\source\Core\Scene.cpp" />
     <ClCompile Include="Framework\source\Math\Transform.cpp" />
     <ClCompile Include="Framework\source\String\HashedString.cpp" />
     <ClCompile Include="Framework\source\String\Name.cpp" />
@@ -345,9 +346,9 @@
     <ClInclude Include="Framework\include\Core\Internal\SceneObject.hpp" />
     <ClInclude Include="Framework\include\Core\Object.hpp" />
     <ClInclude Include="Framework\include\Core\ObjectClass.hpp" />
-    <ClInclude Include="Framework\include\Core\CoreFwd.hpp" />
     <ClInclude Include="Framework\include\Core\GameManager.hpp" />
     <ClInclude Include="Framework\include\Core\ObjectPtr.hpp" />
+    <ClInclude Include="Framework\include\Core\Scene.hpp" />
     <ClInclude Include="Framework\include\Math\Matrix4x4.hpp" />
     <ClInclude Include="Framework\include\Math\Quaternion.hpp" />
     <ClInclude Include="Framework\include\Math\Transform.hpp" />

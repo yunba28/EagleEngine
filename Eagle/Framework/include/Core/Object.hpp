@@ -4,16 +4,6 @@
 
 namespace EagleEngine
 {
-	enum class UpdateEnable : uint8
-	{
-		Update  = 0b001,
-		UpdateFadeIn = 0b010,
-		UpdateFadeOut = 0b100,
-		EnableAll = 0b111,
-		DisableAll = 0b000,
-		UpdateOnly = Update,
-		UpdateFadeOnly = 0b110
-	};
 
 	class Object
 	{
@@ -22,6 +12,14 @@ namespace EagleEngine
 		explicit Object();
 
 		virtual ~Object() = 0;
+
+		Object(const Object&) = delete;
+
+		Object& operator=(const Object&) = delete;
+
+		Object(Object&&) = default;
+
+		Object& operator=(Object&&) = default;
 
 	protected:
 
@@ -35,12 +33,6 @@ namespace EagleEngine
 
 		virtual bool dispose() = 0;
 
-		/* category 'advanced' */
-
-		virtual void updateFadeIn([[maybe_unused]] double _deltaTime, [[maybe_unused]] double _progress) = 0;
-
-		virtual void updateFadeOut([[maybe_unused]] double _deltaTime, [[maybe_unused]] double _progress) = 0;
-
 	public:
 
 		/* category 'internal event' */
@@ -51,11 +43,9 @@ namespace EagleEngine
 
 		virtual void _internalUpdate(double _deltaTime);
 
-		virtual void _internalUpdateFadeIn(double _deltaTime, double _progress);
-
-		virtual void _internalUpdateFadeOut(double _deltaTime, double _progress);
-
 		virtual void _internalAttachToScene(SceneObject* _scene);
+
+		virtual void _internalAttachToScene(Scene* _scene);
 
 		virtual void _internalAttachToActor(Actor* _actor);
 
@@ -64,6 +54,8 @@ namespace EagleEngine
 		/* category 'common' */
 
 		ObjectPtr<SceneObject> getSceneObject()const noexcept;
+
+		ObjectPtr<Scene> getScene()const noexcept;
 
 		ObjectPtr<Actor> getActorOwner()const noexcept;
 
@@ -91,9 +83,9 @@ namespace EagleEngine
 
 		bool sameTypeID(const TypeID& _typeID)const noexcept;
 
-		void setUpdateEnable(UpdateEnable _enabled)noexcept;
+		void setUpdateEnable(bool _enabled)noexcept;
 
-		bool isUpdateEnabled(UpdateEnable _enabled)const noexcept;
+		bool isUpdateEnabled()const noexcept;
 
 		void setActive(bool _actived)noexcept;
 
@@ -121,6 +113,8 @@ namespace EagleEngine
 
 	private:
 
+		ObjectPtr<Scene> mScene;
+
 		ObjectPtr<SceneObject> mSceneObject;
 
 		ObjectPtr<Actor> mActorOwner;
@@ -131,7 +125,7 @@ namespace EagleEngine
 
 		TypeID mTypeID;
 
-		UpdateEnable mUpdateEnabled;
+		bool mUpdateEnabled;
 
 		bool mActive;
 

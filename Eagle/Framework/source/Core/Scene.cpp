@@ -1,27 +1,20 @@
-﻿#include <Core/Internal/SceneObject.hpp>
-#include <Core/Object.hpp>
+﻿#include <Core/Scene.hpp>
 #include <Core/ExecutionOrder.hpp>
 
 namespace EagleEngine
 {
-	SceneObject::SceneObject()
+	Scene::Scene()
+		: mObjectTable()
+		, mExecutionOrder()
+		, mOrderQueue()
 	{
 	}
 
-	SceneObject::~SceneObject()
+	Scene::~Scene()
 	{
 	}
 
-	bool SceneObject::awake()
-	{
-		return true;
-	}
-
-	void SceneObject::start()
-	{
-	}
-
-	void SceneObject::update(double _deltaTime)
+	void Scene::_internalUpdate(double _deltaTime)
 	{
 		preUpdate();
 
@@ -29,23 +22,17 @@ namespace EagleEngine
 		{
 			mObjectTable[type].update(_deltaTime);
 		}
+
+		Object::_internalUpdate(_deltaTime);
 	}
 
-	bool SceneObject::dispose()
-	{
-		return true;
-	}
-
-	ObjectPtr<Object> SceneObject::createObject(const ObjectClass& _objectClass, Actor* _owner, const String& _name)
+	ObjectPtr<Object> Scene::createObject(const ObjectClass& _objectClass, Actor* _owner, const String& _name)
 	{
 		Object* object = _objectClass();
 		{
+			object->setName(_name);
 			object->_internalAttachToScene(this);
 			object->_internalAttachToActor(_owner);
-			if (_name != U"")
-			{
-				object->setName(_name);
-			}
 			object->_internalConstruct();
 		}
 
@@ -61,13 +48,13 @@ namespace EagleEngine
 		return ObjectPtr<Object>(object);
 	}
 
-	void SceneObject::preUpdate()
+	void Scene::preUpdate()
 	{
 		if (!mOrderQueue.empty())
 		{
 			mExecutionOrder.append(mOrderQueue);
 			mOrderQueue.clear();
-			mExecutionOrder.stable_sort_by([](const TypeID& a, const TypeID& b)
+			mExecutionOrder.sort_by([](const TypeID& a, const TypeID& b)
 			{
 				return ExecutionOrder::GetOrder(a) < ExecutionOrder::GetOrder(b);
 			});

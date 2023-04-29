@@ -1,28 +1,36 @@
 ﻿#pragma once
 
-#include <Core/Object.hpp>
 #include <Core/Internal/ObjectListener.hpp>
 #include <Core/ObjectClass.hpp>
+#include <Core/Object.hpp>
+
+#include <Container/HashTable.hpp>
 
 namespace EagleEngine
 {
-	class SceneObject final : public Object
+	class Scene : public Object
 	{
 	public:
 
-		SceneObject();
+		Scene();
 
-		~SceneObject();
+		~Scene();
 
 	private:
 
-		bool awake()override;
+		virtual bool awake()override { return true; }
 
-		void start()override;
+		virtual void start()override {}
 
-		void update(double _deltaTime)override;
+		virtual void update([[maybe_unused]] double _deltaTime)override {}
 
-		bool dispose()override;
+		virtual void draw()const {}
+
+		virtual bool dispose()override { return true; }
+
+	public:
+
+		virtual void _internalUpdate(double _deltaTime)override;
 
 	public:
 
@@ -33,6 +41,9 @@ namespace EagleEngine
 
 		template<Concept::IsComponent ComponentType>
 		ObjectPtr<ComponentType> createComponent(Actor* _owner);
+
+		template<Concept::IsScene SceneType>
+		ObjectPtr<SceneType> addSubScene(const String& _name);
 
 	private:
 
@@ -46,20 +57,23 @@ namespace EagleEngine
 
 		Array<TypeID> mOrderQueue;
 
-		template<class State, class SharedData>
-		friend class SceneBase;
-
 	};
 
 	template<Concept::IsActor ActorType>
-	inline ObjectPtr<ActorType> SceneObject::createActor(const String& _name)
+	inline ObjectPtr<ActorType> Scene::createActor(const String& _name)
 	{
 		return Cast<ActorType>(createObject(CreateObjectClass<ActorType>(), nullptr, _name));
 	}
 
 	template<Concept::IsComponent ComponentType>
-	inline ObjectPtr<ComponentType> SceneObject::createComponent(Actor* _owner)
+	inline ObjectPtr<ComponentType> Scene::createComponent(Actor* _owner)
 	{
 		return Cast<ComponentType>(createObject(CreateObjectClass<ComponentType>(), _owner));
+	}
+
+	template<Concept::IsScene SceneType>
+	inline ObjectPtr<SceneType> Scene::addSubScene(const String& _name)
+	{
+		return Cast<SceneType>(createObject(CreateObjectClass<SceneType>(), nullptr, _name));
 	}
 }

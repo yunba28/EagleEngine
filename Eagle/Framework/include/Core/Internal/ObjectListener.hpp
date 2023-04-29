@@ -17,10 +17,6 @@ namespace EagleEngine::Internal
 
 		void update(double _deltaTime);
 
-		void updateFadeIn(double _deltaTime, double _progress);
-
-		void updateFadeOut(double _deltaTime, double _progress);
-
 		void addObject(Object* _object);
 
 		ObjectPtr<Object> findObjectByName(const String& _name)const;
