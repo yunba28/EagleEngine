@@ -119,6 +119,7 @@
     <ClCompile Include="Framework\source\Core\ExecutionOrder.cpp" />
     <ClCompile Include="Framework\source\Core\Actor.cpp" />
     <ClCompile Include="Framework\source\Core\Internal\ObjectListener.cpp" />
+    <ClCompile Include="Framework\source\Core\Level.cpp" />
     <ClCompile Include="Framework\source\Core\LevelBase.cpp" />
     <ClCompile Include="Framework\source\Core\Object.cpp" />
     <ClCompile Include="Framework\source\Core\ObjectClass.cpp" />

@@ -32,8 +32,6 @@ namespace EagleEngine
 
 		virtual void _internalUpdate(double _deltaTime)override;
 
-		virtual void _internalAttachToWorld(World* _world);
-
 	public:
 
 		ObjectPtr<Object> createObject(const ObjectClass& _objectClass, Actor* _owner = nullptr, const String& _name = U"");
@@ -58,8 +56,6 @@ namespace EagleEngine
 		Array<TypeID> mExecutionOrder;
 
 		Array<TypeID> mOrderQueue;
-
-		ObjectPtr<World> mWorld;
 
 	};
 

@@ -1,5 +1,5 @@
 ﻿#include <Core/ObjectClass.hpp>
-#include <Core/Internal/SceneObject.hpp>
+#include <Core/Object.hpp>
 
 namespace EagleEngine
 {

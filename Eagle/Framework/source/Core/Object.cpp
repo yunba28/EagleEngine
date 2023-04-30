@@ -66,7 +66,7 @@ namespace EagleEngine
 
 	ObjectPtr<Actor> Object::getOwner() const noexcept
 	{
-		return mActorOwner;
+		return mOwner;
 	}
 
 	void Object::setName(const String& _name)

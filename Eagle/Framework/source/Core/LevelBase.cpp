@@ -14,11 +14,14 @@ namespace EagleEngine
 
 	void LevelBase::_internalUpdate(double _deltaTime)
 	{
-	}
+		preUpdate();
 
-	void LevelBase::_internalAttachToWorld(World* _world)
-	{
-		mWorld = _world;
+		for (const auto& type : mExecutionOrder)
+		{
+			mObjectTable[type].update(_deltaTime);
+		}
+
+		Object::_internalUpdate(_deltaTime);
 	}
 
 	ObjectPtr<Object> LevelBase::createObject(const ObjectClass& _objectClass, Actor* _owner, const String& _name)

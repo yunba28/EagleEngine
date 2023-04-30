@@ -210,6 +210,9 @@
     <ClCompile Include="Framework\source\Core\LevelBase.cpp">
       <Filter>Framework\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Framework\source\Core\Level.cpp">
+      <Filter>Framework\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="App\icon.ico">

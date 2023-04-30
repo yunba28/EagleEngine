@@ -14,17 +14,21 @@ namespace EagleEngine
 
 	public:
 
-		virtual bool awake()override { return true; }
+		virtual bool awake()override;
 
-		virtual void start()override {}
+		virtual void start()override;
 
-		virtual void update([[maybe_unused]] double _deltaTime)override {}
+		virtual void update(double _deltaTime)override;
 
-		virtual void draw()const {}
+		virtual bool dispose()override;
 
-		virtual bool dispose()override { return true; }
+	public:
+
+
 
 	private:
+
+		
 
 	};
 }

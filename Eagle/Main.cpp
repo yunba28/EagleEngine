@@ -1,6 +1,5 @@
 ﻿#include <Siv3D.hpp> // OpenSiv3D v0.6.8
 
-#include <Core/GameManager.hpp>
 #include <Core/Actor.hpp>
 #include <Core/Component.hpp>
 
