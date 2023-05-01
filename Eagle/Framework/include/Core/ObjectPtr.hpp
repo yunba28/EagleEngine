@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <Core/CoreFwd.hpp>
+#include <CoreFwd.hpp>
 #include <Utility/Concepts.hpp>
 
 namespace EagleEngine
@@ -24,71 +24,129 @@ namespace EagleEngine
 	{
 	public:
 
-		explicit ObjectPtr()noexcept;
+		explicit ObjectPtr()noexcept
+			: m_ptr(nullptr)
+		{}
 
-		explicit ObjectPtr(Object* _object)noexcept;
+		explicit ObjectPtr(Object* _object)noexcept
+			: m_ptr(_object)
+		{}
 
 		template<class OtherType>
-		ObjectPtr(OtherType* _otherObject)requires(Concept::ConvertibleObject<ObjectType, OtherType>);
+		ObjectPtr(OtherType* _other)requires(Concept::ConvertibleObject<ObjectType, OtherType>)
+			: m_ptr(static_cast<Object*>(_other))
+		{}
 
 		template<class OtherType>
-		ObjectPtr& operator=(OtherType* _otherObject)requires(Concept::ConvertibleObject<ObjectType, OtherType>);
+		ObjectPtr& operator=(OtherType* _other)requires(Concept::ConvertibleObject<ObjectType, OtherType>)
+		{
+			m_ptr = static_cast<Object*>(_other);
+			return *this;
+		}
 
+		explicit ObjectPtr(std::nullptr_t)noexcept
+			: m_ptr(nullptr)
+		{}
+
+		ObjectPtr& operator=(std::nullptr_t)noexcept
+		{
+			m_ptr = nullptr;
+			return *this;
+		}
+
+		ObjectPtr(ObjectPtr&&)noexcept = default;
 		ObjectPtr(const ObjectPtr&)noexcept = default;
-
-		template<class OtherType>
-		ObjectPtr(const ObjectPtr<OtherType>& _otherObject)requires(Concept::ConvertibleObject<ObjectType, OtherType>);
-
+		ObjectPtr& operator=(ObjectPtr&&)noexcept = default;
 		ObjectPtr& operator=(const ObjectPtr&)noexcept = default;
 
 		template<class OtherType>
-		ObjectPtr& operator=(const ObjectPtr<OtherType>& _otherObject)requires(Concept::ConvertibleObject<ObjectType, OtherType>);
-
-		ObjectPtr(ObjectPtr&&)noexcept = default;
-
-		template<class OtherType>
-		ObjectPtr(ObjectPtr<OtherType>&& _otherObject)requires(Concept::ConvertibleObject<ObjectType, OtherType>);
-
-		ObjectPtr& operator=(ObjectPtr&&)noexcept = default;
+		ObjectPtr(ObjectPtr<OtherType>&& _other)requires(Concept::ConvertibleObject<ObjectType, OtherType>)
+			: m_ptr(std::forward<OtherType>(_other.m_ptr))
+		{}
 
 		template<class OtherType>
-		ObjectPtr& operator=(ObjectPtr<OtherType>&& _otherObject)requires(Concept::ConvertibleObject<ObjectType, OtherType>);
+		ObjectPtr(const ObjectPtr<OtherType>& _other)requires(Concept::ConvertibleObject<ObjectType, OtherType>)
+			: m_ptr(_other.m_ptr)
+		{}
 
-		explicit ObjectPtr(std::nullptr_t)noexcept;
+		template<class OtherType>
+		ObjectPtr& operator=(ObjectPtr<OtherType>&& _other)requires(Concept::ConvertibleObject<ObjectType, OtherType>)
+		{
+			m_ptr = std::forward<OtherType>(_other.m_ptr);
+			return *this;
+		}
 
-		ObjectPtr& operator=(std::nullptr_t)noexcept;
+		template<class OtherType>
+		ObjectPtr& operator=(const ObjectPtr<OtherType>& _otherObject)requires(Concept::ConvertibleObject<ObjectType, OtherType>)
+		{
+			m_ptr = _other.m_ptr;
+			return *this;
+		}
 
 		~ObjectPtr() = default;
 
-		ObjectType* operator->()const noexcept;
+		ObjectType* operator->()const noexcept
+		{
+			return static_cast<ObjectType*>(get());
+		}
 
-		ObjectType& operator*()noexcept;
+		ObjectType& operator*()noexcept
+		{
+			return *static_cast<ObjectType*>(get());
+		}
 
-		const ObjectType& operator*()const noexcept;
+		const ObjectType& operator*()const noexcept
+		{
+			return *static_cast<ObjectType*>(get());
+		}
 
-		operator ObjectType* ()const noexcept;
+		operator ObjectType* ()const noexcept
+		{
+			return static_cast<ObjectType*>(get());
+		}
 
-		explicit operator bool()const noexcept;
+		explicit operator bool()const noexcept
+		{
+			return IsValidByObject(m_ptr);
+		}
 
-		bool operator==(Object* _object)const noexcept;
+		bool operator==(Object* _object)const noexcept
+		{
+			return m_ptr == _object;
+		}
 
 		template<class OtherType>
-		bool operator==(const ObjectPtr<OtherType>& _otherObject)requires(Concept::ConvertibleObject<ObjectType, OtherType>);
+		bool operator==(const ObjectPtr<OtherType>& _other)requires(Concept::ConvertibleObject<ObjectType, OtherType>)
+		{
+			return m_ptr == _other.get();
+		}
 
-		bool operator!=(Object* _object)const noexcept;
+		bool operator!=(Object* _object)const noexcept
+		{
+			return m_ptr != _object;
+		}
 
 		template<class OtherType>
-		bool operator!=(const ObjectPtr<OtherType>& _otherObject)requires(Concept::ConvertibleObject<ObjectType, OtherType>);
+		bool operator!=(const ObjectPtr<OtherType>& _other)requires(Concept::ConvertibleObject<ObjectType, OtherType>)
+		{
+			return m_ptr != _other.get();
+		}
 
 	public:
 
-		Object* get()const noexcept;
+		Object* get()const noexcept
+		{
+			return m_ptr;
+		}
 
-		bool invalid()const noexcept;
+		bool invalid()const noexcept
+		{
+			return !IsValidByObject(m_ptr);
+		}
 
 	private:
 
-		Object* mPtr;
+		Object* m_ptr;
 
 		template<class OtherType>
 		friend class ObjectPtr;
@@ -97,153 +155,6 @@ namespace EagleEngine
 
 	template<class ObjectType>
 	ObjectPtr(std::nullptr_t) -> ObjectPtr<ObjectType>;
-
-	template<class ObjectType>
-	inline ObjectPtr<ObjectType>::ObjectPtr() noexcept
-		: mPtr(nullptr)
-	{
-	}
-
-	template<class ObjectType>
-	inline ObjectPtr<ObjectType>::ObjectPtr(Object* _object) noexcept
-		: mPtr(_object)
-	{
-	}
-
-	template<class ObjectType>
-	template<class OtherType>
-	ObjectPtr<ObjectType>::ObjectPtr(OtherType* _otherObject)
-		requires(Concept::ConvertibleObject<ObjectType, OtherType>)
-		: mPtr(static_cast<Object*>(_otherObject))
-	{
-	}
-
-	template<class ObjectType>
-	template<class OtherType>
-	ObjectPtr<ObjectType>& ObjectPtr<ObjectType>::operator=(OtherType* _otherObject)
-		requires(Concept::ConvertibleObject<ObjectType, OtherType>)
-	{
-		mPtr = static_cast<Object*>(_otherObject);
-		return *this;
-	}
-
-	template<class ObjectType>
-	template<class OtherType>
-	ObjectPtr<ObjectType>::ObjectPtr(const ObjectPtr<OtherType>& _otherObject)
-		requires(Concept::ConvertibleObject<ObjectType, OtherType>)
-		: mPtr(_otherObject.mPtr)
-	{
-	}
-
-	template<class ObjectType>
-	template<class OtherType>
-	ObjectPtr<ObjectType>& ObjectPtr<ObjectType>::operator=(const ObjectPtr<OtherType>& _otherObject)
-		requires(Concept::ConvertibleObject<ObjectType, OtherType>)
-	{
-		mPtr = _otherObject.mPtr;
-		return *this;
-	}
-
-	template<class ObjectType>
-	template<class OtherType>
-	ObjectPtr<ObjectType>::ObjectPtr(ObjectPtr<OtherType>&& _otherObject)
-		requires(Concept::ConvertibleObject<ObjectType, OtherType>)
-		: mPtr(std::forward<Object*>(_otherObject.mPtr))
-	{
-		_otherObject.mPtr = nullptr;
-	}
-
-	template<class ObjectType>
-	template<class OtherType>
-	ObjectPtr<ObjectType>& ObjectPtr<ObjectType>::operator=(ObjectPtr<OtherType>&& _otherObject)
-		requires(Concept::ConvertibleObject<ObjectType, OtherType>)
-	{
-		mPtr = std::forward<Object*>(_otherObject.mPtr);
-		_otherObject.mPtr = nullptr;
-		return *this;
-	}
-
-	template<class ObjectType>
-	ObjectPtr<ObjectType>::ObjectPtr(std::nullptr_t)noexcept
-		: mPtr(nullptr)
-	{}
-
-	template<class ObjectType>
-	ObjectPtr<ObjectType>& ObjectPtr<ObjectType>::operator=(std::nullptr_t)noexcept
-	{
-		mPtr = nullptr;
-		return *this;
-	}
-
-	template<class ObjectType>
-	inline ObjectType* ObjectPtr<ObjectType>::operator->() const noexcept
-	{
-		return static_cast<ObjectType*>(get());
-	}
-
-	template<class ObjectType>
-	inline ObjectType& ObjectPtr<ObjectType>::operator*() noexcept
-	{
-		return *static_cast<ObjectType*>(get());
-	}
-
-	template<class ObjectType>
-	inline const ObjectType& ObjectPtr<ObjectType>::operator*() const noexcept
-	{
-		return *static_cast<ObjectType*>(get());
-	}
-
-	template<class ObjectType>
-	inline ObjectPtr<ObjectType>::operator ObjectType*() const noexcept
-	{
-		return static_cast<ObjectType*>(get());
-	}
-
-	template<class ObjectType>
-	inline ObjectPtr<ObjectType>::operator bool() const noexcept
-	{
-		return IsValidByObject(mPtr);
-	}
-
-	template<class ObjectType>
-	inline bool ObjectPtr<ObjectType>::operator==(Object* _object) const noexcept
-	{
-		return mPtr == _object;
-	}
-
-	template<class ObjectType>
-	template<class OtherType>
-	inline bool ObjectPtr<ObjectType>::operator==(const ObjectPtr<OtherType>& _otherObject)
-		requires(Concept::ConvertibleObject<ObjectType, OtherType>)
-	{
-		return mPtr == _otherObject.mPtr;
-	}
-
-	template<class ObjectType>
-	inline bool ObjectPtr<ObjectType>::operator!=(Object* _object) const noexcept
-	{
-		return mPtr != _object;
-	}
-
-	template<class ObjectType>
-	template<class OtherType>
-	inline bool ObjectPtr<ObjectType>::operator!=(const ObjectPtr<OtherType>& _otherObject)
-		requires(Concept::ConvertibleObject<ObjectType, OtherType>)
-	{
-		return mPtr != _otherObject.mPtr;
-	}
-
-	template<class ObjectType>
-	inline Object* ObjectPtr<ObjectType>::get() const noexcept
-	{
-		return mPtr;
-	}
-
-	template<class ObjectType>
-	inline bool ObjectPtr<ObjectType>::invalid() const noexcept
-	{
-		return !IsValidByObject(mPtr);
-	}
 
 	template<class To, class From>
 	inline ObjectPtr<To> Cast(const ObjectPtr<From>& object)requires(Concept::ConvertibleObject<To, From>)

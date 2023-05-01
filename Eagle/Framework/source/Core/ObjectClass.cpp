@@ -1,30 +1,17 @@
 ﻿#include <Core/ObjectClass.hpp>
 #include <Core/Object.hpp>
 
+#include <Siv3D/Char.hpp>
+
 namespace EagleEngine
 {
-
-	Object* ObjectClass::operator()() const
+	Object* ObjectClass::createObject() const
 	{
-		Object* object = mFactory();
-		{
-			object->mTypeID = mTypeID;
-		}
-		return object;
-	}
-
-	bool ObjectClass::operator==(const ObjectClass& _other) const
-	{
-		return mTypeID == _other.mTypeID;
-	}
-
-	bool ObjectClass::operator!=(const ObjectClass& _other) const
-	{
-		return mTypeID != _other.mTypeID;
+		return m_factory();
 	}
 
 	String ObjectClass::getClassName() const
 	{
-		return mTypeID.name().removed(U"class ");
+		return Unicode::FromUTF8(m_typeInfo->name()).removed(U"class ");
 	}
 }

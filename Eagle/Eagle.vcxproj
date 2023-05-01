@@ -362,7 +362,6 @@
     <ClInclude Include="Framework\include\String\Name.hpp" />
     <ClInclude Include="Framework\include\String\NameView.hpp" />
     <ClInclude Include="Framework\include\String\String.hpp" />
-    <ClInclude Include="Framework\include\Utility\Assert.hpp" />
     <ClInclude Include="Framework\include\Utility\Concepts.hpp" />
     <ClInclude Include="Framework\include\Utility\InitializerList.hpp" />
     <ClInclude Include="Framework\include\Utility\Int.hpp" />

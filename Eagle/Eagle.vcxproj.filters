@@ -947,9 +947,6 @@
     <ClInclude Include="Framework\include\Utility\Concepts.hpp">
       <Filter>Framework\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\include\Utility\Assert.hpp">
-      <Filter>Framework\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\include\Math\Transform.hpp">
       <Filter>Framework\Math</Filter>
     </ClInclude>

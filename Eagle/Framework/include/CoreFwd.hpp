@@ -14,5 +14,7 @@ namespace EagleEngine
 
 	class Level;
 
+	class SubLevel;
+
 	class World;
 }

@@ -10,27 +10,20 @@ namespace EagleEngine
 	public:
 
 		explicit Object();
-
-		virtual ~Object() = 0;
-
-		Object(const Object&) = delete;
-
-		Object& operator=(const Object&) = delete;
+		virtual ~Object() = default;
 
 		Object(Object&&) = default;
-
+		Object(const Object&) = delete;
 		Object& operator=(Object&&) = default;
+		Object& operator=(const Object&) = delete;
 
 	protected:
 
 		/* category 'event' */
 
 		virtual bool awake() = 0;
-
 		virtual void start() = 0;
-
 		virtual void update([[maybe_unused]] double _deltaTime) = 0;
-
 		virtual bool dispose() = 0;
 
 	public:
@@ -38,20 +31,19 @@ namespace EagleEngine
 		/* category 'internal event' */
 
 		virtual void _internalConstruct();
-
 		virtual void _internalDestruct();
-
 		virtual void _internalUpdate(double _deltaTime);
-
 		virtual void _internalAttachToLevel(LevelBase* _level);
-
 		virtual void _internalAttachToActor(Actor* _actor);
 
 	public:
 
 		/* category 'common' */
 
-		ObjectPtr<LevelBase> getLevel()const noexcept;
+		ObjectPtr<LevelBase> getLevel()const noexcept
+		{
+			return m_level;
+		}
 
 		ObjectPtr<Actor> getOwner()const noexcept;
 
@@ -109,21 +101,21 @@ namespace EagleEngine
 
 	private:
 
-		ObjectPtr<LevelBase> mLevel;
+		ObjectPtr<LevelBase> m_level;
 
-		ObjectPtr<Actor> mOwner;
+		ObjectPtr<Actor> m_owner;
 
-		Name mName;
+		Name m_name;
 
-		Array<HashedString> mTags;
+		Array<HashedString> m_tags;
 
-		TypeID mTypeID;
+		TypeID m_typeID;
 
-		bool mUpdateEnabled;
+		bool m_updateEnabled;
 
-		bool mActive;
+		bool m_active;
 
-		bool mPendingKill;
+		bool m_pendingKill;
 
 		friend class ObjectClass;
 

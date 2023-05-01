@@ -12,7 +12,7 @@ namespace EagleEngine
 
 		~World();
 
-	public:
+	private:
 
 		virtual bool awake()override;
 
@@ -24,11 +24,24 @@ namespace EagleEngine
 
 	public:
 
+		World& registerLevel();
 
+		template<Concept::IsLevel LevelType>
+		World& registerLevel(const String& _name);
+
+	public:
+
+		static bool UpdateWorld(World* world);
 
 	private:
 
-		
+		HashTable<String, ObjectClass> mLevelFactories;
+
+		ObjectPtr<Level> mCurrentLevel;
+
+		String mNextLevelName;
+
+		bool mIsPlaying;
 
 	};
 }

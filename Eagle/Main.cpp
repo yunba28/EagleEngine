@@ -5,10 +5,13 @@
 
 #include <Core/ExecutionOrder.hpp>
 
+#include <Misc/Function.hpp>
+
 using namespace EagleEngine;
 
 void Main()
 {
+
 	while (System::Update())
 	{
 	}
