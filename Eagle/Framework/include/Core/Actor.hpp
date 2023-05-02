@@ -86,9 +86,9 @@ namespace EagleEngine
 
 	private:
 
-		Array<ObjectPtr<Component>> mComponents;
+		Array<ObjectPtr<Component>> m_components;
 
-		UniquePtr<Transform> mTransform;
+		UniquePtr<Transform> m_transform;
 
 	};
 
@@ -127,42 +127,42 @@ namespace EagleEngine
 
 	inline void Actor::setTransform(const Transform& _transform)noexcept
 	{
-		(*mTransform) = _transform;
+		(*m_transform) = _transform;
 	}
 
 	inline const Transform& Actor::getTransform()const noexcept
 	{
-		return *mTransform;
+		return *m_transform;
 	}
 
 	inline void Actor::setActorPosition(const Vector3& _position)noexcept
 	{
-		mTransform->setPosition(_position);
+		m_transform->setPosition(_position);
 	}
 
 	inline Vector3 Actor::getActorPosition()const noexcept
 	{
-		return mTransform->getPosition();
+		return m_transform->getPosition();
 	}
 
 	inline void Actor::setActorRotation(const Quaternion& _rotation)noexcept
 	{
-		mTransform->setRotation(_rotation);
+		m_transform->setRotation(_rotation);
 	}
 
 	inline Quaternion Actor::getActorRotation()const noexcept
 	{
-		return mTransform->getRotation();
+		return m_transform->getRotation();
 	}
 
 	inline void Actor::setActorScale(const Vector3& _scale)noexcept
 	{
-		mTransform->setScale(_scale);
+		m_transform->setScale(_scale);
 	}
 
 	inline Vector3 Actor::getActorScale()const noexcept
 	{
-		return mTransform->getScale();
+		return m_transform->getScale();
 	}
 
 }

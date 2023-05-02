@@ -1,19 +1,19 @@
 ﻿#include <Core/Actor.hpp>
 #include <Core/Component.hpp>
-#include <Core/Internal/SceneObject.hpp>
+#include <Core/LevelBase.hpp>
 
 namespace EagleEngine
 {
 	Actor::Actor()
-		: mComponents()
-		, mTransform(MakeUnique<Transform>())
+		: m_components()
+		, m_transform(MakeUnique<Transform>())
 	{
 	}
 
 	void Actor::_internalDestruct()
 	{
 		Object::_internalDestruct();
-		for (const auto& component : mComponents)
+		for (const auto& component : m_components)
 		{
 			component->destroy();
 		}
@@ -26,12 +26,12 @@ namespace EagleEngine
 
 	ObjectPtr<Component> Actor::getComponentByTypeID(const TypeID& _type) const
 	{
-		auto found = std::find_if(mComponents.begin(), mComponents.end(), [&_type](const ObjectPtr<Component>& component)
+		auto found = std::find_if(m_components.begin(), m_components.end(), [&_type](const ObjectPtr<Component>& component)
 		{
 			return component->sameTypeID(_type);
 		});
 
-		if (found != mComponents.end())
+		if (found != m_components.end())
 		{
 			return (*found);
 		}
@@ -41,12 +41,12 @@ namespace EagleEngine
 
 	ObjectPtr<Component> Actor::getComponentByName(const String& _name) const
 	{
-		auto found = std::find_if(mComponents.begin(), mComponents.end(), [&_name](const ObjectPtr<Component>& component)
+		auto found = std::find_if(m_components.begin(), m_components.end(), [&_name](const ObjectPtr<Component>& component)
 		{
 			return component->sameName(_name);
 		});
 
-		if (found != mComponents.end())
+		if (found != m_components.end())
 		{
 			return (*found);
 		}
@@ -56,7 +56,7 @@ namespace EagleEngine
 
 	Array<ObjectPtr<Component>> Actor::getComponentsByTag(const String& _tag) const
 	{
-		return mComponents.filter([&_tag](const ObjectPtr<Component>& component)
+		return m_components.filter([&_tag](const ObjectPtr<Component>& component)
 		{
 			return component->hasTag(_tag);
 		});
@@ -64,7 +64,7 @@ namespace EagleEngine
 
 	void Actor::detachComponentByTypeID(const TypeID& _type)
 	{
-		mComponents.remove_if([&_type](const ObjectPtr<Component>& component)
+		m_components.remove_if([&_type](const ObjectPtr<Component>& component)
 		{
 			if (component->sameTypeID(_type))
 			{
@@ -77,7 +77,7 @@ namespace EagleEngine
 
 	void Actor::detachComponentByName(const String& _name)
 	{
-		mComponents.remove_if([&_name](const ObjectPtr<Component>& component)
+		m_components.remove_if([&_name](const ObjectPtr<Component>& component)
 		{
 			if (component->sameName(_name))
 			{
@@ -90,7 +90,7 @@ namespace EagleEngine
 
 	void Actor::detachComponentsByTag(const String& _tag)
 	{
-		mComponents.remove_if([&_tag](const ObjectPtr<Component>& component)
+		m_components.remove_if([&_tag](const ObjectPtr<Component>& component)
 		{
 			if (component->hasTag(_tag))
 			{
@@ -103,7 +103,7 @@ namespace EagleEngine
 
 	bool Actor::hasComponentByTypeID(const TypeID& _type) const
 	{
-		return mComponents.any([&_type](const ObjectPtr<Component>& component)
+		return m_components.any([&_type](const ObjectPtr<Component>& component)
 		{
 			return component->sameTypeID(_type);
 		});
@@ -111,7 +111,7 @@ namespace EagleEngine
 
 	bool Actor::hasComponentByName(const String& _name) const
 	{
-		return mComponents.any([&_name](const ObjectPtr<Component>& component)
+		return m_components.any([&_name](const ObjectPtr<Component>& component)
 		{
 			return component->sameName(_name);
 		});
@@ -119,7 +119,7 @@ namespace EagleEngine
 
 	bool Actor::hasComponentByTag(const String& _tag) const
 	{
-		return mComponents.any([&_tag](const ObjectPtr<Component>& component)
+		return m_components.any([&_tag](const ObjectPtr<Component>& component)
 		{
 			return component->hasTag(_tag);
 		});
@@ -128,6 +128,6 @@ namespace EagleEngine
 	ObjectPtr<Component> Actor::attachComponentByObjectClass(const ObjectClass& _objectClass, const String& _name)
 	{
 		String name = (_name == U"") ? U"{}.{}"_fmt(getName().toString(), _objectClass.getClassName()) : _name;
-		return Cast<Component>(getSceneObject()->createObject(_objectClass, this, name));
+		return Cast<Component>(getLevel()->createObject(_objectClass, this, name));
 	}
 }

@@ -7,14 +7,14 @@
 namespace EagleEngine
 {
 	Object::Object()
-		: mLevel(nullptr)
-		, mOwner(nullptr)
-		, mName()
-		, mTags()
-		, mTypeID(typeid(void))
-		, mUpdateEnabled(true)
-		, mActive(true)
-		, mPendingKill(false)
+		: m_level(nullptr)
+		, m_owner(nullptr)
+		, m_name()
+		, m_tags()
+		, m_typeID(typeid(void))
+		, m_updateEnabled(true)
+		, m_active(true)
+		, m_pendingKill(false)
 	{
 		bool result = RegisterObjectHandle(this);
 		assert(("failed register by object", result));
@@ -43,7 +43,7 @@ namespace EagleEngine
 
 	void Object::_internalUpdate(double _deltaTime)
 	{
-		if (mActive && mUpdateEnabled)
+		if (m_active && m_updateEnabled)
 		{
 			update(_deltaTime);
 		}
@@ -51,44 +51,44 @@ namespace EagleEngine
 
 	void Object::_internalAttachToLevel(LevelBase* _level)
 	{
-		mLevel = _level;
+		m_level = _level;
 	}
 
 	void Object::_internalAttachToActor(Actor* _actor)
 	{
-		mOwner = _actor;
+		m_owner = _actor;
 	}
 
 	ObjectPtr<LevelBase> Object::getLevel() const noexcept
 	{
-		return mLevel;
+		return m_level;
 	}
 
 	ObjectPtr<Actor> Object::getOwner() const noexcept
 	{
-		return mOwner;
+		return m_owner;
 	}
 
 	void Object::setName(const String& _name)
 	{
-		mName = Name::Make(_name);
+		m_name = Name::Make(_name);
 	}
 
 	NameView Object::getName() const noexcept
 	{
-		return NameView{ mName };
+		return NameView{ m_name };
 	}
 
 	bool Object::sameName(const String& _name) const noexcept
 	{
-		return mName == _name;
+		return m_name == _name;
 	}
 
 	void Object::addTag(const String& _tag)
 	{
-		if (!mTags.includes(_tag))
+		if (!m_tags.includes(_tag))
 		{
-			mTags.push_back(_tag);
+			m_tags.push_back(_tag);
 		}
 	}
 
@@ -96,9 +96,9 @@ namespace EagleEngine
 	{
 		for (const auto& tag : _tagList)
 		{
-			if (!mTags.includes(tag))
+			if (!m_tags.includes(tag))
 			{
-				mTags.push_back(tag);
+				m_tags.push_back(tag);
 			}
 		}
 	}
@@ -107,16 +107,16 @@ namespace EagleEngine
 	{
 		for (const auto& tag : _tagList)
 		{
-			if (!mTags.includes(tag))
+			if (!m_tags.includes(tag))
 			{
-				mTags.push_back(tag);
+				m_tags.push_back(tag);
 			}
 		}
 	}
 
 	HashedString Object::findTag(const String& _tag) const
 	{
-		if (mTags.includes(_tag))
+		if (m_tags.includes(_tag))
 		{
 			return HashedString{ _tag };
 		}
@@ -126,64 +126,64 @@ namespace EagleEngine
 
 	const Array<HashedString>& Object::getTags() const noexcept
 	{
-		return mTags;
+		return m_tags;
 	}
 
 	void Object::removeTag(const String& _tag)
 	{
-		mTags.remove(_tag);
+		m_tags.remove(_tag);
 	}
 
 	bool Object::hasTag(const String& _tag) const
 	{
-		return mTags.includes(_tag);
+		return m_tags.includes(_tag);
 	}
 
 	const TypeID& Object::getTypeID() const noexcept
 	{
-		return mTypeID;
+		return m_typeID;
 	}
 
 	bool Object::sameTypeID(const TypeID& _typeID) const noexcept
 	{
-		return mTypeID == _typeID;
+		return m_typeID == _typeID;
 	}
 
 	void Object::setUpdateEnable(bool _enabled) noexcept
 	{
-		mUpdateEnabled = _enabled;
+		m_updateEnabled = _enabled;
 	}
 
 	bool Object::isUpdateEnabled() const noexcept
 	{
-		return mUpdateEnabled;
+		return m_updateEnabled;
 	}
 
 	void Object::setActive(bool _actived) noexcept
 	{
 		// destroyが呼ばれた後は機能しない
-		if (!mPendingKill)
+		if (!m_pendingKill)
 		{
-			mActive = _actived;
+			m_active = _actived;
 		}
 	}
 
 	bool Object::isActive() const noexcept
 	{
-		return mActive;
+		return m_active;
 	}
 
 	bool Object::isPendingKill() const noexcept
 	{
-		return mPendingKill;
+		return m_pendingKill;
 	}
 
 	void Object::destroy()
 	{
-		if (!mPendingKill)
+		if (!m_pendingKill)
 		{
-			mPendingKill = true;
-			mActive = false;
+			m_pendingKill = true;
+			m_active = false;
 			_internalDestruct();
 		}
 	}
