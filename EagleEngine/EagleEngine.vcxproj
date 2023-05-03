@@ -116,6 +116,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Private\Core\Name.cpp" />
+    <ClCompile Include="Engine\Private\Core\Object.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -316,13 +317,16 @@
     <Xml Include="App\example\xml\test.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Public\Concept\IsType.hpp" />
     <ClInclude Include="Engine\Public\Container\Array.hpp" />
     <ClInclude Include="Engine\Public\Container\HashTable.hpp" />
     <ClInclude Include="Engine\Public\Container\String.hpp" />
     <ClInclude Include="Engine\Public\CoreFwd.hpp" />
     <ClInclude Include="Engine\Public\CoreTypes.hpp" />
+    <ClInclude Include="Engine\Public\CoreUtility.hpp" />
     <ClInclude Include="Engine\Public\Core\Name.hpp" />
     <ClInclude Include="Engine\Public\Core\Object.hpp" />
+    <ClInclude Include="Engine\Public\Core\ObjectPtr.hpp" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

@@ -17,7 +17,4 @@ namespace eagle
 	class World;
 
 	class ObjectClass;
-
-	template<class ObjectType>
-	class ObjectPtr;
 }

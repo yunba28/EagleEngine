@@ -19,7 +19,7 @@ namespace eagle
 	using uintptr = std::uintptr_t;
 
 	template<class First, class Second>
-	using Pair = std::pair;
+	using Pair = std::pair<First, Second>;
 
 	template<class ...Args>
 	using Tuple = std::tuple<Args...>;
@@ -27,7 +27,7 @@ namespace eagle
 	template<class Type>
 	using InitializerList = std::initializer_list<Type>;
 
-	inline constexpr uintptr MakeHandle(void* inPtr)
+	inline uintptr MakeHandle(void* inPtr)
 	{
 		return reinterpret_cast<uintptr>(inPtr);
 	}

@@ -1,6 +1,7 @@
-﻿#include "Core/Name.hpp"
+﻿#include <Core/Name.hpp>
 
-#include "Container/HashTable.hpp"
+#include <CoreUtility.hpp>
+#include <Container/HashTable.hpp>
 
 namespace eagle
 {
@@ -15,6 +16,24 @@ namespace eagle
 		return gNameTable.at(inNameID);
 	}
 
+	String NameBase::toString() const
+	{
+		const NameRow& nameRow = GetNameRow(mNameID);
+		return (nameRow.count == 0) ? U""_s : nameRow.name;
+	}
+
+	String NameBase::getOriginalName() const
+	{
+		const NameRow& nameRow = GetNameRow(mNameID);
+		const NameRow& baseNameRow = GetNameRow(nameRow.base);
+		return (baseNameRow.count == 0) ? U""_s : baseNameRow.name;
+	}
+
+	String NameBase::getSequentialName() const
+	{
+		return toString();
+	}
+
 	int32 NameBase::Make(const String& inName, Name& outName)
 	{
 		// 設定する名前のID(Hash)を取得
@@ -23,7 +42,7 @@ namespace eagle
 		// 新たに生成される名前データ
 		NameRow newNameRow;
 
-		if (Exist(id))
+		if (Exist(id, false))
 		{
 			// 既に存在するデータの参照、カウントアップ
 			NameRow& baseNameRow = GetNameRow(id);
@@ -35,11 +54,11 @@ namespace eagle
 			if (baseNameRow.count == 1)
 			{
 				outName.mNameID = id;
-				return id;
+				return baseNameRow.max;
 			}
 			// 番号を足した新たなデータを生成
 			{
-				newNameRow.name = U"{}_{}"_fmt(baseNameRow.name, baseNameRow.count);
+				newNameRow.name = U"{}_{}"_fmt(baseNameRow.name, baseNameRow.max);
 				newNameRow.base = id;
 				newNameRow.count = 1;
 				newNameRow.max = 1;
@@ -61,14 +80,13 @@ namespace eagle
 		// 名前の値を更新
 		outName.mNameID = id;
 
-		return id;
+		return newNameRow.max;
 	}
 
 	void NameBase::Release(Name& inName)
 	{
-		if (Exist(inName.mNameID))
+		if (Exist(inName.mNameID, false))
 		{
-
 			NameRow& nameRow = GetNameRow(inName.mNameID);
 
 			// すでに使用されていない
@@ -83,16 +101,20 @@ namespace eagle
 			// 名前の使用数がゼロになった
 			if (nameRow.count == 0)
 			{
-				// ベースの名前なら再使用の可能性があるのでテーブルからの削除は行わない
 				if (nameRow.name.hash() == nameRow.base)
 				{
 					nameRow.max = 0;
 				}
-				// ベースの名前でなければテーブルから削除する
 				else
 				{
-					
-					gNameTable.erase(inName.mNameID);
+					NameRow& baseNameRow = GetNameRow(nameRow.base);
+					// ベースデータの使用数をデクリメントします
+					baseNameRow.count = Max(baseNameRow.count - 1, 0);
+					// ベースデータの使用数がゼロになった
+					if (baseNameRow.count == 0)
+					{
+						baseNameRow.max = 0;
+					}
 				}
 				// Nameに無効値を入れる
 				inName.mNameID = 0;
@@ -100,25 +122,28 @@ namespace eagle
 		}
 	}
 
-	bool NameBase::Exist(NameID inNameID)
+	bool NameBase::Exist(NameID inNameID, bool inConsiderationUseFlag)
 	{
-		return gNameTable.contains(inNameID);
+		bool exist = gNameTable.contains(inNameID);
+		if (exist && inConsiderationUseFlag)
+		{
+			const NameRow& nameRow = GetNameRow(inNameID);
+			return nameRow.count > 0;
+		}
+		return exist;
 	}
 
-	bool NameBase::Exist(const String& inName)
+	bool NameBase::Exist(const String& inName, bool inConsiderationUseFlag)
 	{
-		return Exist(inName.hash());
+		return Exist(inName.hash(), inConsiderationUseFlag);
 	}
 
 	bool NameBase::Find(NameID inNameID, String& outName)
 	{
-		if (Exist(inNameID))
+		if (Exist(inNameID, true))
 		{
-			if (NameRow nameRow = GetNameRow(inNameID);nameRow.count > 0)
-			{
-				outName = nameRow.name;
-				return true;
-			}
+			outName = GetNameRow(inNameID).name;
+			return true;
 		}
 		return false;
 	}

@@ -160,6 +160,9 @@
     <Filter Include="Engine\Public\Container">
       <UniqueIdentifier>{0778a343-2822-4c3f-bf18-aec984f29a94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Public\Concept">
+      <UniqueIdentifier>{45f573c0-22b7-4462-bbf4-c8aeef125be5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -169,6 +172,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Private\Core\Name.cpp">
+      <Filter>Engine\Private\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Private\Core\Object.cpp">
       <Filter>Engine\Private\Core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -823,6 +829,15 @@
     </ClInclude>
     <ClInclude Include="Engine\Public\CoreTypes.hpp">
       <Filter>Engine\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Public\CoreUtility.hpp">
+      <Filter>Engine\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Public\Core\ObjectPtr.hpp">
+      <Filter>Engine\Public\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Public\Concept\IsType.hpp">
+      <Filter>Engine\Public\Concept</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
