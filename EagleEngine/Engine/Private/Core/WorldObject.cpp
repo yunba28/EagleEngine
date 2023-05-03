@@ -32,6 +32,11 @@ namespace eagle
 		}
 	}
 
+	void WorldObject::removeTag(const String& inTag)
+	{
+		mTags.remove(inTag);
+	}
+
 	Array<String> WorldObject::getTags() const noexcept
 	{
 		return mTags.map([](const HashString& str) {return str.toString(); });

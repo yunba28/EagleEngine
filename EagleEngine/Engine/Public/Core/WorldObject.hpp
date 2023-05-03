@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <Core/Object.hpp>
+#include <Container/Array.hpp>
 #include <Misc/HashString.hpp>
 
 namespace eagle
@@ -65,6 +66,7 @@ namespace eagle
 
 		void addTag(const String& newTag);
 		void addTags(const Array<String>& newTags);
+		void removeTag(const String& inTag);
 		Array<String> getTags()const noexcept;
 		bool hasTag(const String& inTag)const;
 

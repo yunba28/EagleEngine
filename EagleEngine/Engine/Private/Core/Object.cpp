@@ -7,9 +7,19 @@ namespace eagle
 {
 	Object::Object()
 	{
+#if _DEBUG
+		assert(("Failed register object", RegisterObjectHandle(this)));
+#else
+		RegisterObjectHandle(this);
+#endif
 	}
 
 	Object::~Object()
 	{
+#if _DEBUG
+		assert(("Failed unregister object", UnregisterObjectHandle(this)));
+#else
+		UnregisterObjectHandle(this);
+#endif
 	}
 }

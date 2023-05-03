@@ -872,5 +872,8 @@
     <ClInclude Include="Engine\Public\Misc\HashString.hpp">
       <Filter>Engine\Public\Misc</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Public\Core\ObjectClass.hpp">
+      <Filter>Engine\Public\Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

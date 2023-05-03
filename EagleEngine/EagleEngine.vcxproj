@@ -330,6 +330,7 @@
     <ClInclude Include="Engine\Public\CoreUtility.hpp" />
     <ClInclude Include="Engine\Public\Core\Name.hpp" />
     <ClInclude Include="Engine\Public\Core\Object.hpp" />
+    <ClInclude Include="Engine\Public\Core\ObjectClass.hpp" />
     <ClInclude Include="Engine\Public\Core\ObjectPtr.hpp" />
     <ClInclude Include="Engine\Public\Core\WorldObject.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\Actor.hpp" />

@@ -6,6 +6,9 @@ namespace eagle
 {
 	class Actor : public WorldObject
 	{
+	public:
+
+	private:
 
 	};
 }
