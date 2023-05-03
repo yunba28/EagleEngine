@@ -320,6 +320,7 @@
     <Xml Include="App\example\xml\test.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Public\Concept\Invocable.hpp" />
     <ClInclude Include="Engine\Public\Concept\IsType.hpp" />
     <ClInclude Include="Engine\Public\Container\Array.hpp" />
     <ClInclude Include="Engine\Public\Container\HashSet.hpp" />
@@ -336,6 +337,7 @@
     <ClInclude Include="Engine\Public\GameFramework\Actor.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\Level.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\LevelBase.hpp" />
+    <ClInclude Include="Engine\Public\Misc\Function.hpp" />
     <ClInclude Include="Engine\Public\Misc\HashString.hpp" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>

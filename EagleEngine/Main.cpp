@@ -1,6 +1,6 @@
 ﻿#include <Siv3D.hpp> // OpenSiv3D v0.6.9
 
-#include "Core/Name.hpp"
+#include <Misc/Function.hpp>
 
 using namespace eagle;
 

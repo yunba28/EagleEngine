@@ -875,5 +875,11 @@
     <ClInclude Include="Engine\Public\Core\ObjectClass.hpp">
       <Filter>Engine\Public\Core</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Public\Misc\Function.hpp">
+      <Filter>Engine\Public\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Public\Concept\Invocable.hpp">
+      <Filter>Engine\Public\Concept</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

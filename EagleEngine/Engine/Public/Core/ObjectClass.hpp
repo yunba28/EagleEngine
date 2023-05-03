@@ -2,6 +2,7 @@
 
 #include <CoreFwd.hpp>
 #include <CoreTypes.hpp>
+#include <Misc/Function.hpp>
 
 namespace eagle
 {
@@ -22,7 +23,9 @@ namespace eagle
 
 	private:
 
+		Function<Object*()> mFactory;
 
+		ObjectInherited mInheried;
 
 	};
 }

@@ -204,4 +204,10 @@ namespace eagle
 		Object* mObjectPtr = nullptr;
 
 	};
+
+	template<class To, class From>
+	ObjectPtr<To> Cast(const ObjectPtr<From>& inObjectPtr)
+	{
+		return ObjectPtr<To>(inObjectPtr);
+	}
 }
