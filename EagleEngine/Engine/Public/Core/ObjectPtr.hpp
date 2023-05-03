@@ -90,16 +90,25 @@ namespace eagle
 
 	public:
 
+		ObjectType* operator->()const noexcept
+		{
+			return static_cast<ObjectType*>(get());
+		}
+
+		ObjectType& operator*()noexcept
+		{
+			return *static_cast<ObjectType*>(get());
+		}
+
+		const ObjectType& operator*()const noexcept
+		{
+			return *static_cast<ObjectType*>(get());
+		}
+
 		template<class OtherType>
 		bool operator==(OtherType* inOtherPtr)const noexcept requires(Concept::ConvertibleObject<ObjectType, OtherType>)
 		{
 			return mObjectPtr == inOtherPtr;
-		}
-
-		template<class ObjectA, class ObjectB>
-		friend bool operator==(ObjectA* inLeft, const ObjectPtr<ObjectB>& inRight)const noexcept requires(Concept::ConvertibleObject<ObjectA, ObjectB>)
-		{
-			return inLeft == inRight.mObjectPtr;
 		}
 
 		template<class OtherType>
@@ -112,12 +121,6 @@ namespace eagle
 		bool operator!=(OtherType* inOtherPtr)const noexcept requires(Concept::ConvertibleObject<ObjectType, OtherType>)
 		{
 			return mObjectPtr != inOtherPtr;
-		}
-
-		template<class ObjectA, class ObjectB>
-		friend bool operator!=(ObjectA* inLeft, const ObjectPtr<ObjectB>& inRight)const noexcept requires(Concept::ConvertibleObject<ObjectA, ObjectB>)
-		{
-			return inLeft != inRight.mObjectPtr;
 		}
 
 		template<class OtherType>
@@ -160,7 +163,7 @@ namespace eagle
 			}
 
 			Object* ptr = dynamic_cast<ObjectType*>(inOtherPtr);
-			assert(("Failed to cast ObjectPtr. The cast operation encountered an error", ptr != nullptr));
+			assert(("Failed to cast ObjectPtr", ptr != nullptr));
 
 			mObjectPtr = ptr;
 		}
@@ -175,7 +178,7 @@ namespace eagle
 			}
 
 			Object* ptr = dynamic_cast<ObjectType*>(inOtherPtr.mObjectPtr);
-			assert(("Failed to move cast ObjectPtr. The cast operation encountered an error", ptr != nullptr));
+			assert(("Failed to move cast ObjectPtr", ptr != nullptr));
 
 			mObjectPtr = ptr;
 			inOtherPtr.mObjectPtr = nullptr;
@@ -191,7 +194,7 @@ namespace eagle
 			}
 
 			Object* ptr = dynamic_cast<ObjectType*>(inOtherPtr.mObjectPtr);
-			assert(("Failed to copy cast ObjectPtr. The cast operation encountered an error", ptr != nullptr));
+			assert(("Failed to copy cast ObjectPtr", ptr != nullptr));
 
 			mObjectPtr = ptr;
 		}

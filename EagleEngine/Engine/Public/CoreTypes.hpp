@@ -27,7 +27,7 @@ namespace eagle
 	template<class Type>
 	using InitializerList = std::initializer_list<Type>;
 
-	inline uintptr MakeHandle(const void* inPtr)
+	inline uintptr MakeHandle(const void* inPtr)noexcept
 	{
 		return reinterpret_cast<uintptr>(inPtr);
 	}

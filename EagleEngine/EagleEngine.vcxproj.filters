@@ -180,6 +180,9 @@
     <ClCompile Include="Engine\Private\Core\ObjectPtr.cpp">
       <Filter>Engine\Private\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Private\Core\WorldObject.cpp">
+      <Filter>Engine\Private\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="App\icon.ico">
@@ -844,6 +847,18 @@
     </ClInclude>
     <ClInclude Include="Engine\Public\Container\HashSet.hpp">
       <Filter>Engine\Public\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Public\GameFramework\LevelBase.hpp">
+      <Filter>Engine\Public\GameFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Public\GameFramework\Level.hpp">
+      <Filter>Engine\Public\GameFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Public\GameFramework\Actor.hpp">
+      <Filter>Engine\Public\GameFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Public\Core\WorldObject.hpp">
+      <Filter>Engine\Public\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

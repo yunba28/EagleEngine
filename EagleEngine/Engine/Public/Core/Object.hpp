@@ -6,16 +6,46 @@
 
 namespace eagle
 {
-	class Object : Uncopyable
+	class Object
 	{
 	public:
 
 		explicit Object();
 		virtual ~Object() = 0;
 
-	public:
+		Object(Object&&) = default;
+		Object(const Object&) = delete;
+		Object& operator=(Object&&) = default;
+		Object& operator=(const Object&) = delete;
 
 	public:
+
+		bool operator==(const Object& inOther)const noexcept
+		{
+			return this == &inOther;
+		}
+
+		bool operator!=(const Object& inOther)const noexcept
+		{
+			return this != &inOther;
+		}
+
+		explicit operator bool()const
+		{
+			return IsValidByObject(this);
+		}
+
+	public:
+
+		void setName(const String& inName)
+		{
+			mName = Name(inName);
+		}
+
+		NameView getName()const noexcept
+		{
+			return mName;
+		}
 
 		bool invalid()const noexcept
 		{
@@ -24,7 +54,7 @@ namespace eagle
 
 	private:
 
-
+		Name mName;
 
 	};
 }

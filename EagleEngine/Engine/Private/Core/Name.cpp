@@ -36,6 +36,8 @@ namespace eagle
 
 	int32 NameBase::Make(const String& inName, Name& outName)
 	{
+		Release(outName);
+
 		// 設定する名前のID(Hash)を取得
 		NameID id = inName.hash();
 

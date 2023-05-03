@@ -139,15 +139,8 @@ namespace eagle
 		NameView& operator=(NameView&&)noexcept = default;
 		NameView& operator=(const NameView&)noexcept = default;
 
-		NameView(const Name& inOther)noexcept
-			: NameBase(inOther.mNameID)
-		{}
-
-		NameView& operator=(const Name& inOther)noexcept
-		{
-			mNameID = inOther.mNameID;
-			return *this;
-		}
+		NameView(const Name& inOther)noexcept;
+		NameView& operator=(const Name& inOther)noexcept;
 
 		NameView& operator=(NoneName_t)noexcept
 		{
@@ -217,4 +210,14 @@ namespace eagle
 		friend class NameView;
 
 	};
+
+	inline NameView::NameView(const Name& inName)noexcept
+		: NameBase(inName.mNameID)
+	{}
+
+	inline NameView& NameView::operator=(const Name& inName)noexcept
+	{
+		mNameID = inName.mNameID;
+		return *this;
+	}
 }
