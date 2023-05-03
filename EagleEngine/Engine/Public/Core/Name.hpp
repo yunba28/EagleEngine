@@ -110,15 +110,10 @@ namespace eagle
 	public:
 
 		static int32 Make(const String& inName, Name& outName);
-
 		static void Release(Name& inName);
-
 		static bool Exist(NameID inNameID, bool inConsiderationUseFlag);
-
 		static bool Exist(const String& inName, bool inConsiderationUseFlag = false);
-
 		static bool Find(NameID inNameID, String& outName);
-
 		static bool Find(const String& inName, String& outName);
 
 	protected:

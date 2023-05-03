@@ -163,6 +163,12 @@
     <Filter Include="Engine\Public\Concept">
       <UniqueIdentifier>{45f573c0-22b7-4462-bbf4-c8aeef125be5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Private\Misc">
+      <UniqueIdentifier>{fccc0d9e-3645-4eeb-a586-e3c61d7cc2cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Public\Misc">
+      <UniqueIdentifier>{7884ea8b-d1e6-41ef-9cd0-101475cfd305}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -182,6 +188,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Private\Core\WorldObject.cpp">
       <Filter>Engine\Private\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Private\Misc\HashString.cpp">
+      <Filter>Engine\Private\Misc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -859,6 +868,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Public\Core\WorldObject.hpp">
       <Filter>Engine\Public\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Public\Misc\HashString.hpp">
+      <Filter>Engine\Public\Misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

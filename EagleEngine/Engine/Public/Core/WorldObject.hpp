@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <Core/Object.hpp>
+#include <Misc/HashString.hpp>
 
 namespace eagle
 {
@@ -14,9 +15,9 @@ namespace eagle
 	public:
 
 		virtual bool awake() = 0;
-		virtual bool dispose() = 0;
 		virtual void start() = 0;
 		virtual void update(double) = 0;
+		virtual bool dispose() = 0;
 
 	public:
 
@@ -25,13 +26,9 @@ namespace eagle
 			if (awake())
 			{
 				start();
+				return;
 			}
-#if _DEBUG
-			else
-			{
-				assert(("Failed to execute the awake function", false));
-			}
-#endif
+			assert(("Failed to execute the awake function", false));
 		}
 
 		virtual void _internalDestruct()
@@ -51,7 +48,7 @@ namespace eagle
 			}
 		}
 
-		virtual void _internalAttachToLevel(Level* inLevel);
+		virtual void _internalAttachToLevel(LevelBase* inLevel);
 		virtual void _internalAttachToOwner(Actor* inOwner);
 
 	public:
@@ -65,6 +62,11 @@ namespace eagle
 		{
 			return mOwner;
 		}
+
+		void addTag(const String& newTag);
+		void addTags(const Array<String>& newTags);
+		Array<String> getTags()const noexcept;
+		bool hasTag(const String& inTag)const;
 
 		void setActive(bool newActive)noexcept
 		{
@@ -94,21 +96,15 @@ namespace eagle
 			return mUpdateEnabled;
 		}
 
-		void destroy()
-		{
-			if (!mPendingKill)
-			{
-				mActive = false;
-				mPendingKill = true;
-				_internalDestruct();
-			}
-		}
+		void destroy();
 
 	private:
 
 		ObjectPtr<Level> mLevel;
 
 		ObjectPtr<Actor> mOwner;
+
+		Array<HashString> mTags;
 
 		bool mActive;
 

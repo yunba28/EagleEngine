@@ -119,6 +119,7 @@
     <ClCompile Include="Engine\Private\Core\Object.cpp" />
     <ClCompile Include="Engine\Private\Core\ObjectPtr.cpp" />
     <ClCompile Include="Engine\Private\Core\WorldObject.cpp" />
+    <ClCompile Include="Engine\Private\Misc\HashString.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -334,6 +335,7 @@
     <ClInclude Include="Engine\Public\GameFramework\Actor.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\Level.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\LevelBase.hpp" />
+    <ClInclude Include="Engine\Public\Misc\HashString.hpp" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
