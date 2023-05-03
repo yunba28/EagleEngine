@@ -1,8 +1,8 @@
 ﻿#pragma once
 
-#include <CoreFwd.hpp>
 #include <CoreUtility.hpp>
 #include <Core/Name.hpp>
+#include <Core/ObjectPtr.hpp>
 
 namespace eagle
 {
@@ -12,6 +12,15 @@ namespace eagle
 
 		explicit Object();
 		virtual ~Object() = 0;
+
+	public:
+
+	public:
+
+		bool invalid()const noexcept
+		{
+			return !IsValidByObject(this);
+		}
 
 	private:
 

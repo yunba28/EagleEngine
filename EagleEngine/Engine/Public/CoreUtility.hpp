@@ -1,10 +1,14 @@
 ﻿#pragma once
 
+#include <cassert>
+
 #include <Siv3D/Utility.hpp>
 #include <Siv3D/Uncopyable.hpp>
 
 namespace eagle
 {
+	using s3d::Uncopyable;
+
 	using s3d::Max;
 	using s3d::Min;
 	using s3d::Clamp;
