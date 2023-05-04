@@ -29,16 +29,12 @@ namespace eagle
 				start();
 				return;
 			}
-			assert(("Failed to execute the awake function", false));
+			ensure(false, "Failed to execute the awake function");
 		}
 
 		virtual void _internalDestruct()
 		{
-#if _DEBUG
-			assert(("Failed to execute the dispose function",dispose()));
-#else
-			dispose();
-#endif
+			ensure(dispose(), "Failed to execute the dispose function");
 		}
 
 		virtual void _internalUpdate([[maybe_unused]] double inDeltaTime)
@@ -54,12 +50,12 @@ namespace eagle
 
 	public:
 
-		ObjectPtr<Level> level()const noexcept
+		ObjectPtr<Level> getLevel()const noexcept
 		{
 			return mLevel;
 		}
 
-		ObjectPtr<Actor> owner()const noexcept
+		ObjectPtr<Actor> getOwner()const noexcept
 		{
 			return mOwner;
 		}

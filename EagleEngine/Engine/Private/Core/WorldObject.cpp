@@ -7,7 +7,7 @@ namespace eagle
 {
 	void WorldObject::_internalAttachToLevel(LevelBase* inLevel)
 	{
-		assert(("The object is already registered in Level", mLevel.invalid()));
+		ensure(mLevel.invalid(), "The object is already registered in Level");
 		mLevel = inLevel;
 	}
 

@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <Concept/IsType.hpp>
+#include <Misc/ensure.hpp>
 
 namespace eagle
 {
@@ -163,7 +164,7 @@ namespace eagle
 			}
 
 			Object* ptr = dynamic_cast<ObjectType*>(inOtherPtr);
-			assert(("Failed to cast ObjectPtr", ptr != nullptr));
+			ensure(ptr != nullptr, "Failed to cast ObjectPtr");
 
 			mObjectPtr = ptr;
 		}
@@ -178,7 +179,7 @@ namespace eagle
 			}
 
 			Object* ptr = dynamic_cast<ObjectType*>(inOtherPtr.mObjectPtr);
-			assert(("Failed to move cast ObjectPtr", ptr != nullptr));
+			ensure(ptr != nullptr, "Failed to move cast ObjectPtr");
 
 			mObjectPtr = ptr;
 			inOtherPtr.mObjectPtr = nullptr;
@@ -194,7 +195,7 @@ namespace eagle
 			}
 
 			Object* ptr = dynamic_cast<ObjectType*>(inOtherPtr.mObjectPtr);
-			assert(("Failed to copy cast ObjectPtr", ptr != nullptr));
+			ensure(ptr != nullptr, "Failed to copy cast ObjectPtr");
 
 			mObjectPtr = ptr;
 		}

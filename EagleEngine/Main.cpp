@@ -5,6 +5,8 @@
 #include <Core/ObjectClass.hpp>
 #include <GameFramework/Actor.hpp>
 
+#include <Misc/ensure.hpp>
+
 using namespace eagle;
 
 void Main()

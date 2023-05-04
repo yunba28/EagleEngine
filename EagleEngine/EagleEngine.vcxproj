@@ -336,10 +336,13 @@
     <ClInclude Include="Engine\Public\Core\ObjectPtr.hpp" />
     <ClInclude Include="Engine\Public\Core\TypeIndex.hpp" />
     <ClInclude Include="Engine\Public\Core\WorldObject.hpp" />
+    <ClInclude Include="Engine\Public\Core\WorldObjectSubSystem.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\Actor.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\Component.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\Level.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\LevelBase.hpp" />
+    <ClInclude Include="Engine\Public\GameFramework\SubSystem.hpp" />
+    <ClInclude Include="Engine\Public\Misc\ensure.hpp" />
     <ClInclude Include="Engine\Public\Misc\Function.hpp" />
     <ClInclude Include="Engine\Public\Misc\HashString.hpp" />
     <ClInclude Include="stdafx.h" />

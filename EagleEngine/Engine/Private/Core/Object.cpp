@@ -9,19 +9,11 @@ namespace eagle
 		: mName(NoneName)
 		, mTypeIndex(typeid(void))
 	{
-#if _DEBUG
-		assert(("Failed register object", RegisterObjectHandle(this)));
-#else
-		RegisterObjectHandle(this);
-#endif
+		ensure(RegisterObjectHandle(this), "Failed register object");
 	}
 
 	Object::~Object()
 	{
-#if _DEBUG
-		assert(("Failed unregister object", UnregisterObjectHandle(this)));
-#else
-		UnregisterObjectHandle(this);
-#endif
+		ensure(UnregisterObjectHandle(this), "Failed unregister object");
 	}
 }

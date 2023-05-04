@@ -890,5 +890,14 @@
     <ClInclude Include="Engine\Public\GameFramework\Component.hpp">
       <Filter>Engine\Public\GameFramework</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Public\Misc\ensure.hpp">
+      <Filter>Engine\Public\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Public\GameFramework\SubSystem.hpp">
+      <Filter>Engine\Public\GameFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Public\Core\WorldObjectSubSystem.hpp">
+      <Filter>Engine\Public\Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

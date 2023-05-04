@@ -1,9 +1,9 @@
 ﻿#pragma once
 
-#include <cassert>
-
 #include <Siv3D/Utility.hpp>
 #include <Siv3D/Uncopyable.hpp>
+
+#include <Misc/ensure.hpp>
 
 namespace eagle
 {
