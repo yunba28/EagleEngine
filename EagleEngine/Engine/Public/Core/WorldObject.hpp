@@ -13,7 +13,7 @@ namespace eagle
 		WorldObject() = default;
 		~WorldObject() = default;
 
-	public:
+	protected:
 
 		virtual bool awake() = 0;
 		virtual void start() = 0;
@@ -54,12 +54,12 @@ namespace eagle
 
 	public:
 
-		ObjectPtr<Level> getLevel()const noexcept
+		ObjectPtr<Level> level()const noexcept
 		{
 			return mLevel;
 		}
 
-		ObjectPtr<Actor> getOwner()const noexcept
+		ObjectPtr<Actor> owner()const noexcept
 		{
 			return mOwner;
 		}
@@ -83,7 +83,7 @@ namespace eagle
 			return mActive;
 		}
 
-		bool isPendingKill()const noexcept
+		bool pendingKill()const noexcept
 		{
 			return mPendingKill;
 		}

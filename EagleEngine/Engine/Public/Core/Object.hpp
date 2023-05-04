@@ -3,6 +3,7 @@
 #include <CoreUtility.hpp>
 #include <Core/Name.hpp>
 #include <Core/ObjectPtr.hpp>
+#include <Core/TypeIndex.hpp>
 
 namespace eagle
 {
@@ -47,6 +48,21 @@ namespace eagle
 			return mName;
 		}
 
+		const TypeIndex& type()const noexcept
+		{
+			return mTypeIndex;
+		}
+
+		bool isA(const Object* const inObject)const noexcept
+		{
+			return mTypeIndex == inObject->mTypeIndex;
+		}
+
+		bool isA(const TypeIndex& inTypeIndex)const noexcept
+		{
+			return mTypeIndex == inTypeIndex;
+		}
+
 		bool invalid()const noexcept
 		{
 			return !IsValidByObject(this);
@@ -55,6 +71,10 @@ namespace eagle
 	private:
 
 		Name mName;
+
+		TypeIndex mTypeIndex;
+
+		friend class ObjectClass;
 
 	};
 }

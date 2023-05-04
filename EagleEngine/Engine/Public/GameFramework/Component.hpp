@@ -4,12 +4,12 @@
 
 namespace eagle
 {
-	class Actor : public WorldObject
+	class Component : public WorldObject
 	{
 	public:
 
-		Actor() = default;
-		~Actor() = default;
+		Component() = default;
+		~Component() = default;
 
 	protected:
 
@@ -19,6 +19,5 @@ namespace eagle
 		virtual bool dispose()override { return true; }
 
 	private:
-
 	};
 }

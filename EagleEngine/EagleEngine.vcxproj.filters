@@ -192,6 +192,9 @@
     <ClCompile Include="Engine\Private\Misc\HashString.cpp">
       <Filter>Engine\Private\Misc</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Private\Core\ObjectClass.cpp">
+      <Filter>Engine\Private\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="App\icon.ico">
@@ -880,6 +883,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Public\Concept\Invocable.hpp">
       <Filter>Engine\Public\Concept</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Public\Core\TypeIndex.hpp">
+      <Filter>Engine\Public\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Public\GameFramework\Component.hpp">
+      <Filter>Engine\Public\GameFramework</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

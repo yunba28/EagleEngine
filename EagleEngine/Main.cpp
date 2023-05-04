@@ -2,6 +2,9 @@
 
 #include <Misc/Function.hpp>
 
+#include <Core/ObjectClass.hpp>
+#include <GameFramework/Actor.hpp>
+
 using namespace eagle;
 
 void Main()

@@ -187,6 +187,8 @@ namespace eagle
 			return *this;
 		}
 
+		using NameBase::NameBase;
+
 		Name& operator=(NoneName_t)noexcept
 		{
 			Release(*this);

@@ -6,6 +6,8 @@
 namespace eagle
 {
 	Object::Object()
+		: mName(NoneName)
+		, mTypeIndex(typeid(void))
 	{
 #if _DEBUG
 		assert(("Failed register object", RegisterObjectHandle(this)));

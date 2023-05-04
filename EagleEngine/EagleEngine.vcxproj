@@ -117,6 +117,7 @@
   <ItemGroup>
     <ClCompile Include="Engine\Private\Core\Name.cpp" />
     <ClCompile Include="Engine\Private\Core\Object.cpp" />
+    <ClCompile Include="Engine\Private\Core\ObjectClass.cpp" />
     <ClCompile Include="Engine\Private\Core\ObjectPtr.cpp" />
     <ClCompile Include="Engine\Private\Core\WorldObject.cpp" />
     <ClCompile Include="Engine\Private\Misc\HashString.cpp" />
@@ -333,8 +334,10 @@
     <ClInclude Include="Engine\Public\Core\Object.hpp" />
     <ClInclude Include="Engine\Public\Core\ObjectClass.hpp" />
     <ClInclude Include="Engine\Public\Core\ObjectPtr.hpp" />
+    <ClInclude Include="Engine\Public\Core\TypeIndex.hpp" />
     <ClInclude Include="Engine\Public\Core\WorldObject.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\Actor.hpp" />
+    <ClInclude Include="Engine\Public\GameFramework\Component.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\Level.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\LevelBase.hpp" />
     <ClInclude Include="Engine\Public\Misc\Function.hpp" />
