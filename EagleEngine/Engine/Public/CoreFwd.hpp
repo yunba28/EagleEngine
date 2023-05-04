@@ -12,6 +12,8 @@ namespace eagle
 	class Level;
 	class SubLevel;
 
+	class SubSystem;
+
 	class World;
 
 	class ObjectClass;

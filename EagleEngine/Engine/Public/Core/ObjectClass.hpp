@@ -18,7 +18,8 @@ namespace eagle
 		Component = 0b00001000,
 		Level = 0b00010000,
 		SubLevel = 0b00100000,
-		World = 0b01000000
+		SubSystem = 0b01000000,
+		World = 0b10000000
 	};
 
 	template<class ObjectType>
@@ -32,6 +33,8 @@ namespace eagle
 			return ObjectInherited::Level;
 		else if constexpr (std::is_base_of_v<SubLevel, ObjectType>)
 			return ObjectInherited::SubLevel;
+		else if constexpr (std::is_base_of_v<SubSystem, ObjectType>)
+			return ObjectInherited::SubSystem;
 		else if constexpr (std::is_base_of_v<WorldObject, ObjectType>)
 			return ObjectInherited::WorldObject;
 		else if constexpr (std::is_base_of_v<Object, ObjectType>)
@@ -55,6 +58,8 @@ namespace eagle
 			result = FromEnum(OI::Object) | FromEnum(OI::Level);
 		else if constexpr (std::is_base_of_v<SubLevel, ObjectType>)
 			result = FromEnum(OI::Object) | FromEnum(OI::SubLevel);
+		else if constexpr (std::is_base_of_v<SubSystem, ObjectType>)
+			result = FromEnum(OI::Object) | FromEnum(OI::SubSystem);
 		else if constexpr (std::is_base_of_v<WorldObject, ObjectType>)
 			result = FromEnum(OI::Object) | FromEnum(OI::WorldObject);
 		else if constexpr (std::is_base_of_v<Object, ObjectType>)
