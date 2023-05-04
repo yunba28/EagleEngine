@@ -26,4 +26,11 @@ namespace eagle
 	using s3d::IsOdd;
 	using s3d::FromEnum;
 	using s3d::ToEnum;
+
+	inline constexpr bool FlipFlag(bool& inFlag)
+	{
+		const bool tmp = inFlag;
+		inFlag = !inFlag;
+		return tmp;
+	}
 }

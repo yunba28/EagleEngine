@@ -115,11 +115,13 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Private\Core\ExecutionOrder.cpp" />
     <ClCompile Include="Engine\Private\Core\Name.cpp" />
     <ClCompile Include="Engine\Private\Core\Object.cpp" />
     <ClCompile Include="Engine\Private\Core\ObjectClass.cpp" />
     <ClCompile Include="Engine\Private\Core\ObjectPtr.cpp" />
     <ClCompile Include="Engine\Private\Core\WorldObject.cpp" />
+    <ClCompile Include="Engine\Private\Core\WorldObjectSubSystem.cpp" />
     <ClCompile Include="Engine\Private\Misc\HashString.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -330,9 +332,11 @@
     <ClInclude Include="Engine\Public\CoreFwd.hpp" />
     <ClInclude Include="Engine\Public\CoreTypes.hpp" />
     <ClInclude Include="Engine\Public\CoreUtility.hpp" />
+    <ClInclude Include="Engine\Public\Core\ExecutionOrder.hpp" />
     <ClInclude Include="Engine\Public\Core\Name.hpp" />
     <ClInclude Include="Engine\Public\Core\Object.hpp" />
     <ClInclude Include="Engine\Public\Core\ObjectClass.hpp" />
+    <ClInclude Include="Engine\Public\Core\ObjectInherited.hpp" />
     <ClInclude Include="Engine\Public\Core\ObjectPtr.hpp" />
     <ClInclude Include="Engine\Public\Core\TypeIndex.hpp" />
     <ClInclude Include="Engine\Public\Core\WorldObject.hpp" />
@@ -341,6 +345,7 @@
     <ClInclude Include="Engine\Public\GameFramework\Component.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\Level.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\LevelBase.hpp" />
+    <ClInclude Include="Engine\Public\GameFramework\SubLevel.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\SubSystem.hpp" />
     <ClInclude Include="Engine\Public\Misc\ensure.hpp" />
     <ClInclude Include="Engine\Public\Misc\Function.hpp" />
