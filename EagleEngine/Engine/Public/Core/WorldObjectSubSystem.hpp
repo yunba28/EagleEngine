@@ -16,7 +16,7 @@ namespace eagle
 		public:
 
 			WorldObjectListener() = default;
-			~WorldObjectListener() = default;
+			~WorldObjectListener();
 
 			WorldObjectListener(WorldObjectListener&&) = default;
 			WorldObjectListener(const WorldObjectListener&) = delete;
@@ -27,6 +27,9 @@ namespace eagle
 
 			void update(double inDeltaTime);
 			void addWorldObject(WorldObject* inWorldObject);
+			ObjectPtr<WorldObject> getByName(const String& inName)const;
+			ObjectPtr<WorldObject> getByTag(const String& inTag)const;
+			Array<ObjectPtr<WorldObject>> getsByTag(const String& inTag)const;
 
 		private:
 

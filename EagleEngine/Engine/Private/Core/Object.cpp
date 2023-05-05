@@ -8,6 +8,7 @@ namespace eagle
 	Object::Object()
 		: mName(NoneName)
 		, mTypeIndex(typeid(void))
+		, mInherited(ObjectInherited::None)
 	{
 		ensure(RegisterObjectHandle(this), "Failed register object");
 	}

@@ -9,6 +9,10 @@ namespace eagle
 {
 	struct ExecutionOrder
 	{
+		static constexpr int32 DefaultActorOrder = 1000;
+		static constexpr int32 DefaultComponentOrder = 1500;
+		static constexpr int32 DefaultSubLevelOrder = 500;
+
 		static void Set(const TypeIndex& inTypeIndex, int32 newOrder);
 
 		template<Concept::IsActor ActorType>

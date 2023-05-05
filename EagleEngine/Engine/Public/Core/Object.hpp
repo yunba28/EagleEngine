@@ -3,6 +3,7 @@
 #include <CoreUtility.hpp>
 #include <Core/Name.hpp>
 #include <Core/ObjectPtr.hpp>
+#include <Core/ObjectInherited.hpp>
 #include <Core/TypeIndex.hpp>
 
 namespace eagle
@@ -48,6 +49,11 @@ namespace eagle
 			return mName;
 		}
 
+		bool sameName(const String& inName)const noexcept
+		{
+			return mName == inName;
+		}
+
 		const TypeIndex& type()const noexcept
 		{
 			return mTypeIndex;
@@ -63,6 +69,17 @@ namespace eagle
 			return mTypeIndex == inTypeIndex;
 		}
 
+		ObjectInherited inherited()const noexcept
+		{
+			return mInherited;
+		}
+
+		bool hasInherited(ObjectInherited inInherited)const noexcept
+		{
+			const uint8 bits = static_cast<uint8>(inInherited);
+			return static_cast<uint8>(inInherited) & bits;
+		}
+
 		bool invalid()const noexcept
 		{
 			return !IsValidByObject(this);
@@ -74,7 +91,10 @@ namespace eagle
 
 		TypeIndex mTypeIndex;
 
+		ObjectInherited mInherited;
+
 		friend class ObjectClass;
 
 	};
 }
+

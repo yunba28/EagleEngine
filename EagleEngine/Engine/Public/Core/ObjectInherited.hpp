@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include <CoreFwd.hpp>
 #include <CoreTypes.hpp>
 
 namespace eagle
@@ -40,7 +41,7 @@ namespace eagle
 	}
 
 	template<class ObjectType>
-	inline constexpr ObjectInherited GetObjectInheritedBits()noexcept
+	inline ObjectInherited GetObjectInheritedBits()noexcept
 	{
 		using OI = ObjectInherited;
 		uint8 result = 0;

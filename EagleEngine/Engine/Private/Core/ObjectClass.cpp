@@ -9,6 +9,7 @@ namespace eagle
 		Object* object = mFactory();
 		{
 			object->mTypeIndex = mTypeIndex;
+			object->mInherited = mInherited;
 		}
 		return object;
 	}
@@ -19,6 +20,7 @@ namespace eagle
 		{
 			object->setName(newName);
 			object->mTypeIndex = mTypeIndex;
+			object->mInherited = mInherited;
 		}
 		return object;
 	}

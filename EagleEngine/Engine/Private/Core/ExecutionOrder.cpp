@@ -22,6 +22,22 @@ namespace eagle
 		{
 			return gOrderTable.contains(inTypeIndex) ? gOrderTable.at(inTypeIndex) : INT32_MIN;
 		}
-		return int32();
+
+		if (inInherited == ObjectInherited::Actor)
+		{
+			return gOrderTable.contains(inTypeIndex) ? gOrderTable.at(inTypeIndex) : 1000;
+		}
+
+		if (inInherited == ObjectInherited::Component)
+		{
+			return gOrderTable.contains(inTypeIndex) ? gOrderTable.at(inTypeIndex) : 1500;
+		}
+
+		if (inInherited == ObjectInherited::SubLevel)
+		{
+			return gOrderTable.contains(inTypeIndex) ? gOrderTable.at(inTypeIndex) : 500;
+		}
+
+		return gOrderTable.contains(inTypeIndex) ? gOrderTable.at(inTypeIndex) : INT32_MIN;
 	}
 }

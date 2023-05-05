@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include <CoreFwd.hpp>
 #include <CoreUtility.hpp>
 #include <Core/ObjectInherited.hpp>
 #include <Core/TypeIndex.hpp>
@@ -34,7 +33,7 @@ namespace eagle
 		ObjectClass(init<ObjectType>)
 			: mFactory([]() {return static_cast<Object*>(new ObjectType()); })
 			, mTypeIndex(typeid(ObjectType))
-			, mInheried(GetObjectInheritedBits<ObjectType>())
+			, mInherited(GetObjectInheritedBits<ObjectType>())
 		{}
 
 	public:
@@ -69,15 +68,15 @@ namespace eagle
 			return mTypeIndex.hash();
 		}
 
-		ObjectInherited inherit()const noexcept
+		ObjectInherited inherited()const noexcept
 		{
-			return mInheried;
+			return mInherited;
 		}
 
 		bool hasInherited(ObjectInherited inInherited)const noexcept
 		{
 			uint8 bits = static_cast<uint8>(inInherited);
-			return static_cast<uint8>(mInheried) & bits;
+			return static_cast<uint8>(mInherited) & bits;
 		}
 
 	private:
@@ -86,7 +85,7 @@ namespace eagle
 
 		TypeIndex mTypeIndex = typeid(void);
 
-		ObjectInherited mInheried = ObjectInherited::None;
+		ObjectInherited mInherited = ObjectInherited::None;
 
 		template<class ObjectClassType>
 		friend ObjectClass CreateObjectClass();

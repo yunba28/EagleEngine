@@ -204,6 +204,9 @@ namespace eagle
 
 		Object* mObjectPtr = nullptr;
 
+		template<class OtherType>
+		friend class ObjectPtr;
+
 	};
 
 	template<class To, class From>

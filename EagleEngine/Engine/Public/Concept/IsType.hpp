@@ -15,4 +15,5 @@ namespace eagle::Concept
 	DECLARE_ISTYPE(Component);
 	DECLARE_ISTYPE(Level);
 	DECLARE_ISTYPE(SubLevel);
+	DECLARE_ISTYPE(SubSystem);
 }
