@@ -50,7 +50,7 @@ namespace eagle
 
 	public:
 
-		ObjectPtr<Level> getLevel()const noexcept
+		ObjectPtr<LevelBase> getLevel()const noexcept
 		{
 			return mLevel;
 		}
@@ -98,17 +98,17 @@ namespace eagle
 
 	private:
 
-		ObjectPtr<Level> mLevel;
+		ObjectPtr<LevelBase> mLevel = nullptr;
 
-		ObjectPtr<Actor> mOwner;
+		ObjectPtr<Actor> mOwner = nullptr;
 
-		Array<HashString> mTags;
+		Array<HashString> mTags = {};
 
-		bool mActive;
+		bool mActive = true;
 
-		bool mPendingKill;
+		bool mPendingKill = false;
 
-		bool mUpdateEnabled;
+		bool mUpdateEnabled = true;
 
 	};
 }

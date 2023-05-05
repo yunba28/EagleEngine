@@ -1,21 +1,45 @@
-﻿#include <Siv3D.hpp> // OpenSiv3D v0.6.9
+﻿#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
 
-#include <Misc/Function.hpp>
+#include <Siv3D.hpp> // OpenSiv3D v0.6.9
 
-#include <Core/ObjectClass.hpp>
 #include <GameFramework/Actor.hpp>
-
-#include <Misc/ensure.hpp>
+#include <GameFramework/World.hpp>
 
 using namespace eagle;
 
+class MyActor : public Actor
+{
+	void update(double inDeltaTime)override;
+};
+
+class MyLevel : public Level
+{
+public:
+
+	void awake();
+
+};
+
 void Main()
 {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
+	ObjectPtr<World> world = CreateObjectClass<World>()();
+	{
+		world->registerLevel<MyLevel>(U"MyLevel");
+	}
 
 	while (System::Update())
 	{
-		
+		ClearPrint();
+		if (!world->update())
+			break;
 	}
+
+	delete world.get();
+
+	_CrtDumpMemoryLeaks();
 }
 
 //
@@ -27,3 +51,19 @@ void Main()
 //
 // - Visual Studio を更新した直後は、プログラムのリビルド（[ビルド]メニュー → [ソリューションのリビルド]）が必要な場合があります。
 //
+
+void MyActor::update(double inDeltaTime)
+{
+	if (getLevel())
+	{
+		Print << getLevel()->getName().toString();
+		Print << getLevel()->isA(typeid(MyLevel));
+	}
+
+	Print << inDeltaTime;
+}
+
+void MyLevel::awake()
+{
+	createActor<MyActor>(U"MyActor");
+}

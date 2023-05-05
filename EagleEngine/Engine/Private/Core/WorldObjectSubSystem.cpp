@@ -2,6 +2,7 @@
 
 #include <Core/WorldObject.hpp>
 #include <Core/ExecutionOrder.hpp>
+#include <GameFramework/LevelBase.hpp>
 
 namespace eagle
 {
@@ -95,18 +96,28 @@ namespace eagle
 		}
 	}
 
-	ObjectPtr<Object> WorldObjectSubSystem::createObject(const ObjectClass& inObjectClass, const String& newName, Actor* newOwner)
+	ObjectPtr<WorldObject> WorldObjectSubSystem::createObject(const ObjectClass& inObjectClass, const String& newName, Actor* newOwner)
 	{
-		if (inObjectClass.hasInherited(ObjectInherited::None))
+		if (!inObjectClass.hasInherited(ObjectInherited::WorldObject))
 			return nullptr;
 
-		Object* object = inObjectClass(newName);
-
-		if (inObjectClass.hasInherited(ObjectInherited::WorldObject) && newOwner != nullptr)
+		WorldObject* worldObject = static_cast<WorldObject*>(inObjectClass(newName));
+		worldObject->_internalAttachToLevel(getLevel());
+		if (newOwner != nullptr)
 		{
-			static_cast<WorldObject*>(object)->_internalAttachToOwner(newOwner);
+			worldObject->_internalAttachToOwner(newOwner);
 		}
 
-		return object;
+		TypeIndex newTypeIndex = inObjectClass.type();
+
+		if (!mWorldObjectTable.contains(newTypeIndex))
+		{
+			mWorldObjectTable.emplace(newTypeIndex, WorldObjectListener{});
+			mOrderQueue.push_back(newTypeIndex);
+		}
+
+		mWorldObjectTable[newTypeIndex].addWorldObject(worldObject);
+
+		return worldObject;
 	}
 }

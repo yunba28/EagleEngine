@@ -204,6 +204,15 @@
     <ClCompile Include="Engine\Private\GameFramework\LevelBase.cpp">
       <Filter>Engine\Private\GameFramework</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Private\GameFramework\World.cpp">
+      <Filter>Engine\Private\GameFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Private\GameFramework\Level.cpp">
+      <Filter>Engine\Private\GameFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Private\GameFramework\SubSystem.cpp">
+      <Filter>Engine\Private\GameFramework</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="App\icon.ico">
@@ -919,6 +928,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Public\GameFramework\World.hpp">
       <Filter>Engine\Public\GameFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Public\Misc\Optional.hpp">
+      <Filter>Engine\Public\Misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

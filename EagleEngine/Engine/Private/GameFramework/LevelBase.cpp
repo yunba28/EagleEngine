@@ -22,6 +22,16 @@ namespace eagle
 		mSubSystems.clear();
 	}
 
+	void LevelBase::_internalConstruct()
+	{
+		awake();
+	}
+
+	void LevelBase::_internalDestruct()
+	{
+		dispose();
+	}
+
 	void LevelBase::_internalUpdate(double inDeltaTime)
 	{
 		for (const auto& subSystem : mSubSystems)
@@ -34,7 +44,7 @@ namespace eagle
 
 	void LevelBase::_internalDraw() const
 	{
-
+		draw();
 	}
 
 	ObjectPtr<SubSystem> LevelBase::addSubSystem(const ObjectClass& inObjectClass)
@@ -42,6 +52,7 @@ namespace eagle
 		if (inObjectClass.hasInherited(ObjectInherited::SubSystem))
 		{
 			ObjectPtr<SubSystem> newSubSystem = static_cast<SubSystem*>(inObjectClass());
+			newSubSystem->_internalAttachToLevel(this);
 			mSubSystems.push_back(newSubSystem);
 			return newSubSystem;
 		}

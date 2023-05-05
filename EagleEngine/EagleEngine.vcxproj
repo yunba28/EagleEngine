@@ -122,7 +122,10 @@
     <ClCompile Include="Engine\Private\Core\ObjectPtr.cpp" />
     <ClCompile Include="Engine\Private\Core\WorldObject.cpp" />
     <ClCompile Include="Engine\Private\Core\WorldObjectSubSystem.cpp" />
+    <ClCompile Include="Engine\Private\GameFramework\Level.cpp" />
     <ClCompile Include="Engine\Private\GameFramework\LevelBase.cpp" />
+    <ClCompile Include="Engine\Private\GameFramework\SubSystem.cpp" />
+    <ClCompile Include="Engine\Private\GameFramework\World.cpp" />
     <ClCompile Include="Engine\Private\Misc\HashString.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -352,6 +355,7 @@
     <ClInclude Include="Engine\Public\Misc\ensure.hpp" />
     <ClInclude Include="Engine\Public\Misc\Function.hpp" />
     <ClInclude Include="Engine\Public\Misc\HashString.hpp" />
+    <ClInclude Include="Engine\Public\Misc\Optional.hpp" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

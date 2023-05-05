@@ -48,7 +48,7 @@ namespace eagle
 	public:
 
 		void update(double inDeltaTime)override final;
-		ObjectPtr<Object> createObject(const ObjectClass& inObjectClass, const String& newName, Actor* newOwner = nullptr);
+		ObjectPtr<WorldObject> createObject(const ObjectClass& inObjectClass, const String& newName, Actor* newOwner = nullptr);
 
 		template<Concept::IsActor ActorType = Actor>
 		ObjectPtr<ActorType> createActor(const String& newName)
