@@ -37,8 +37,6 @@ void Main()
 			break;
 	}
 
-	delete world.get();
-
 	_CrtDumpMemoryLeaks();
 }
 
@@ -54,10 +52,12 @@ void Main()
 
 void MyActor::update(double inDeltaTime)
 {
-	if (getLevel())
+	auto level = getLevel();
+
+	if (level)
 	{
-		Print << getLevel()->getName().toString();
-		Print << getLevel()->isA(typeid(MyLevel));
+		Print << level->getName().toString();
+		Print << level->isA(typeid(MyLevel));
 	}
 
 	Print << inDeltaTime;

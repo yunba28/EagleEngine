@@ -15,14 +15,7 @@ namespace eagle
 
 	World::~World()
 	{
-		if (mCurrentLevel)
-		{
-			delete mCurrentLevel.get();
-		}
-		if (mNextLevel)
-		{
-			delete mNextLevel.get();
-		}
+		
 	}
 
 	bool World::build(const String& newName)
@@ -34,7 +27,7 @@ namespace eagle
 
 		if (mFactories.contains(newName))
 		{
-			mCurrentLevel = mFactories.at(newName)();
+			mCurrentLevel.reset(mFactories.at(newName)());
 		}
 		else
 		{
@@ -59,7 +52,7 @@ namespace eagle
 	{
 		if (mFactories.contains(newName))
 		{
-			mNextLevel = mFactories.at(newName)();
+			mNextLevel.reset(mFactories.at(newName)());
 			return true;
 		}
 		return false;
@@ -91,9 +84,7 @@ namespace eagle
 		{
 			ensure(mCurrentLevel, "empty level");
 			mCurrentLevel->_internalDestruct();
-			delete mCurrentLevel.get();
-			mCurrentLevel = mNextLevel;
-			mNextLevel = nullptr;
+			mCurrentLevel.reset(std::move(mNextLevel));
 		}
 
 		mCurrentLevel->_internalUpdate(s3d::Scene::DeltaTime());

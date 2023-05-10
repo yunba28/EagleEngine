@@ -24,14 +24,14 @@ namespace eagle
 
 	public:
 
-		ObjectPtr<World> getWorld()const noexcept
+		ObjectRef<World> getWorld()const noexcept
 		{
 			return mWorld;
 		}
 
 	private:
 
-		ObjectPtr<World> mWorld;
+		ObjectRef<World> mWorld;
 
 	};
 }

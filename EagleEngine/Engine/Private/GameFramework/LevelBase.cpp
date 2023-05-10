@@ -12,13 +12,6 @@ namespace eagle
 
 	LevelBase::~LevelBase()
 	{
-		for (const auto& system : mSubSystems)
-		{
-			if (IsValidByObject(system.get()))
-			{
-				delete system.get();
-			}
-		}
 		mSubSystems.clear();
 	}
 
@@ -47,15 +40,15 @@ namespace eagle
 		draw();
 	}
 
-	ObjectPtr<SubSystem> LevelBase::addSubSystem(const ObjectClass& inObjectClass)
+	ObjectRef<SubSystem> LevelBase::addSubSystem(const ObjectClass& inObjectClass)
 	{
 		if (inObjectClass.hasInherited(ObjectInherited::SubSystem))
 		{
-			ObjectPtr<SubSystem> newSubSystem = static_cast<SubSystem*>(inObjectClass());
+			SubSystem* newSubSystem = static_cast<SubSystem*>(inObjectClass());
 			newSubSystem->_internalAttachToLevel(this);
-			mSubSystems.push_back(newSubSystem);
-			return newSubSystem;
+			mSubSystems.push_back(ObjectPtr<SubSystem>(newSubSystem));
+			return ObjectRef<SubSystem>(newSubSystem);
 		}
-		return ObjectPtr<SubSystem>();
+		return ObjectRef<SubSystem>();
 	}
 }

@@ -10,11 +10,11 @@ namespace eagle
 		, mTypeIndex(typeid(void))
 		, mInherited(ObjectInherited::None)
 	{
-		ensure(RegisterObjectHandle(this), "Failed register object");
+		
 	}
 
 	Object::~Object()
 	{
-		ensure(UnregisterObjectHandle(this), "Failed unregister object");
+	
 	}
 }

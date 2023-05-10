@@ -21,14 +21,14 @@ namespace eagle
 
 	public:
 
-		ObjectPtr<LevelBase> getLevel()const noexcept
+		ObjectRef<LevelBase> getLevel()const noexcept
 		{
 			return mLevel;
 		}
 
 	private:
 
-		ObjectPtr<LevelBase> mLevel;
+		ObjectRef<LevelBase> mLevel;
 
 		friend class LevelBase;
 		friend class Level;

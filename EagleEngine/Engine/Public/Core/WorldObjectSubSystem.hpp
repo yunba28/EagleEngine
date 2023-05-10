@@ -27,9 +27,9 @@ namespace eagle
 
 			void update(double inDeltaTime);
 			void addWorldObject(WorldObject* inWorldObject);
-			ObjectPtr<WorldObject> getByName(const String& inName)const;
-			ObjectPtr<WorldObject> getByTag(const String& inTag)const;
-			Array<ObjectPtr<WorldObject>> getsByTag(const String& inTag)const;
+			ObjectRef<WorldObject> getByName(const String& inName)const;
+			ObjectRef<WorldObject> getByTag(const String& inTag)const;
+			Array<ObjectRef<WorldObject>> getsByTag(const String& inTag)const;
 
 		private:
 
@@ -48,38 +48,38 @@ namespace eagle
 	public:
 
 		void update(double inDeltaTime)override final;
-		ObjectPtr<WorldObject> createObject(const ObjectClass& inObjectClass, const String& newName, Actor* newOwner = nullptr);
+		ObjectRef<WorldObject> createObject(const ObjectClass& inObjectClass, const String& newName, Actor* newOwner = nullptr);
 
 		template<Concept::IsActor ActorType = Actor>
-		ObjectPtr<ActorType> createActor(const String& newName)
+		ObjectRef<ActorType> createActor(const String& newName)
 		{
 			ObjectClass objectClass = CreateObjectClass<ActorType>();
 			return Cast<ActorType>(createObject(objectClass, newName));
 		}
 
 		template<Concept::IsActor ActorType = Actor>
-		ObjectPtr<ActorType> createActor(const String& newName, Actor* newOwner)
+		ObjectRef<ActorType> createActor(const String& newName, Actor* newOwner)
 		{
 			ObjectClass objectClass = CreateObjectClass<ActorType>();
 			return Cast<ActorType>(createObject(objectClass, newName, newOwner));
 		}
 
 		template<Concept::IsComponent ComponentType>
-		ObjectPtr<ComponentType> createComponent(Actor* newOwner)
+		ObjectRef<ComponentType> createComponent(Actor* newOwner)
 		{
 			ObjectClass objectClass = CreateObjectClass<ComponentType>();
 			return Cast<ComponentType>(createObject(objectClass, U"", newOwner));
 		}
 
 		template<Concept::IsComponent ComponentType>
-		ObjectPtr<ComponentType> createComponent(Actor* newOwner, const String& newName)
+		ObjectRef<ComponentType> createComponent(Actor* newOwner, const String& newName)
 		{
 			ObjectClass objectClass = CreateObjectClass<ComponentType>();
 			return Cast<ComponentType>(createObject(objectClass, newName, newOwner));
 		}
 
 		template<Concept::IsSubLevel SubLevelType>
-		ObjectPtr<SubLevelType> createSubLevel(const String& newName = U"")
+		ObjectRef<SubLevelType> createSubLevel(const String& newName = U"")
 		{
 			ObjectClass objectClass = CreateObjectClass<SubLevelType>();
 			return Cast<SubLevelType>(createObject(objectClass, newName, nullptr));

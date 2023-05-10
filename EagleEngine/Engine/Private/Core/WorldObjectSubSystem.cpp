@@ -8,13 +8,6 @@ namespace eagle
 {
 	WorldObjectSubSystem::WorldObjectListener::~WorldObjectListener()
 	{
-		for (const auto& object : mObjects)
-		{
-			if (IsValidByObject(object.get()))
-			{
-				delete object.get();
-			}
-		}
 		mObjects.clear();
 	}
 
@@ -24,19 +17,18 @@ namespace eagle
 		{
 			mObjects.remove_if([](const ObjectPtr<WorldObject>& inTarget)
 			{
-				if (inTarget->pendingKill())
-				{
-					delete inTarget.get();
-					return true;
-				}
-				return false;
+				return inTarget->pendingKill();
 			});
 			mHasPendingKill = false;
 		}
 
 		if (!mQueue.empty())
 		{
-			mObjects.append(mQueue);
+			mObjects.reserve(mObjects.size() + mQueue.size());
+			for (auto& object : mQueue)
+			{
+				mObjects.push_back(std::move(object));
+			}
 			mQueue.clear();
 		}
 
@@ -49,30 +41,35 @@ namespace eagle
 
 	void WorldObjectSubSystem::WorldObjectListener::addWorldObject(WorldObject* inWorldObject)
 	{
-		mQueue.push_back(ObjectPtr<WorldObject>{ inWorldObject });
+		mQueue.push_back(ObjectPtr<WorldObject>(inWorldObject));
 	}
 
-	ObjectPtr<WorldObject> WorldObjectSubSystem::WorldObjectListener::getByName(const String& inName) const
+	ObjectRef<WorldObject> WorldObjectSubSystem::WorldObjectListener::getByName(const String& inName) const
 	{
 		auto found = std::find_if(mObjects.begin(), mObjects.end(), [&inName](const ObjectPtr<WorldObject>& inObject)
 		{
 			return inObject->sameName(inName);
 		});
-		return (found == mObjects.end()) ? nullptr : *found;
+		return (found == mObjects.end()) ? nullptr : ObjectRef<WorldObject>(*found);
 	}
 
-	ObjectPtr<WorldObject> WorldObjectSubSystem::WorldObjectListener::getByTag(const String& inTag) const
+	ObjectRef<WorldObject> WorldObjectSubSystem::WorldObjectListener::getByTag(const String& inTag) const
 	{
 		auto found = std::find_if(mObjects.begin(), mObjects.end(), [&inTag](const ObjectPtr<WorldObject>& inObject)
 		{
 			return inObject->hasTag(inTag);
 		});
-		return (found == mObjects.end()) ? nullptr : *found;
+		return (found == mObjects.end()) ? nullptr : ObjectRef<WorldObject>(*found);
 	}
 
-	Array<ObjectPtr<WorldObject>> WorldObjectSubSystem::WorldObjectListener::getsByTag(const String& inTag) const
+	Array<ObjectRef<WorldObject>> WorldObjectSubSystem::WorldObjectListener::getsByTag(const String& inTag) const
 	{
-		return mObjects.filter([&inTag](const ObjectPtr<WorldObject>& inObject)
+		return mObjects
+		.map([](const ObjectPtr<WorldObject>& inObject)
+		{
+			return ObjectRef<WorldObject>(inObject);
+		})
+		.filter([&inTag](const ObjectRef<WorldObject>& inObject)
 		{
 			return inObject->hasTag(inTag);
 		});
@@ -96,7 +93,7 @@ namespace eagle
 		}
 	}
 
-	ObjectPtr<WorldObject> WorldObjectSubSystem::createObject(const ObjectClass& inObjectClass, const String& newName, Actor* newOwner)
+	ObjectRef<WorldObject> WorldObjectSubSystem::createObject(const ObjectClass& inObjectClass, const String& newName, Actor* newOwner)
 	{
 		if (!inObjectClass.hasInherited(ObjectInherited::WorldObject))
 			return nullptr;
@@ -118,6 +115,6 @@ namespace eagle
 
 		mWorldObjectTable[newTypeIndex].addWorldObject(worldObject);
 
-		return worldObject;
+		return ObjectRef<WorldObject>(worldObject);
 	}
 }

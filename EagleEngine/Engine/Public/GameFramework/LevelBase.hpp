@@ -27,40 +27,40 @@ namespace eagle
 
 	public:
 
-		ObjectPtr<SubSystem> addSubSystem(const ObjectClass& inObjectClass);
+		ObjectRef<SubSystem> addSubSystem(const ObjectClass& inObjectClass);
 
 		template<Concept::IsSubSystem SubSystemType>
-		ObjectPtr<SubSystemType> addSubSystem()
+		ObjectRef<SubSystemType> addSubSystem()
 		{
 			return Cast<SubSystemType>(addSubSystem(CreateObjectClass<SubSystemType>()));
 		}
 
 		template<class ActorType = Actor>
-		ObjectPtr<ActorType> createActor(const String& newName)
+		ObjectRef<ActorType> createActor(const String& newName)
 		{
 			return mWorldObjectSubSystem->createActor<ActorType>(newName);
 		}
 
 		template<class ActorType = Actor>
-		ObjectPtr<ActorType> createActor(const String& newName, Actor* newOwner)
+		ObjectRef<ActorType> createActor(const String& newName, Actor* newOwner)
 		{
 			return mWorldObjectSubSystem->createActor<ActorType>(newName, newOwner);
 		}
 
 		template<class ComponentType>
-		ObjectPtr<ComponentType> createComponent(Actor* newOwner)
+		ObjectRef<ComponentType> createComponent(Actor* newOwner)
 		{
 			return mWorldObjectSubSystem->createComponent<ComponentType>(newOwner);
 		}
 
 		template<class ComponentType>
-		ObjectPtr<ComponentType> createComponent(Actor* newOwner, const String& newName)
+		ObjectRef<ComponentType> createComponent(Actor* newOwner, const String& newName)
 		{
 			return mWorldObjectSubSystem->createComponent<ComponentType>(newOwner, newName);
 		}
 
 		template<class SubLevelType>
-		ObjectPtr<SubLevelType> createSubLevel(const String& newName = U"")
+		ObjectRef<SubLevelType> createSubLevel(const String& newName = U"")
 		{
 			return mWorldObjectSubSystem->createSubLevel<SubLevelType>(newName);
 		}
@@ -69,7 +69,7 @@ namespace eagle
 
 		Array<ObjectPtr<SubSystem>> mSubSystems;
 
-		ObjectPtr<WorldObjectSubSystem> mWorldObjectSubSystem;
+		ObjectRef<WorldObjectSubSystem> mWorldObjectSubSystem;
 
 	};
 }

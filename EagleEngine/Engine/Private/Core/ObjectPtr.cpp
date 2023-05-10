@@ -1,6 +1,7 @@
 ﻿#include <Core/ObjectPtr.hpp>
 
 #include <CoreTypes.hpp>
+#include <Core/Object.hpp>
 #include <Container/HashSet.hpp>
 
 namespace eagle
@@ -31,5 +32,32 @@ namespace eagle
 			return false;
 
 		return gObjectTable.contains(MakeHandle(object));
+	}
+
+	bool ObjectPtrBase::isA(const TypeIndex& inTypeIndex) const noexcept
+	{
+		if (IsValidByObject(mPtr))
+		{
+			return mPtr->isA(inTypeIndex);
+		}
+		return false;
+	}
+
+	bool ObjectPtrBase::isA(const ObjectPtrBase& inOther) const noexcept
+	{
+		if (IsValidByObject(mPtr) && IsValidByObject(inOther.mPtr))
+		{
+			return mPtr->isA(inOther.mPtr);
+		}
+		return false;
+	}
+
+	bool ObjectPtrBase::isA(const Object* const inObject) const noexcept
+	{
+		if (IsValidByObject(mPtr) && IsValidByObject(inObject))
+		{
+			return mPtr->isA(inObject);
+		}
+		return false;
 	}
 }

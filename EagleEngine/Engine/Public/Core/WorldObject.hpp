@@ -50,12 +50,12 @@ namespace eagle
 
 	public:
 
-		ObjectPtr<LevelBase> getLevel()const noexcept
+		ObjectRef<LevelBase> getLevel()const noexcept
 		{
 			return mLevel;
 		}
 
-		ObjectPtr<Actor> getOwner()const noexcept
+		ObjectRef<Actor> getOwner()const noexcept
 		{
 			return mOwner;
 		}
@@ -98,9 +98,9 @@ namespace eagle
 
 	private:
 
-		ObjectPtr<LevelBase> mLevel = nullptr;
+		ObjectRef<LevelBase> mLevel = nullptr;
 
-		ObjectPtr<Actor> mOwner = nullptr;
+		ObjectRef<Actor> mOwner = nullptr;
 
 		Array<HashString> mTags = {};
 
