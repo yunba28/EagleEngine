@@ -21,4 +21,10 @@ namespace eagle
 	private:
 
 	};
+
+	template<Concept::IsActor ActorType>
+	ObjectClass CreateActorClass()
+	{
+		return CreateObjectClass<ActorType>();
+	}
 }

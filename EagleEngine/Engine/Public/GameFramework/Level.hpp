@@ -34,4 +34,10 @@ namespace eagle
 		ObjectRef<World> mWorld;
 
 	};
+
+	template<Concept::IsLevel LevelType>
+	ObjectClass CreateLevelClass()
+	{
+		return CreateObjectClass<LevelType>();
+	}
 }
