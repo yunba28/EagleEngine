@@ -47,6 +47,7 @@ namespace eagle
 		virtual void _internalConstruct();
 		virtual void _internalDestruct();
 
+
 	public:
 
 		void setName(const String& inName)

@@ -3,17 +3,25 @@
 
 #include <Siv3D.hpp> // OpenSiv3D v0.6.9
 
-#include <GameFramework/Actor.hpp>
 #include <GameFramework/World.hpp>
+#include <GameFramework/Actor.hpp>
+#include <GameFramework/Component.hpp>
 
 using namespace eagle;
 
 class MyActor : public Actor
 {
+	bool awake()override;
+	void start()override;
 	void update(double inDeltaTime)override;
 };
 
 class MyActor2 : public Actor
+{
+	void update(double inDeltaTime)override;
+};
+
+class MyComponent : public Component
 {
 	void update(double inDeltaTime)override;
 };
@@ -48,8 +56,6 @@ void Main()
 			.registerLevel<MyLevel2>(U"MyLevel2");
 	}
 
-	WorldObjectSubSystem;
-
 	while (System::Update())
 	{
 		ClearPrint();
@@ -69,6 +75,16 @@ void Main()
 //
 // - Visual Studio を更新した直後は、プログラムのリビルド（[ビルド]メニュー → [ソリューションのリビルド]）が必要な場合があります。
 //
+
+bool MyActor::awake()
+{
+	return true;
+}
+
+void MyActor::start()
+{
+	attachComponent<MyComponent>();
+}
 
 void MyActor::update(double inDeltaTime)
 {
@@ -120,4 +136,9 @@ void MyLevel2::update(double inDeltaTime)
 	{
 		getWorld()->changeLevel(U"MyLevel");
 	}
+}
+
+void MyComponent::update(double inDeltaTime)
+{
+	Print << getName().getSequentialName();
 }

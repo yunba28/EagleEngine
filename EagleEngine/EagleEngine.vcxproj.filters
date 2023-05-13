@@ -213,6 +213,9 @@
     <ClCompile Include="Engine\Private\GameFramework\SubSystem.cpp">
       <Filter>Engine\Private\GameFramework</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Private\GameFramework\Actor.cpp">
+      <Filter>Engine\Private\GameFramework</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="App\icon.ico">

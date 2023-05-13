@@ -122,6 +122,7 @@
     <ClCompile Include="Engine\Private\Core\ObjectPtr.cpp" />
     <ClCompile Include="Engine\Private\Core\WorldObject.cpp" />
     <ClCompile Include="Engine\Private\Core\WorldObjectSubSystem.cpp" />
+    <ClCompile Include="Engine\Private\GameFramework\Actor.cpp" />
     <ClCompile Include="Engine\Private\GameFramework\Level.cpp" />
     <ClCompile Include="Engine\Private\GameFramework\LevelBase.cpp" />
     <ClCompile Include="Engine\Private\GameFramework\SubSystem.cpp" />

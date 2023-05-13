@@ -8,9 +8,28 @@ namespace eagle
 {
 	Timer WorldObjectSubSystem::sHitStopTimer{ 0.s };
 
+	WorldObjectSubSystem::WorldObjectListener::WorldObjectListener(const ObjectClass& inObjectClass)
+		: mObjects()
+		, mQueue()
+		, mInherited(inObjectClass.inherited())
+		, mTypeIndex(inObjectClass.type())
+		, mHasPendingKill(false)
+	{
+	}
+
+	WorldObjectSubSystem::WorldObjectListener::WorldObjectListener()
+		: mObjects()
+		, mQueue()
+		, mInherited(ObjectInherited::None)
+		, mTypeIndex(typeid(void))
+		, mHasPendingKill(false)
+	{
+		ensure(false, "not called default constructor");
+	}
+
 	WorldObjectSubSystem::WorldObjectListener::~WorldObjectListener()
 	{
-		mObjects.clear();
+		mObjects.release();
 	}
 
 	void WorldObjectSubSystem::WorldObjectListener::update(double inDeltaTime)
@@ -26,11 +45,11 @@ namespace eagle
 
 		if (!mQueue.empty())
 		{
-			mObjects.reserve(mObjects.size() + mQueue.size());
-			for (auto& object : mQueue)
-			{
-				mObjects.push_back(std::move(object));
-			}
+			mObjects.insert(
+				mObjects.end(),
+				std::move_iterator{ mQueue.begin()},
+				std::move_iterator{ mQueue.end() }
+			);
 			mQueue.clear();
 		}
 
@@ -77,6 +96,28 @@ namespace eagle
 		});
 	}
 
+	ObjectRef<WorldObject> WorldObjectSubSystem::WorldObjectListener::getByOwner(const Actor* const inOwner) const
+	{
+		auto found = std::find_if(mObjects.begin(), mObjects.end(), [owner = inOwner](const ObjectPtr<WorldObject>& inObject)
+		{
+			return inObject->isOwner(owner);
+		});
+		return (found == mObjects.end()) ? nullptr : ObjectRef<WorldObject>(*found);
+	}
+
+	Array<ObjectRef<WorldObject>> WorldObjectSubSystem::WorldObjectListener::getsByOwner(const Actor* const inOwner) const
+	{
+		return mObjects
+			.map([](const ObjectPtr<WorldObject>& inObject)
+			{
+					return ObjectRef<WorldObject>(inObject);
+			})
+			.filter([owner = inOwner](const ObjectRef<WorldObject>& inObject)
+			{
+				return inObject->isOwner(owner);
+			});
+	}
+
 	WorldObjectSubSystem::~WorldObjectSubSystem()
 	{
 		WorldObject::SetGlobalTimeDilation(1);
@@ -113,23 +154,132 @@ namespace eagle
 			return nullptr;
 
 		WorldObject* worldObject = static_cast<WorldObject*>(inObjectClass(newName));
-		worldObject->_internalAttachToLevel(getLevel());
-		if (newOwner != nullptr)
+		// Levelの所属とOwnerへのアタッチ
 		{
-			worldObject->_internalAttachToOwner(newOwner);
+			worldObject->_internalAttachToLevel(getLevel());
+			if (newOwner != nullptr)
+			{
+				worldObject->_internalAttachToOwner(newOwner);
+			}
 		}
 
 		TypeIndex newTypeIndex = inObjectClass.type();
 
+		// 初めて生成されるObjectならListenerを生成
 		if (!mWorldObjectTable.contains(newTypeIndex))
 		{
-			mWorldObjectTable.emplace(newTypeIndex, WorldObjectListener{});
+			mWorldObjectTable.emplace(newTypeIndex, WorldObjectListener{ inObjectClass });
 			mOrderQueue.push_back(newTypeIndex);
 		}
 
+		// ListenerにObjectを登録
 		mWorldObjectTable[newTypeIndex].addWorldObject(worldObject);
 
+		worldObject->_internalConstruct();
+
 		return ObjectRef<WorldObject>(worldObject);
+	}
+
+	ObjectRef<WorldObject> WorldObjectSubSystem::findByName(const TypeIndex& inFindType, const String& inName)const
+	{
+		for (const auto& type : mExecutionOrder)
+		{
+			if (type != inFindType)
+				continue;
+
+			if (auto found = mWorldObjectTable.at(type).getByName(inName); found)
+			{
+				return found;
+			}
+
+			break;
+		}
+
+		return ObjectRef<WorldObject>{ nullptr };
+	}
+
+	ObjectRef<WorldObject> WorldObjectSubSystem::findByTag(const TypeIndex& inFindType, const String& inTag)const
+	{
+		for (const auto& type : mExecutionOrder)
+		{
+			if (type != inFindType)
+				continue;
+
+			if (auto found = mWorldObjectTable.at(type).getByTag(inTag); found)
+			{
+				return found;
+			}
+
+			break;
+		}
+
+		return ObjectRef<WorldObject>{ nullptr };
+	}
+
+	Array<ObjectRef<WorldObject>> WorldObjectSubSystem::findsByTag(const String& inTag)const
+	{
+		Array<ObjectRef<WorldObject>> result;
+
+		for (const auto& type : mExecutionOrder)
+		{
+			if (auto founds = mWorldObjectTable.at(type).getsByTag(inTag); !founds.isEmpty())
+			{
+				result.append(founds);
+			}
+		}
+
+		return result;
+	}
+
+	Array<ObjectRef<WorldObject>> WorldObjectSubSystem::findsByTag(const TypeIndex& inFindType, const String& inTag)const
+	{
+		for (const auto& type : mExecutionOrder)
+		{
+			if (type != inFindType)
+				continue;
+
+			if (auto founds = mWorldObjectTable.at(type).getsByTag(inTag); !founds.isEmpty())
+			{
+				return founds;
+			}
+
+			break;
+		}
+
+		return Array<ObjectRef<WorldObject>>{};
+	}
+
+	ObjectRef<WorldObject> WorldObjectSubSystem::findByOwner(const TypeIndex& inFindType, const Actor* const inOwner) const
+	{
+		for (const auto& type : mExecutionOrder)
+		{
+			if (type != inFindType)
+				continue;
+
+			if (auto found = mWorldObjectTable.at(type).getByOwner(inOwner); found)
+			{
+				return found;
+			}
+
+			break;
+		}
+
+		return ObjectRef<WorldObject>();
+	}
+
+	Array<ObjectRef<WorldObject>> WorldObjectSubSystem::findsByOwner(const Actor* const inOwner) const
+	{
+		Array<ObjectRef<WorldObject>> result;
+
+		for (const auto& type : mExecutionOrder)
+		{
+			if (auto founds = mWorldObjectTable.at(type).getsByOwner(inOwner); !founds.isEmpty())
+			{
+				result.append(founds);
+			}
+		}
+
+		return result;
 	}
 
 	void WorldObjectSubSystem::HitStop(double inTimeDilation, double inStopTimeSec)

@@ -7,6 +7,11 @@ namespace eagle
 {
 	double WorldObject::sGlobalTimeDilation = 1.0;
 
+	WorldObject::~WorldObject()
+	{
+		destroy();
+	}
+
 	void WorldObject::_internalAttachToLevel(LevelBase* inLevel)
 	{
 		ensure(mLevel.invalid(), "The object is already registered in Level");
@@ -16,6 +21,11 @@ namespace eagle
 	void WorldObject::_internalAttachToOwner(Actor* inOwner)
 	{
 		mOwner = inOwner;
+	}
+
+	bool WorldObject::isOwner(const Actor* const inOwner) const noexcept
+	{
+		return mOwner == *inOwner;
 	}
 
 	void WorldObject::addTag(const String& newTag)

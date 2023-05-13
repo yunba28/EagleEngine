@@ -2,6 +2,7 @@
 
 #include <GameFramework/Level.hpp>
 #include <Misc/Optional.hpp>
+#include <Misc/Function.hpp>
 
 namespace eagle
 {
@@ -30,10 +31,10 @@ namespace eagle
 			{
 				mFactories.emplace(inName, [newName = inName, world = this]()
 				{
-					Level* newLevel = static_cast<Level*>(CreateObjectClass<LevelType>()(newName));
+					ObjectPtr<Level> newLevel = static_cast<Level*>(CreateObjectClass<LevelType>()(newName));
 					{
-						newLevel->_internalConstruct();
 						newLevel->_internalAttachToWorld(world);
+						newLevel->_internalConstruct();
 					}
 					return newLevel;
 				});
@@ -63,7 +64,7 @@ namespace eagle
 
 	private:
 
-		HashTable<String, Function<Level*()>> mFactories;
+		HashTable<String, Function<ObjectPtr<Level>()>> mFactories;
 
 		ObjectPtr<Level> mCurrentLevel;
 

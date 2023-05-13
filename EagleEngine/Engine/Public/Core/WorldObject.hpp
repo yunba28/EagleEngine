@@ -11,7 +11,7 @@ namespace eagle
 	public:
 
 		WorldObject() = default;
-		~WorldObject() = default;
+		~WorldObject();
 
 	protected:
 
@@ -53,6 +53,8 @@ namespace eagle
 		{
 			return mOwner;
 		}
+
+		bool isOwner(const Actor* const inOwner)const noexcept;
 
 		void addTag(const String& newTag);
 		void addTags(const Array<String>& newTags);

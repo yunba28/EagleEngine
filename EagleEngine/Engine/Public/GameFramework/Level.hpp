@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <GameFramework/LevelBase.hpp>
+#include <Core/ObjectClass.hpp>
 
 namespace eagle
 {

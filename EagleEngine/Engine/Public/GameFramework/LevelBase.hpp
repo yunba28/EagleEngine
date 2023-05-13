@@ -1,9 +1,13 @@
 ﻿#pragma once
 
-#include <Core/WorldObjectSubSystem.hpp>
+#include <Core/Object.hpp>
+#include <Concept/IsType.hpp>
+#include <Container/Array.hpp>
 
 namespace eagle
 {
+	class WorldObjectSubSystem;
+
 	class LevelBase : public Object
 	{
 	public:
@@ -24,6 +28,9 @@ namespace eagle
 	public:
 
 		ObjectRef<SubSystem> addSubSystem(const ObjectClass& inObjectClass);
+		ObjectRef<WorldObject> createActor(const ObjectClass& inObjectClass, const String& newName, Actor* newOwner);
+		ObjectRef<WorldObject> createComponent(const ObjectClass& inObjectClass, const String& newName, Actor* newOwner);
+		ObjectRef<WorldObject> createSubLevel(const ObjectClass& inObjectClass, const String& newName);
 
 		template<Concept::IsSubSystem SubSystemType>
 		ObjectRef<SubSystemType> addSubSystem()
@@ -31,34 +38,49 @@ namespace eagle
 			return Cast<SubSystemType>(addSubSystem(CreateObjectClass<SubSystemType>()));
 		}
 
-		template<class ActorType = Actor>
+		template<class ActorType>
 		ObjectRef<ActorType> createActor(const String& newName)
 		{
-			return mWorldObjectSubSystem->createActor<ActorType>(newName);
+			return Cast<ActorType>(createActor(CreateObjectClass<ActorType>(), newName, nullptr));
 		}
 
-		template<class ActorType = Actor>
+		template<class ActorType>
 		ObjectRef<ActorType> createActor(const String& newName, Actor* newOwner)
 		{
-			return mWorldObjectSubSystem->createActor<ActorType>(newName, newOwner);
+			return Cast<ActorType>(createActor(CreateObjectClass<ActorType>(), newName, newOwner));
 		}
 
 		template<class ComponentType>
 		ObjectRef<ComponentType> createComponent(Actor* newOwner)
 		{
-			return mWorldObjectSubSystem->createComponent<ComponentType>(newOwner);
+			return Cast<ComponentType>(createComponent(CreateObjectClass<ComponentType>(), U"", newOwner));
 		}
 
 		template<class ComponentType>
 		ObjectRef<ComponentType> createComponent(Actor* newOwner, const String& newName)
 		{
-			return mWorldObjectSubSystem->createComponent<ComponentType>(newOwner, newName);
+			return Cast<ComponentType>(createComponent(CreateObjectClass<ComponentType>(), newName, newOwner));
 		}
 
 		template<class SubLevelType>
 		ObjectRef<SubLevelType> createSubLevel(const String& newName = U"")
 		{
-			return mWorldObjectSubSystem->createSubLevel<SubLevelType>(newName);
+			return Cast<SubLevelType>(createSubLevel(CreateObjectClass<SubLevelType>(), newName));
+		}
+
+		ObjectRef<WorldObject> findByName(const TypeIndex& inFindType, const String& inName)const;
+		ObjectRef<WorldObject> findByTag(const TypeIndex& inFindType, const String& inTag)const;
+		Array<ObjectRef<WorldObject>> findsByTag(const String& inTag)const;
+		Array<ObjectRef<WorldObject>> findsByTag(const TypeIndex& inFindType, const String& inTag)const;
+		ObjectRef<WorldObject> findByOwner(const TypeIndex& inFindType, const Actor* const inOwner)const;
+		Array<ObjectRef<WorldObject>> findsByOwner(const Actor* const inOwner)const;
+
+		ObjectRef<SubSystem> findSubSystem(const TypeIndex& inFindType)const;
+
+		template<Concept::IsSubSystem SubSystemType>
+		ObjectRef<SubSystemType> findSubSystem()const
+		{
+			return Cast<SubSystemType>(findSubSystem(typeid(SubSystemType)));
 		}
 
 	private:

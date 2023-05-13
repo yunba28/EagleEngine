@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <GameFramework/LevelBase.hpp>
+#include <Core/ObjectClass.hpp>
 
 namespace eagle
 {
@@ -8,4 +9,10 @@ namespace eagle
 	{
 
 	};
+
+	template<Concept::IsSubLevel SublevelType>
+	ObjectClass CreateSubLevelClass()
+	{
+		return CreateObjectClass<SubLevelType>();
+	}
 }

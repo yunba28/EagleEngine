@@ -211,6 +211,16 @@ namespace eagle
 			return static_cast<ObjectType*>(mPtr);
 		}
 
+		bool operator==(const ObjectType& inOther)const noexcept
+		{
+			return static_cast<ObjectType*>(mPtr) == &inOther;
+		}
+
+		bool operator!=(const ObjectType& inOther)const noexcept
+		{
+			return static_cast<ObjectType*>(mPtr) != &inOther;
+		}
+
 	public:
 
 		void reset()
@@ -368,6 +378,16 @@ namespace eagle
 		operator ObjectType* ()const noexcept
 		{
 			return static_cast<ObjectType*>(mPtr);
+		}
+
+		bool operator==(const ObjectType& inOther)const noexcept
+		{
+			return static_cast<ObjectType*>(mPtr) == &inOther;
+		}
+
+		bool operator!=(const ObjectType& inOther)const noexcept
+		{
+			return static_cast<ObjectType*>(mPtr) != &inOther;
 		}
 
 	private:
