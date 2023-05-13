@@ -13,6 +13,8 @@ namespace eagle
 
 	protected:
 
+		virtual bool awake()override { return true; }
+		virtual bool dispose()override { return true; }
 		virtual void update([[maybe_unused]] double inDeltaTime) = 0;
 
 	public:

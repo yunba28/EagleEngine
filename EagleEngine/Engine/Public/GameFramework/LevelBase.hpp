@@ -13,15 +13,11 @@ namespace eagle
 
 	protected:
 
-		virtual void awake() = 0;
-		virtual void dispose() = 0;
 		virtual void update([[maybe_unused]] double inDeltaTime) = 0;
 		virtual void draw()const = 0;
 
 	public:
 
-		virtual void _internalConstruct();
-		virtual void _internalDestruct();
 		virtual void _internalUpdate(double inDeltaTime);
 		virtual void _internalDraw()const;
 

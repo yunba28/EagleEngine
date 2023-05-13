@@ -932,5 +932,8 @@
     <ClInclude Include="Engine\Public\Misc\Optional.hpp">
       <Filter>Engine\Public\Misc</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Public\Misc\Timer.hpp">
+      <Filter>Engine\Public\Misc</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

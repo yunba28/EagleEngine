@@ -6,6 +6,8 @@
 
 namespace eagle
 {
+	Timer WorldObjectSubSystem::sHitStopTimer{ 0.s };
+
 	WorldObjectSubSystem::WorldObjectListener::~WorldObjectListener()
 	{
 		mObjects.clear();
@@ -75,8 +77,20 @@ namespace eagle
 		});
 	}
 
+	WorldObjectSubSystem::~WorldObjectSubSystem()
+	{
+		WorldObject::SetGlobalTimeDilation(1);
+		sHitStopTimer.set(0.s);
+	}
+
 	void WorldObjectSubSystem::update(double inDeltaTime)
 	{
+		if (sHitStopTimer.duration() > 0.s && sHitStopTimer.reachedZero())
+		{
+			sHitStopTimer.set(0.s);
+			WorldObject::SetGlobalTimeDilation(1);
+		}
+
 		if (!mOrderQueue.empty())
 		{
 			mExecutionOrder.append(mOrderQueue);
@@ -116,5 +130,11 @@ namespace eagle
 		mWorldObjectTable[newTypeIndex].addWorldObject(worldObject);
 
 		return ObjectRef<WorldObject>(worldObject);
+	}
+
+	void WorldObjectSubSystem::HitStop(double inTimeDilation, double inStopTimeSec)
+	{
+		sHitStopTimer.restart(Duration{ inStopTimeSec });
+		WorldObject::SetGlobalTimeDilation(inTimeDilation);
 	}
 }

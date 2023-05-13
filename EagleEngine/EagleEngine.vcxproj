@@ -356,6 +356,7 @@
     <ClInclude Include="Engine\Public\Misc\Function.hpp" />
     <ClInclude Include="Engine\Public\Misc\HashString.hpp" />
     <ClInclude Include="Engine\Public\Misc\Optional.hpp" />
+    <ClInclude Include="Engine\Public\Misc\Timer.hpp" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

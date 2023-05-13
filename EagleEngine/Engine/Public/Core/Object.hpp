@@ -37,6 +37,16 @@ namespace eagle
 			return IsValidByObject(this);
 		}
 
+	protected:
+
+		virtual bool awake() = 0;
+		virtual bool dispose() = 0;
+
+	public:
+
+		virtual void _internalConstruct();
+		virtual void _internalDestruct();
+
 	public:
 
 		void setName(const String& inName)

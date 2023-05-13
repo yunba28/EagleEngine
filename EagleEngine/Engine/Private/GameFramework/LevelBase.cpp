@@ -15,16 +15,6 @@ namespace eagle
 		mSubSystems.clear();
 	}
 
-	void LevelBase::_internalConstruct()
-	{
-		awake();
-	}
-
-	void LevelBase::_internalDestruct()
-	{
-		dispose();
-	}
-
 	void LevelBase::_internalUpdate(double inDeltaTime)
 	{
 		for (const auto& subSystem : mSubSystems)

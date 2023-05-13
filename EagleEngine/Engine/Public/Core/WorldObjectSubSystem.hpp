@@ -4,6 +4,7 @@
 #include <Core/ObjectClass.hpp>
 #include <Container/Array.hpp>
 #include <Container/HashTable.hpp>
+#include <Misc/Timer.hpp>
 
 namespace eagle
 {
@@ -43,7 +44,7 @@ namespace eagle
 	public:
 
 		WorldObjectSubSystem() = default;
-		~WorldObjectSubSystem() = default;
+		~WorldObjectSubSystem();
 
 	public:
 
@@ -85,12 +86,18 @@ namespace eagle
 			return Cast<SubLevelType>(createObject(objectClass, newName, nullptr));
 		}
 
+	public:
+
+		static void HitStop(double inTimeDilation, double inStopTimeSec);
+
 	private:
 
 		HashTable<TypeIndex, WorldObjectListener> mWorldObjectTable = {};
 
 		Array<TypeIndex> mExecutionOrder = {};
 		Array<TypeIndex> mOrderQueue = {};
+
+		static Timer sHitStopTimer;
 
 	};
 }

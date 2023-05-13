@@ -12,6 +12,11 @@ namespace eagle
 		World();
 		~World();
 
+	protected:
+
+		bool awake()override { return true; }
+		bool dispose()override { return true; }
+
 	public:
 
 		template<Concept::IsLevel LevelType>
@@ -23,11 +28,12 @@ namespace eagle
 			}
 			if (!mFactories.contains(inName))
 			{
-				mFactories.emplace(inName, [newName = inName]()
+				mFactories.emplace(inName, [newName = inName, world = this]()
 				{
 					Level* newLevel = static_cast<Level*>(CreateObjectClass<LevelType>()(newName));
 					{
 						newLevel->_internalConstruct();
+						newLevel->_internalAttachToWorld(world);
 					}
 					return newLevel;
 				});

@@ -13,22 +13,42 @@ class MyActor : public Actor
 	void update(double inDeltaTime)override;
 };
 
+class MyActor2 : public Actor
+{
+	void update(double inDeltaTime)override;
+};
+
 class MyLevel : public Level
 {
 public:
 
-	void awake();
+	bool awake();
+
+	void update(double inDeltaTime);
+
+};
+
+class MyLevel2 : public Level
+{
+public:
+
+	bool awake();
+
+	void update(double inDeltaTime);
 
 };
 
 void Main()
 {
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	ObjectPtr<World> world = CreateObjectClass<World>()();
 	{
-		world->registerLevel<MyLevel>(U"MyLevel");
+		world->registerLevel<MyLevel>(U"MyLevel")
+			.registerLevel<MyLevel2>(U"MyLevel2");
 	}
+
+	WorldObjectSubSystem;
 
 	while (System::Update())
 	{
@@ -37,7 +57,7 @@ void Main()
 			break;
 	}
 
-	_CrtDumpMemoryLeaks();
+	//_CrtDumpMemoryLeaks();
 }
 
 //
@@ -63,7 +83,41 @@ void MyActor::update(double inDeltaTime)
 	Print << inDeltaTime;
 }
 
-void MyLevel::awake()
+bool MyLevel::awake()
 {
-	createActor<MyActor>(U"MyActor");
+	return !createActor<MyActor>(U"MyActor").invalid();
+}
+
+void MyLevel::update(double inDeltaTime)
+{
+	if (KeyEnter.down())
+	{
+		getWorld()->changeLevel(U"MyLevel2");
+	}
+}
+
+void MyActor2::update(double inDeltaTime)
+{
+	auto level = getLevel();
+
+	if (level)
+	{
+		Print << level->getName().toString();
+		Print << level->isA(typeid(MyLevel2));
+	}
+
+	Print << inDeltaTime;
+}
+
+bool MyLevel2::awake()
+{
+	return !createActor<MyActor2>(U"MyActor2").invalid();
+}
+
+void MyLevel2::update(double inDeltaTime)
+{
+	if (KeyEnter.down())
+	{
+		getWorld()->changeLevel(U"MyLevel");
+	}
 }

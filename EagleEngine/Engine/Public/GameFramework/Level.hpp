@@ -13,8 +13,8 @@ namespace eagle
 
 	protected:
 
-		virtual void awake()override {}
-		virtual void dispose()override {}
+		virtual bool awake()override { return true; }
+		virtual bool dispose()override { return true; }
 		virtual void update([[maybe_unused]] double inDeltaTime)override {}
 		virtual void draw()const override{}
 

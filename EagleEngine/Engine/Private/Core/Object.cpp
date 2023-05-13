@@ -10,11 +10,20 @@ namespace eagle
 		, mTypeIndex(typeid(void))
 		, mInherited(ObjectInherited::None)
 	{
-		
 	}
 
 	Object::~Object()
 	{
-	
+	}
+
+	void Object::_internalConstruct()
+	{
+		ensure(awake(), "Failed to execute the awake function");
+	}
+
+	void Object::_internalDestruct()
+	{
+		ensure(dispose(), "Failed to execute the dispose function");
+		Name::Release(mName);
 	}
 }

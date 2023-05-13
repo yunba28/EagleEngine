@@ -5,6 +5,8 @@
 
 namespace eagle
 {
+	double WorldObject::sGlobalTimeDilation = 1.0;
+
 	void WorldObject::_internalAttachToLevel(LevelBase* inLevel)
 	{
 		ensure(mLevel.invalid(), "The object is already registered in Level");
