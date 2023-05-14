@@ -14,9 +14,11 @@ namespace eagle
 			(std::is_base_of_v<ObjectA, ObjectB> || std::is_base_of_v<ObjectB, ObjectA>);
 	}
 
-	bool RegisterObjectHandle(Object* inObject);
-	bool UnregisterObjectHandle(Object* inObject);
+	bool RegisterObject(Object* inObject);
+	bool UnregisterAndDestroyObject(Object* inObject);
 	bool IsValidByObject(const Object* inObject);
+
+	void _DumpObjectMemryLeaks();
 
 	template<class ObjectType>
 	class ObjectPtr;
@@ -33,7 +35,7 @@ namespace eagle
 
 		explicit ObjectPtrBase(Object* newObject)
 		{
-			pointerAssignment(newObject);
+			pointerAssignment<Object>(newObject);
 		}
 
 		explicit ObjectPtrBase(std::nullptr_t)noexcept
@@ -87,18 +89,18 @@ namespace eagle
 
 	protected:
 
-		template<class OtherType>
+		template<class ObjectType, class OtherType>
 		void pointerAssignment(OtherType* newObject)
 		{
 			if (newObject != nullptr)
 			{
-				if (std::is_same_v<Object, OtherType>)
+				if (std::is_same_v<ObjectType, OtherType>)
 				{
 					mPtr = newObject;
 				}
 				else
 				{
-					mPtr = dynamic_cast<OtherType*>(newObject);
+					mPtr = dynamic_cast<ObjectType*>(newObject);
 				}
 			}
 		}
@@ -121,6 +123,8 @@ namespace eagle
 				inOther.mPtr = nullptr;
 			}
 		}
+
+		static void CallDestroy(Object* inObject);
 
 	protected:
 
@@ -181,8 +185,8 @@ namespace eagle
 		template<class OtherType>
 		ObjectPtr(OtherType* newObject)
 		{
-			pointerAssignment(newObject);
-			ensure(RegisterObjectHandle(mPtr), "Failed register object");
+			pointerAssignment<ObjectType>(newObject);
+			ensure(RegisterObject(mPtr), "Failed register object");
 		}
 
 		ObjectPtr(std::nullptr_t)
@@ -230,30 +234,28 @@ namespace eagle
 
 		void reset(std::nullptr_t)
 		{
-			if (UnregisterObjectHandle(mPtr))
-			{
-				delete mPtr;
-			}
+			UnregisterAndDestroyObject(mPtr);
 			mPtr = nullptr;
 		}
 
 		void reset(ObjectType* newObject)
 		{
 			reset(nullptr);
-			pointerAssignment(newObject);
-			ensure(RegisterObjectHandle(mPtr), "Failed reset register object");
+			pointerAssignment<ObjectType>(newObject);
+			ensure(RegisterObject(mPtr), "Failed reset register object");
 		}
 
 		template<class OtherType>
 		void reset(OtherType* newObject)
 		{
 			reset(nullptr);
-			pointerAssignment(newObject);
-			ensure(RegisterObjectHandle(mPtr), "Failed reset register object");
+			pointerAssignment<ObjectType>(newObject);
+			ensure(RegisterObject(mPtr), "Failed reset register object");
 		}
 
 		void reset(ObjectPtr<ObjectType>&& inOther)noexcept
 		{
+			reset(nullptr);
 			moveAssignment<ObjectType>(std::forward<ObjectPtr<ObjectType>>(inOther));
 		}
 
@@ -403,7 +405,7 @@ namespace eagle
 		template<class OtherType>
 		void pointerReference(OtherType* newObject)
 		{
-			pointerAssignment(newObject);
+			pointerAssignment<ObjectType>(newObject);
 		}
 
 	};

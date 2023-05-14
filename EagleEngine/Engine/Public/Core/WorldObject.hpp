@@ -11,7 +11,7 @@ namespace eagle
 	public:
 
 		WorldObject() = default;
-		~WorldObject();
+		~WorldObject() = default;
 
 	protected:
 
@@ -110,7 +110,7 @@ namespace eagle
 			return mUpdateEnabled;
 		}
 
-		void destroy();
+		void destroy()override;
 
 	public:
 
@@ -159,4 +159,6 @@ namespace eagle
 		bool mUpdateEnabled = true;
 
 	};
+
+	constexpr auto s = sizeof(WorldObject);
 }

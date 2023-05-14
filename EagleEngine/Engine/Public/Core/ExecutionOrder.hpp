@@ -11,7 +11,28 @@ namespace eagle
 	{
 		static constexpr int32 DefaultActorOrder = 1000;
 		static constexpr int32 DefaultComponentOrder = 1500;
+		static constexpr int32 DefaultRendererOrder = 2000;
 		static constexpr int32 DefaultSubLevelOrder = 500;
+
+		struct ActorOrder
+		{
+			static constexpr int32 DefaultValue = 1000;
+		};
+
+		struct ComponentOrder
+		{
+			static constexpr int32 DefaultValue = 1500;
+		};
+
+		struct RendererOrder
+		{
+			static constexpr int32 DefaultValue = 2000;
+		};
+
+		struct SubLevelOrder
+		{
+			static constexpr int32 DefaultValue = 500;
+		};
 
 		static void Set(const TypeIndex& inTypeIndex, int32 newOrder);
 
@@ -27,33 +48,46 @@ namespace eagle
 			Set(typeid(ComponentType), newOrder);
 		}
 
+		template<Concept::IsRenderer RendererType>
+		static void SetForRenderer(int32 newOrder)
+		{
+			Set(typeid(RendererType), newOrder);
+		}
+
 		template<Concept::IsSubLevel SubLevelType>
 		static void SetForSubLevel(int32 newOrder)
 		{
 			Set(typeid(SubLevelType), newOrder);
 		}
 
-		static int32 Get(const TypeIndex& inTypeIndex, ObjectInherited inInherited = ObjectInherited::None);
+		static int32 Get(const TypeIndex& inTypeIndex);
+		static int32 Get(const TypeIndex& inTypeIndex, ActorOrder);
+		static int32 Get(const TypeIndex& inTypeIndex, ComponentOrder);
+		static int32 Get(const TypeIndex& inTypeIndex, RendererOrder);
+		static int32 Get(const TypeIndex& inTypeIndex, SubLevelOrder);
 
 		template<Concept::IsActor ActorType>
 		static int32 GetForActor()
 		{
-			int32 result = Get(typeid(ActorType));
-			return (result == INT32_MIN) ? 1000 : result;
+			return Get(typeid(ActorType), ActorOrder{});
 		}
 
 		template<Concept::IsComponent ComponentType>
 		static int32 GetForComponent()
 		{
-			int32 result = Get(typeid(ComponentType));
-			return (result == INT32_MIN) ? 1500 : result;
+			return Get(typeid(ComponentType), ComponentOrder{});
+		}
+
+		template<Concept::IsRenderer RendererType>
+		static int32 GetForRenderer()
+		{
+			return Get(typeid(RendererType), RendererOrder{});
 		}
 
 		template<Concept::IsSubLevel SubLevelType>
 		static int32 GetForSubLevel()
 		{
-			int32 result = Get(typeid(SubLevelType));
-			return (result == INT32_MIN) ? 500 : result;
+			return Get(typeid(SubLevelType), SubLevelOrder{});
 		}
 	};
 }

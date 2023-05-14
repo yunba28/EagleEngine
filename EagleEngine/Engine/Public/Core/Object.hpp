@@ -47,7 +47,6 @@ namespace eagle
 		virtual void _internalConstruct();
 		virtual void _internalDestruct();
 
-
 	public:
 
 		void setName(const String& inName)
@@ -70,6 +69,8 @@ namespace eagle
 			return mTypeIndex;
 		}
 
+		String typeName()const;
+
 		bool isA(const Object* const inObject)const noexcept
 		{
 			return mTypeIndex == inObject->mTypeIndex;
@@ -88,12 +89,17 @@ namespace eagle
 		bool hasInherited(ObjectInherited inInherited)const noexcept
 		{
 			const uint8 bits = static_cast<uint8>(inInherited);
-			return static_cast<uint8>(inInherited) & bits;
+			return static_cast<uint8>(mInherited) & bits;
 		}
 
 		bool invalid()const noexcept
 		{
 			return !IsValidByObject(this);
+		}
+
+		virtual void destroy()
+		{
+			_internalDestruct();
 		}
 
 	private:

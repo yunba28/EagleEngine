@@ -7,6 +7,7 @@
 namespace eagle
 {
 	class WorldObjectSubSystem;
+	class RendererSubSystem;
 
 	class LevelBase : public Object
 	{
@@ -18,7 +19,6 @@ namespace eagle
 	protected:
 
 		virtual void update([[maybe_unused]] double inDeltaTime) = 0;
-		virtual void draw()const = 0;
 
 	public:
 
@@ -83,11 +83,26 @@ namespace eagle
 			return Cast<SubSystemType>(findSubSystem(typeid(SubSystemType)));
 		}
 
+		ObjectRef<WorldObjectSubSystem> getWorldObjectSubSystem()const noexcept
+		{
+			return mWorldObjectSubSystem;
+		}
+
+		ObjectRef<RendererSubSystem> getRendererSubSystem()const noexcept
+		{
+			return mRendererSubSystem;
+		}
+
 	private:
 
 		Array<ObjectPtr<SubSystem>> mSubSystems;
 
 		ObjectRef<WorldObjectSubSystem> mWorldObjectSubSystem;
+
+		ObjectRef<RendererSubSystem> mRendererSubSystem;
+
+		friend class Level;
+		friend class SubLevel;
 
 	};
 }

@@ -9,7 +9,7 @@ namespace eagle
 	{
 	public:
 
-		Level() = default;
+		Level();
 		~Level() = default;
 
 	protected:
@@ -17,7 +17,6 @@ namespace eagle
 		virtual bool awake()override { return true; }
 		virtual bool dispose()override { return true; }
 		virtual void update([[maybe_unused]] double inDeltaTime)override {}
-		virtual void draw()const override{}
 
 	public:
 

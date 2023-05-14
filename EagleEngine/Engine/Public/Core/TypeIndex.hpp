@@ -33,6 +33,11 @@ namespace eagle
 
 	public:
 
+		const std::type_info& base()const noexcept
+		{
+			return *mTypeInfo;
+		}
+
 		size_t hash()const noexcept
 		{
 			return mTypeInfo->hash_code();

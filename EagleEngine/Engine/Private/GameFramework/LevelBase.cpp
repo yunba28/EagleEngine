@@ -1,12 +1,14 @@
 ﻿#include <GameFramework/LevelBase.hpp>
 
 #include <Core/WorldObjectSubSystem.hpp>
+#include <Core/RendererSubSystem.hpp>
 
 namespace eagle
 {
 	LevelBase::LevelBase()
 		: mSubSystems()
 		, mWorldObjectSubSystem()
+		, mRendererSubSystem()
 	{
 		mWorldObjectSubSystem = addSubSystem<WorldObjectSubSystem>();
 		ensure(mWorldObjectSubSystem != nullptr, "Failed create WorldObjectSubSystem");
@@ -29,7 +31,7 @@ namespace eagle
 
 	void LevelBase::_internalDraw() const
 	{
-		draw();
+		mRendererSubSystem->draw();
 	}
 
 	ObjectRef<SubSystem> LevelBase::addSubSystem(const ObjectClass& inObjectClass)

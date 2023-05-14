@@ -13,6 +13,7 @@ namespace eagle::Concept
 	DECLARE_ISTYPE(WorldObject);
 	DECLARE_ISTYPE(Actor);
 	DECLARE_ISTYPE(Component);
+	DECLARE_ISTYPE(Renderer);
 	DECLARE_ISTYPE(Level);
 	DECLARE_ISTYPE(SubLevel);
 	DECLARE_ISTYPE(SubSystem);

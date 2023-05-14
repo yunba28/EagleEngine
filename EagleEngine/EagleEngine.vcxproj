@@ -115,11 +115,13 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Private\Components\Camera2DComponent.cpp" />
     <ClCompile Include="Engine\Private\Core\ExecutionOrder.cpp" />
     <ClCompile Include="Engine\Private\Core\Name.cpp" />
     <ClCompile Include="Engine\Private\Core\Object.cpp" />
     <ClCompile Include="Engine\Private\Core\ObjectClass.cpp" />
     <ClCompile Include="Engine\Private\Core\ObjectPtr.cpp" />
+    <ClCompile Include="Engine\Private\Core\RendererSubSystem.cpp" />
     <ClCompile Include="Engine\Private\Core\WorldObject.cpp" />
     <ClCompile Include="Engine\Private\Core\WorldObjectSubSystem.cpp" />
     <ClCompile Include="Engine\Private\GameFramework\Actor.cpp" />
@@ -128,6 +130,7 @@
     <ClCompile Include="Engine\Private\GameFramework\SubSystem.cpp" />
     <ClCompile Include="Engine\Private\GameFramework\World.cpp" />
     <ClCompile Include="Engine\Private\Misc\HashString.cpp" />
+    <ClCompile Include="Engine\Private\Render\Renderer.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -328,12 +331,15 @@
     <Xml Include="App\example\xml\test.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Public\Components\Camera2DComponent.hpp" />
     <ClInclude Include="Engine\Public\Concept\Invocable.hpp" />
     <ClInclude Include="Engine\Public\Concept\IsType.hpp" />
     <ClInclude Include="Engine\Public\Container\Array.hpp" />
     <ClInclude Include="Engine\Public\Container\HashSet.hpp" />
     <ClInclude Include="Engine\Public\Container\HashTable.hpp" />
     <ClInclude Include="Engine\Public\Container\String.hpp" />
+    <ClInclude Include="Engine\Public\CoreColors.hpp" />
+    <ClInclude Include="Engine\Public\CoreCommons.hpp" />
     <ClInclude Include="Engine\Public\CoreFwd.hpp" />
     <ClInclude Include="Engine\Public\CoreTypes.hpp" />
     <ClInclude Include="Engine\Public\CoreUtility.hpp" />
@@ -343,6 +349,7 @@
     <ClInclude Include="Engine\Public\Core\ObjectClass.hpp" />
     <ClInclude Include="Engine\Public\Core\ObjectInherited.hpp" />
     <ClInclude Include="Engine\Public\Core\ObjectPtr.hpp" />
+    <ClInclude Include="Engine\Public\Core\RendererSubSystem.hpp" />
     <ClInclude Include="Engine\Public\Core\TypeIndex.hpp" />
     <ClInclude Include="Engine\Public\Core\WorldObject.hpp" />
     <ClInclude Include="Engine\Public\Core\WorldObjectSubSystem.hpp" />
@@ -358,6 +365,8 @@
     <ClInclude Include="Engine\Public\Misc\HashString.hpp" />
     <ClInclude Include="Engine\Public\Misc\Optional.hpp" />
     <ClInclude Include="Engine\Public\Misc\Timer.hpp" />
+    <ClInclude Include="Engine\Public\Render\Renderer.hpp" />
+    <ClInclude Include="Engine\Public\Render\RenderType.hpp" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

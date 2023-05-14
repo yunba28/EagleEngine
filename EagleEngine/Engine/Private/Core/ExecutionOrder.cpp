@@ -16,28 +16,28 @@ namespace eagle
 		gOrderTable[inTypeIndex] = newOrder;
 	}
 
-	int32 ExecutionOrder::Get(const TypeIndex& inTypeIndex, ObjectInherited inInherited)
+	int32 ExecutionOrder::Get(const TypeIndex& inTypeIndex)
 	{
-		if (inInherited == ObjectInherited::None)
-		{
-			return gOrderTable.contains(inTypeIndex) ? gOrderTable.at(inTypeIndex) : INT32_MIN;
-		}
-
-		if (inInherited == ObjectInherited::Actor)
-		{
-			return gOrderTable.contains(inTypeIndex) ? gOrderTable.at(inTypeIndex) : 1000;
-		}
-
-		if (inInherited == ObjectInherited::Component)
-		{
-			return gOrderTable.contains(inTypeIndex) ? gOrderTable.at(inTypeIndex) : 1500;
-		}
-
-		if (inInherited == ObjectInherited::SubLevel)
-		{
-			return gOrderTable.contains(inTypeIndex) ? gOrderTable.at(inTypeIndex) : 500;
-		}
-
 		return gOrderTable.contains(inTypeIndex) ? gOrderTable.at(inTypeIndex) : INT32_MIN;
+	}
+
+	int32 ExecutionOrder::Get(const TypeIndex& inTypeIndex, ActorOrder)
+	{
+		return gOrderTable.contains(inTypeIndex) ? gOrderTable.at(inTypeIndex) : ActorOrder::DefaultValue;
+	}
+
+	int32 ExecutionOrder::Get(const TypeIndex& inTypeIndex, ComponentOrder)
+	{
+		return gOrderTable.contains(inTypeIndex) ? gOrderTable.at(inTypeIndex) : ComponentOrder::DefaultValue;
+	}
+
+	int32 ExecutionOrder::Get(const TypeIndex& inTypeIndex, RendererOrder)
+	{
+		return gOrderTable.contains(inTypeIndex) ? gOrderTable.at(inTypeIndex) : RendererOrder::DefaultValue;
+	}
+
+	int32 ExecutionOrder::Get(const TypeIndex& inTypeIndex, SubLevelOrder)
+	{
+		return gOrderTable.contains(inTypeIndex) ? gOrderTable.at(inTypeIndex) : SubLevelOrder::DefaultValue;
 	}
 }

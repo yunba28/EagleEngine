@@ -1,11 +1,11 @@
-﻿#define _CRTDBG_MAP_ALLOC
-#include <crtdbg.h>
-
-#include <Siv3D.hpp> // OpenSiv3D v0.6.9
+﻿#include <Siv3D.hpp> // OpenSiv3D v0.6.9
 
 #include <GameFramework/World.hpp>
 #include <GameFramework/Actor.hpp>
 #include <GameFramework/Component.hpp>
+#include <Core/WorldObjectSubSystem.hpp>
+#include <Render/Renderer.hpp>
+#include <Components/Camera2DComponent.hpp>
 
 using namespace eagle;
 
@@ -14,6 +14,8 @@ class MyActor : public Actor
 	bool awake()override;
 	void start()override;
 	void update(double inDeltaTime)override;
+
+	ObjectRef<Camera2DComponent> camera;
 };
 
 class MyActor2 : public Actor
@@ -24,6 +26,58 @@ class MyActor2 : public Actor
 class MyComponent : public Component
 {
 	void update(double inDeltaTime)override;
+};
+
+class MyRenderer : public Renderer
+{
+public:
+
+	MyRenderer()
+		: pos(s3d::Scene::CenterF())
+	{
+		setRenderType(RenderType::Screen);
+	}
+
+private:
+
+	void update(double inDelta)override
+	{
+		const double scale = (KeyRight.pressed() - KeyLeft.pressed());
+		const double speed = 300;
+
+		pos.x += speed * scale * inDelta;
+
+		if (KeyLShift.down())
+		{
+			WorldObjectSubSystem::HitStop(0.1, 2.0);
+		}
+	}
+
+	void draw()const override
+	{
+		Circle{ pos,20 }.draw();
+	}
+
+	Vec2 pos;
+};
+
+class MyUI : public Renderer
+{
+public:
+
+	MyUI()
+	{
+		setRenderType(RenderType::UI);
+	}
+
+private:
+
+	virtual void draw()const override
+	{
+		const Rect scWindow = s3d::Scene::Rect();
+		SimpleGUI::Button(U"BUTTON", scWindow.tr().moveBy(-200, 0), 200);
+	}
+
 };
 
 class MyLevel : public Level
@@ -48,8 +102,6 @@ public:
 
 void Main()
 {
-	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-
 	ObjectPtr<World> world = CreateObjectClass<World>()();
 	{
 		world->registerLevel<MyLevel>(U"MyLevel")
@@ -63,7 +115,11 @@ void Main()
 			break;
 	}
 
-	//_CrtDumpMemoryLeaks();
+	world.reset(nullptr);
+
+	// 基本的にリークが発生することはない
+	// デバッグ時のみ有効
+	_DumpObjectMemryLeaks();
 }
 
 //
@@ -78,12 +134,18 @@ void Main()
 
 bool MyActor::awake()
 {
+	attachComponent<MyComponent>();
+	attachComponent<MyRenderer>();
+	attachComponent<MyUI>();
+	camera = attachComponent<Camera2DComponent>();
+
 	return true;
 }
 
 void MyActor::start()
 {
-	attachComponent<MyComponent>();
+	camera->setUpdateEnable(true);
+	camera->setDrawEnable(true);
 }
 
 void MyActor::update(double inDeltaTime)

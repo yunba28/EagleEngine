@@ -8,6 +8,8 @@ namespace eagle
 	class Actor;
 	class Component;
 
+	class Renderer;
+
 	class LevelBase;
 	class Level;
 	class SubLevel;

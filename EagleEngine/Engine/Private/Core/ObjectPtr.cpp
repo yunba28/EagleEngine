@@ -4,11 +4,13 @@
 #include <Core/Object.hpp>
 #include <Container/HashSet.hpp>
 
+//#include <Siv3D/TextWriter.hpp>
+
 namespace eagle
 {
 	HashSet<uintptr> gObjectTable;
 
-	bool RegisterObjectHandle(Object* object)
+	bool RegisterObject(Object* object)
 	{
 		if (object == nullptr)
 			return false;
@@ -18,12 +20,17 @@ namespace eagle
 		return result;
 	}
 
-	bool UnregisterObjectHandle(Object* object)
+	bool UnregisterAndDestroyObject(Object* object)
 	{
 		if (object == nullptr)
 			return false;
 
-		return gObjectTable.erase(MakeHandle(object)) == 1;
+		bool result = gObjectTable.erase(MakeHandle(object)) == 1;
+
+		object->destroy();
+		delete object;
+
+		return result;
 	}
 
 	bool IsValidByObject(const Object* object)
@@ -32,6 +39,28 @@ namespace eagle
 			return false;
 
 		return gObjectTable.contains(MakeHandle(object));
+	}
+
+	void _DumpObjectMemryLeaks()
+	{
+#if _DEBUG
+
+		TextWriter writer(U"Debug/dump_log.txt");
+
+		if (gObjectTable.empty())
+		{
+			writer.writeln(U"The object does not have any memory leaks.");
+			return;
+		}
+
+		writer.writeln(U"Object Memory Leaks!");
+
+		for (auto ptr : gObjectTable)
+		{
+			Object* object = reinterpret_cast<Object*>(ptr);
+			writer.writeln(U"  {} at 0X{:X}"_fmt(object->typeName(), ptr));
+		}
+#endif
 	}
 
 	bool ObjectPtrBase::isA(const TypeIndex& inTypeIndex) const noexcept
@@ -59,5 +88,10 @@ namespace eagle
 			return mPtr->isA(inObject);
 		}
 		return false;
+	}
+
+	void ObjectPtrBase::CallDestroy(Object* inObject)
+	{
+		inObject->destroy();
 	}
 }

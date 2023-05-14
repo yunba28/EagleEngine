@@ -83,7 +83,6 @@ namespace eagle
 		if (mNextLevel)
 		{
 			ensure(mCurrentLevel, "empty level");
-			mCurrentLevel->_internalDestruct();
 			mCurrentLevel.reset(std::move(mNextLevel));
 		}
 
