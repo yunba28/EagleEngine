@@ -63,14 +63,26 @@ namespace eagle
 		Array<String> getTags()const noexcept;
 		bool hasTag(const String& inTag)const;
 
+		/*--- Transform Functions -------------------------------------*/
+
 		void setLocalPosition(Vec3 newLocalPos)noexcept
 		{
 			mTransform.setPosition(newLocalPos);
 		}
 
+		const Vec3& getLocalPosition()const noexcept
+		{
+			mTransform.getPosition();
+		}
+
 		void setWorldPosition(Vec3 newWorldPos)noexcept
 		{
-			mTransform.setPosition(Transform::GetLocalPosition(this));
+			mTransform.setPosition(Transform::GetLocalPosition(this, newWorldPos));
+		}
+
+		Vec3 getWorldObject()const
+		{
+			Transform::GetWorldPosition(this, mTransform.getPosition());
 		}
 
 		void setTransform(const Transform& newTransform)noexcept
@@ -82,6 +94,8 @@ namespace eagle
 		{
 			return mTransform;
 		}
+
+		/*-------------------------------------------------------------*/
 
 		void setCustomTimeDilation(double newTimeDilation)noexcept
 		{
@@ -182,6 +196,4 @@ namespace eagle
 		bool mUpdateEnabled = true;
 
 	};
-
-	constexpr auto s = sizeof(WorldObject);
 }

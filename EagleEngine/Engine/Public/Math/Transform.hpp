@@ -17,25 +17,25 @@ namespace eagle
 		Transform& operator=(Transform&&) = default;
 		Transform& operator=(const Transform&) = default;
 
-		Transform(Vec3 newPosition)
+		Transform(const Vec3& newPosition)
 			: mPosition(newPosition)
 			, mRotation(Quaternion::Identity())
 			, mScale(Vec3::One())
 		{}
 
-		Transform(Vec3 newPosition, Quaternion newRotation)
+		Transform(const Vec3& newPosition, const Quaternion& newRotation)
 			: mPosition(newPosition)
 			, mRotation(newRotation)
 			, mScale(Vec3::One())
 		{}
 
-		Transform(Vec3 newPosition, Quaternion newRotation, Vec3 newScale)
+		Transform(const Vec3& newPosition, const Quaternion& newRotation, const Vec3& newScale)
 			: mPosition(newPosition)
 			, mRotation(newRotation)
 			, mScale(newScale)
 		{}
 
-		Transform(Vec3 newPosition, Vec3 newEuler, Vec3 newScale)
+		Transform(const Vec3& newPosition, const Vec3& newEuler, const Vec3& newScale)
 			: mPosition(newPosition)
 			, mRotation(Quaternion::RollPitchYaw(newEuler.x, newEuler.y, newEuler.z))
 			, mScale(newScale)
@@ -50,44 +50,44 @@ namespace eagle
 			mScale = newTransform.mScale;
 		}
 
-		void setPositionAndRotation(Vec3 newPosition, Quaternion newRotation)noexcept
+		void setPositionAndRotation(const Vec3& newPosition, const Quaternion& newRotation)noexcept
 		{
 			mPosition = newPosition;
 			mRotation = newRotation;
 		}
 
-		void setPositionAndRotation(Vec3 newPosition, Vec3 newEuler)noexcept
+		void setPositionAndRotation(const Vec3& newPosition, const Vec3& newEuler)noexcept
 		{
 			mPosition = newPosition;
 			mRotation = Quaternion::RollPitchYaw(newEuler.x, newEuler.y, newEuler.z);
 		}
 
-		void setPosition(Vec3 newPosition)noexcept
+		void setPosition(const Vec3& newPosition)noexcept
 		{
 			mPosition = newPosition;
 		}
 
-		Vec3 getPosition()const noexcept
+		const Vec3& getPosition()const noexcept
 		{
 			return mPosition;
 		}
 
-		void setRotation(Quaternion newRotation)noexcept
+		void setRotation(const Quaternion& newRotation)noexcept
 		{
 			mRotation = newRotation;
 		}
 
-		void setRotation(Vec3 newEuler)noexcept
+		void setRotation(const Vec3& newEuler)noexcept
 		{
 			mRotation = Quaternion::RollPitchYaw(newEuler.x, newEuler.y, newEuler.z);
 		}
 
-		Quaternion getRotation()const noexcept
+		const Quaternion& getRotation()const noexcept
 		{
 			return mRotation;
 		}
 
-		void setScale(Vec3 newScale)noexcept
+		void setScale(const Vec3& newScale)noexcept
 		{
 			mScale = newScale;
 		}
@@ -97,22 +97,22 @@ namespace eagle
 			mScale = Vec3{ newScale,newScale,newScale };
 		}
 
-		Vec3 getScale()const noexcept
+		const Vec3& getScale()const noexcept
 		{
 			return mScale;
 		}
 
-		void addPosition(Vec3 inVec)noexcept
+		void addPosition(const Vec3& inVec)noexcept
 		{
 			mPosition += inVec;
 		}
 
-		void addRotation(Quaternion inQuat)noexcept
+		void addRotation(const Quaternion& inQuat)noexcept
 		{
 			mRotation *= inQuat;
 		}
 
-		void addRotation(Vec3 inEuler)noexcept
+		void addRotation(const Vec3& inEuler)noexcept
 		{
 			mRotation *= Quaternion::RollPitchYaw(inEuler.x, inEuler.y, inEuler.z);
 		}
@@ -120,10 +120,10 @@ namespace eagle
 	public:
 
 		static Transform Identity();
-		static Vec3 GetLocalPosition(WorldObject* inWorldObject);
-		static Vec3 GetWorldPosition(WorldObject* inWorldObject);
-		static Quaternion GetLocalRotation(WorldObject* inWorldObject);
-		static Quaternion GetWorldRotation(WorldObject* inWorldObject);
+		static Vec3 GetLocalPosition(const WorldObject* inWorldObject, const Vec3& inWorldPos);
+		static Vec3 GetWorldPosition(const WorldObject* inWorldObject, const Vec3& inLocalPos);
+		static Quaternion GetLocalRotation(const WorldObject* inWorldObject, const Quaternion& inWorldRot);
+		static Quaternion GetWorldRotation(const WorldObject* inWorldObject, const Quaternion& inLocalRot);
 
 	private:
 
