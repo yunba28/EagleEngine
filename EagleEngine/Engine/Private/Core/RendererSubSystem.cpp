@@ -142,7 +142,6 @@ namespace eagle
 		, mCamera3D(std::make_shared<DebugCamera3D>(s3d::Scene::Size(), 30_deg, Vec3{ 10, 16, -32 }))
 		, mRenderTexture(s3d::Scene::Size(), TextureFormat::R8G8B8A8_Unorm_SRGB, HasDepth::Yes)
 		, mBackgroundColor(Palette::DefaultBackground)
-		, mIsSubLevel(false)
 	{
 	}
 
@@ -173,25 +172,11 @@ namespace eagle
 	void RendererSubSystem::_internalAttachToLevel(LevelBase* newLevel)
 	{
 		SubSystem::_internalAttachToLevel(newLevel);
-		mIsSubLevel = newLevel->hasInherited(ObjectInherited::SubLevel);
 	}
 
 	void RendererSubSystem::draw() const
 	{
 		// Drawing WorldSpace
-		if(mIsSubLevel)
-		{
-			for (const auto& level : mSubLevels)
-			{
-				level->_internalDraw();
-			}
-
-			for (const auto& type : mExecutionOrder)
-			{
-				mRendererTable.at(type).drawWorldSpace();
-			}
-		}
-		else
 		{
 			// 3D シーンにカメラを設定
 			Graphics3D::SetCameraTransform(*mCamera3D);
@@ -209,7 +194,7 @@ namespace eagle
 			}
 
 			// 3D シーンを 2D シーンに描画
-			if(processed)
+			if (processed)
 			{
 				// renderTexture を resolve する前に 3D 描画を実行する
 				Graphics3D::Flush();

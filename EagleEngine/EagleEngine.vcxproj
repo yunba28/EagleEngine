@@ -129,6 +129,7 @@
     <ClCompile Include="Engine\Private\GameFramework\LevelBase.cpp" />
     <ClCompile Include="Engine\Private\GameFramework\SubSystem.cpp" />
     <ClCompile Include="Engine\Private\GameFramework\World.cpp" />
+    <ClCompile Include="Engine\Private\Math\Transform.cpp" />
     <ClCompile Include="Engine\Private\Misc\HashString.cpp" />
     <ClCompile Include="Engine\Private\Render\Renderer.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -332,6 +333,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Public\Components\Camera2DComponent.hpp" />
+    <ClInclude Include="Engine\Public\Components\CameraManager.hpp" />
     <ClInclude Include="Engine\Public\Concept\Invocable.hpp" />
     <ClInclude Include="Engine\Public\Concept\IsType.hpp" />
     <ClInclude Include="Engine\Public\Container\Array.hpp" />
@@ -360,6 +362,7 @@
     <ClInclude Include="Engine\Public\GameFramework\SubLevel.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\SubSystem.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\World.hpp" />
+    <ClInclude Include="Engine\Public\Math\Transform.hpp" />
     <ClInclude Include="Engine\Public\Misc\ensure.hpp" />
     <ClInclude Include="Engine\Public\Misc\Function.hpp" />
     <ClInclude Include="Engine\Public\Misc\HashString.hpp" />

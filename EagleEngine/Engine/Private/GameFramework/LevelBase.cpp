@@ -60,13 +60,6 @@ namespace eagle
 		return mWorldObjectSubSystem->createObject(inObjectClass, newName, newOwner);
 	}
 
-	ObjectRef<WorldObject> LevelBase::createSubLevel(const ObjectClass& inObjectClass, const String& newName)
-	{
-		if (!inObjectClass.hasInherited(ObjectInherited::SubLevel))
-			return ObjectRef<WorldObject>();
-		return mWorldObjectSubSystem->createObject(inObjectClass, newName, nullptr);
-	}
-
 	ObjectRef<WorldObject> LevelBase::findByName(const TypeIndex& inFindType, const String& inName) const
 	{
 		return mWorldObjectSubSystem->findByName(inFindType, inName);

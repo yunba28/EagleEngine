@@ -2,6 +2,7 @@
 
 #include <Core/Object.hpp>
 #include <Container/Array.hpp>
+#include <Math/Transform.hpp>
 #include <Misc/HashString.hpp>
 
 namespace eagle
@@ -61,6 +62,26 @@ namespace eagle
 		void removeTag(const String& inTag);
 		Array<String> getTags()const noexcept;
 		bool hasTag(const String& inTag)const;
+
+		void setLocalPosition(Vec3 newLocalPos)noexcept
+		{
+			mTransform.setPosition(newLocalPos);
+		}
+
+		void setWorldPosition(Vec3 newWorldPos)noexcept
+		{
+			mTransform.setPosition(Transform::GetLocalPosition(this));
+		}
+
+		void setTransform(const Transform& newTransform)noexcept
+		{
+			mTransform = newTransform;
+		}
+
+		const Transform& getTransform()const noexcept
+		{
+			return mTransform;
+		}
 
 		void setCustomTimeDilation(double newTimeDilation)noexcept
 		{
@@ -145,6 +166,8 @@ namespace eagle
 		ObjectRef<Actor> mOwner = nullptr;
 
 		Array<HashString> mTags = {};
+
+		Transform mTransform = Transform::Identity();
 
 		double mCustomTimeDilation = 1.0;
 

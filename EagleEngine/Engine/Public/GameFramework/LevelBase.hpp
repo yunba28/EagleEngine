@@ -30,7 +30,6 @@ namespace eagle
 		ObjectRef<SubSystem> addSubSystem(const ObjectClass& inObjectClass);
 		ObjectRef<WorldObject> createActor(const ObjectClass& inObjectClass, const String& newName, Actor* newOwner);
 		ObjectRef<WorldObject> createComponent(const ObjectClass& inObjectClass, const String& newName, Actor* newOwner);
-		ObjectRef<WorldObject> createSubLevel(const ObjectClass& inObjectClass, const String& newName);
 
 		template<Concept::IsSubSystem SubSystemType>
 		ObjectRef<SubSystemType> addSubSystem()
@@ -60,12 +59,6 @@ namespace eagle
 		ObjectRef<ComponentType> createComponent(Actor* newOwner, const String& newName)
 		{
 			return Cast<ComponentType>(createComponent(CreateObjectClass<ComponentType>(), newName, newOwner));
-		}
-
-		template<class SubLevelType>
-		ObjectRef<SubLevelType> createSubLevel(const String& newName = U"")
-		{
-			return Cast<SubLevelType>(createSubLevel(CreateObjectClass<SubLevelType>(), newName));
 		}
 
 		ObjectRef<WorldObject> findByName(const TypeIndex& inFindType, const String& inName)const;

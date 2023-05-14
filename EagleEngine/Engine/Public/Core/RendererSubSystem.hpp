@@ -91,16 +91,12 @@ namespace eagle
 		Array<TypeIndex> mExecutionOrder;
 		Array<TypeIndex> mOrderQueue;
 
-		Array<ObjectRef<SubLevel>> mSubLevels;
-
 		std::shared_ptr<s3d::BasicCamera2D> mCamera2D;
 		std::shared_ptr<s3d::BasicCamera3D> mCamera3D;
 
 		s3d::MSRenderTexture mRenderTexture;
 
 		Color mBackgroundColor;
-
-		bool mIsSubLevel;
 
 	};
 }

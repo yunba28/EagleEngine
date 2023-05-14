@@ -181,6 +181,12 @@
     <Filter Include="Engine\Private\Components">
       <UniqueIdentifier>{33dd4b66-68a4-4b31-bd8c-56671484bf01}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Private\Math">
+      <UniqueIdentifier>{c389e377-5fbd-4320-a975-2846e419a867}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Public\Math">
+      <UniqueIdentifier>{b6502e2b-c851-4c16-a7ae-52ca1a943b22}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -236,6 +242,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Private\Components\Camera2DComponent.cpp">
       <Filter>Engine\Private\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Private\Math\Transform.cpp">
+      <Filter>Engine\Private\Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -976,6 +985,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Public\Components\Camera2DComponent.hpp">
       <Filter>Engine\Public\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Public\Components\CameraManager.hpp">
+      <Filter>Engine\Public\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Public\Math\Transform.hpp">
+      <Filter>Engine\Public\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
