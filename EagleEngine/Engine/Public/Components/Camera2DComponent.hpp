@@ -2,6 +2,8 @@
 
 #include <Render/Renderer.hpp>
 
+#include <Siv3D/Camera2DParameters.hpp>
+
 namespace s3d
 {
 	class Camera2D;
@@ -9,14 +11,8 @@ namespace s3d
 
 namespace eagle
 {
-	class CameraManager;
-
 	class Camera2DComponent : public Renderer
 	{
-	private:
-
-		using MovableCamera = s3d::Camera2D;
-
 	public:
 
 		Camera2DComponent();
@@ -31,11 +27,21 @@ namespace eagle
 
 		virtual void _internalConstruct()override;
 
+	public:
+
+		void setCenter(const Vec2& newCenter)noexcept;
+		const Vec2& getCenter()const noexcept;
+		void setScale(double newScale)noexcept;
+		double getScale()const noexcept;
+
+		void jumpTo(const Vec2& newCenter, double newScale)noexcept;
+
+		void setCameraParameters(const Camera2DParameters& newParameters);
+		const Camera2DParameters& getcameraParameters()const noexcept;
+
 	private:
 
-		std::shared_ptr<MovableCamera> mMovableCamera2D;
-
-		ObjectRef<CameraManager> mCameraManager;
+		std::shared_ptr<s3d::Camera2D> mCamera2D;
 
 	};
 }

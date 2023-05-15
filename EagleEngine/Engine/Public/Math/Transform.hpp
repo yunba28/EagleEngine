@@ -2,6 +2,7 @@
 
 #include <CoreFwd.hpp>
 #include <CoreCommons.hpp>
+#include <Interface/ITransformable.hpp>
 
 namespace eagle
 {
@@ -120,10 +121,10 @@ namespace eagle
 	public:
 
 		static Transform Identity();
-		static Vec3 GetLocalPosition(const WorldObject* inWorldObject, const Vec3& inWorldPos);
-		static Vec3 GetWorldPosition(const WorldObject* inWorldObject, const Vec3& inLocalPos);
-		static Quaternion GetLocalRotation(const WorldObject* inWorldObject, const Quaternion& inWorldRot);
-		static Quaternion GetWorldRotation(const WorldObject* inWorldObject, const Quaternion& inLocalRot);
+		static Vec3 GetLocalPosition(ITransformable* inTransform, const Vec3& inWorldPosition);
+		static Vec3 GetWorldPosition(ITransformable* inTransform, const Vec3& inLocalPosition);
+		static Quaternion GetLocalRotation(ITransformable* inTransform, const Quaternion& inWorldRotation);
+		static Quaternion GetWorldRotation(ITransformable* inTransform, const Quaternion& inLocalRotation);
 
 	private:
 

@@ -187,6 +187,9 @@
     <Filter Include="Engine\Public\Math">
       <UniqueIdentifier>{b6502e2b-c851-4c16-a7ae-52ca1a943b22}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Public\Interface">
+      <UniqueIdentifier>{c489fe9c-49c7-456c-ace3-3f6442944ca3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -245,6 +248,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Private\Math\Transform.cpp">
       <Filter>Engine\Private\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Private\Components\Camera3DComponent.cpp">
+      <Filter>Engine\Private\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -986,11 +992,14 @@
     <ClInclude Include="Engine\Public\Components\Camera2DComponent.hpp">
       <Filter>Engine\Public\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Public\Components\CameraManager.hpp">
-      <Filter>Engine\Public\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Public\Math\Transform.hpp">
       <Filter>Engine\Public\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Public\Components\Camera3DComponent.hpp">
+      <Filter>Engine\Public\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Public\Interface\ITransformable.hpp">
+      <Filter>Engine\Public\Interface</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

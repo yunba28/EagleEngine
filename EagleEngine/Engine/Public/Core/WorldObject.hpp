@@ -31,7 +31,7 @@ namespace eagle
 			ensure(false, "Failed to execute the awake function");
 		}
 
-		virtual void _internalUpdate([[maybe_unused]] double inDeltaTime)
+		virtual void _internalUpdate(double inDeltaTime)
 		{
 			if (mActive && mUpdateEnabled)
 			{
@@ -62,40 +62,6 @@ namespace eagle
 		void removeTag(const String& inTag);
 		Array<String> getTags()const noexcept;
 		bool hasTag(const String& inTag)const;
-
-		/*--- Transform Functions -------------------------------------*/
-
-		void setLocalPosition(Vec3 newLocalPos)noexcept
-		{
-			mTransform.setPosition(newLocalPos);
-		}
-
-		const Vec3& getLocalPosition()const noexcept
-		{
-			mTransform.getPosition();
-		}
-
-		void setWorldPosition(Vec3 newWorldPos)noexcept
-		{
-			mTransform.setPosition(Transform::GetLocalPosition(this, newWorldPos));
-		}
-
-		Vec3 getWorldObject()const
-		{
-			Transform::GetWorldPosition(this, mTransform.getPosition());
-		}
-
-		void setTransform(const Transform& newTransform)noexcept
-		{
-			mTransform = newTransform;
-		}
-
-		const Transform& getTransform()const noexcept
-		{
-			return mTransform;
-		}
-
-		/*-------------------------------------------------------------*/
 
 		void setCustomTimeDilation(double newTimeDilation)noexcept
 		{
@@ -180,8 +146,6 @@ namespace eagle
 		ObjectRef<Actor> mOwner = nullptr;
 
 		Array<HashString> mTags = {};
-
-		Transform mTransform = Transform::Identity();
 
 		double mCustomTimeDilation = 1.0;
 

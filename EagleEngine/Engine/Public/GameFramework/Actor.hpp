@@ -2,10 +2,11 @@
 
 #include <Core/WorldObject.hpp>
 #include <Core/ObjectClass.hpp>
+#include <Math/Transform.hpp>
 
 namespace eagle
 {
-	class Actor : public WorldObject
+	class Actor : public WorldObject, public ITransformable
 	{
 	public:
 
@@ -72,9 +73,39 @@ namespace eagle
 			return false;
 		}
 
+		/*--- ITransformable --------------------------------------------------*/
+
+		const Transform& getTransform()const override
+		{
+			return mTransform;
+		}
+
+		ObjectRef<Actor> getParent()const override
+		{
+			return getOwner();
+		}
+
+		/*--- Transform -------------------------------------------------------*/
+
+		void setActorTransform(const Transform& newTransform)noexcept
+		{
+			mTransform = newTransform;
+		}
+
+		const Transform& getActorTransform()const noexcept
+		{
+			return mTransform;
+		}
+
+		/*---------------------------------------------------------------------*/
+
 	private:
 
 		ObjectRef<WorldObject> createComponent(const ObjectClass& inObjectClass, const String& newName);
+
+	private:
+
+		Transform mTransform = Transform::Identity();
 
 	};
 

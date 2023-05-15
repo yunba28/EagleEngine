@@ -116,6 +116,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Private\Components\Camera2DComponent.cpp" />
+    <ClCompile Include="Engine\Private\Components\Camera3DComponent.cpp" />
     <ClCompile Include="Engine\Private\Core\ExecutionOrder.cpp" />
     <ClCompile Include="Engine\Private\Core\Name.cpp" />
     <ClCompile Include="Engine\Private\Core\Object.cpp" />
@@ -333,7 +334,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Public\Components\Camera2DComponent.hpp" />
-    <ClInclude Include="Engine\Public\Components\CameraManager.hpp" />
+    <ClInclude Include="Engine\Public\Components\Camera3DComponent.hpp" />
     <ClInclude Include="Engine\Public\Concept\Invocable.hpp" />
     <ClInclude Include="Engine\Public\Concept\IsType.hpp" />
     <ClInclude Include="Engine\Public\Container\Array.hpp" />
@@ -362,6 +363,7 @@
     <ClInclude Include="Engine\Public\GameFramework\SubLevel.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\SubSystem.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\World.hpp" />
+    <ClInclude Include="Engine\Public\Interface\ITransformable.hpp" />
     <ClInclude Include="Engine\Public\Math\Transform.hpp" />
     <ClInclude Include="Engine\Public\Misc\ensure.hpp" />
     <ClInclude Include="Engine\Public\Misc\Function.hpp" />
