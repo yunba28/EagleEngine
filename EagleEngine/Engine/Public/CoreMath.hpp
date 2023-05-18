@@ -1,7 +1,5 @@
 ﻿#pragma once
 
-#include <CoreColors.hpp>
-
 #include <Siv3D/Point.hpp>
 #include <Siv3D/Vector2D.hpp>
 #include <Siv3D/Vector3D.hpp>

@@ -1,10 +1,11 @@
 ﻿#pragma once
 
 #include <Core/Object.hpp>
+#include <Interface/IUpdatable.hpp>
 
 namespace eagle
 {
-	class SubSystem : public Object
+	class SubSystem : public Object, public IUpdatable
 	{
 	public:
 
@@ -15,26 +16,27 @@ namespace eagle
 
 		virtual bool awake()override { return true; }
 		virtual bool dispose()override { return true; }
-		virtual void update([[maybe_unused]] double inDeltaTime) = 0;
+		virtual void start()override {}
 
 	public:
 
-		virtual void _internalAttachToLevel(LevelBase* newLevel);
+		virtual void _internalUpdate(double inDeltaTime)override;
+		virtual void _internalAttachToLevel(Level* newLevel);
 
 	public:
 
-		ObjectRef<LevelBase> getLevel()const noexcept
+		ObjectRef<Level> getLevel()const noexcept
 		{
 			return mLevel;
 		}
 
 	private:
 
-		ObjectRef<LevelBase> mLevel;
+		ObjectRef<Level> mLevel = nullptr;
 
-		friend class LevelBase;
+		bool mStarted = false;
+
 		friend class Level;
-		friend class SubLevel;
 
 	};
 }

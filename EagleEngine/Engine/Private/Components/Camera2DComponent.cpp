@@ -1,7 +1,7 @@
 ﻿#include <Components/Camera2DComponent.hpp>
 
 #include <Core/RendererSubSystem.hpp>
-#include <GameFramework/LevelBase.hpp>
+#include <GameFramework/Level.hpp>
 
 #include <Siv3D/Camera2D.hpp>
 

@@ -1,8 +1,8 @@
 ﻿#include <Core/WorldObjectSubSystem.hpp>
 
-#include <Core/WorldObject.hpp>
 #include <Core/ExecutionOrder.hpp>
-#include <GameFramework/LevelBase.hpp>
+#include <GameFramework/Actor.hpp>
+#include <GameFramework/Level.hpp>
 
 namespace eagle
 {

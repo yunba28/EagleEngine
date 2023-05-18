@@ -1,7 +1,7 @@
 ﻿#include <Render/Renderer.hpp>
 
 #include <Core/RendererSubSystem.hpp>
-#include <GameFramework/LevelBase.hpp>
+#include <GameFramework/Level.hpp>
 
 namespace eagle
 {

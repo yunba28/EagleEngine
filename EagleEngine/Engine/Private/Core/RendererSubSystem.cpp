@@ -2,7 +2,7 @@
 
 #include <Render/Renderer.hpp>
 #include <Core/ExecutionOrder.hpp>
-#include <GameFramework/SubLevel.hpp>
+#include <GameFramework/Level.hpp>
 
 namespace eagle
 {
@@ -169,7 +169,7 @@ namespace eagle
 		}
 	}
 
-	void RendererSubSystem::_internalAttachToLevel(LevelBase* newLevel)
+	void RendererSubSystem::_internalAttachToLevel(Level* newLevel)
 	{
 		SubSystem::_internalAttachToLevel(newLevel);
 	}

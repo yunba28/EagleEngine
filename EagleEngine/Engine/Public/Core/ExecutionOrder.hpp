@@ -54,12 +54,6 @@ namespace eagle
 			Set(typeid(RendererType), newOrder);
 		}
 
-		template<Concept::IsSubLevel SubLevelType>
-		static void SetForSubLevel(int32 newOrder)
-		{
-			Set(typeid(SubLevelType), newOrder);
-		}
-
 		static int32 Get(const TypeIndex& inTypeIndex);
 		static int32 Get(const TypeIndex& inTypeIndex, ActorOrder);
 		static int32 Get(const TypeIndex& inTypeIndex, ComponentOrder);
@@ -82,12 +76,6 @@ namespace eagle
 		static int32 GetForRenderer()
 		{
 			return Get(typeid(RendererType), RendererOrder{});
-		}
-
-		template<Concept::IsSubLevel SubLevelType>
-		static int32 GetForSubLevel()
-		{
-			return Get(typeid(SubLevelType), SubLevelOrder{});
 		}
 	};
 }

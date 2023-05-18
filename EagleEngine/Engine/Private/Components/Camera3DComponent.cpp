@@ -1,7 +1,7 @@
 ﻿#include <Components/Camera3DComponent.hpp>
 
 #include <Core/RendererSubSystem.hpp>
-#include <GameFramework/LevelBase.hpp>
+#include <GameFramework/Level.hpp>
 
 #include <Siv3D/DebugCamera3D.hpp>
 

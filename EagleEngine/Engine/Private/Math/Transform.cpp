@@ -1,6 +1,6 @@
 ﻿#include <Math/Transform.hpp>
 
-#include <GameFramework/Actor.hpp>
+#include <Core/WorldObject.hpp>
 
 namespace eagle
 {
@@ -9,56 +9,24 @@ namespace eagle
 		return Transform{ Vec3::Zero(),Quaternion::Identity(),Vec3::One() };
 	}
 
-	Vec3 Transform::GetLocalPosition(ITransformable* inTransform, const Vec3& inWorldPosition)
+	Vec3 Transform::WorldToLocalPosition(WorldObject* inWorldObject, const Vec3& inWorldPos)
 	{
-		Vec3 localPos = inWorldPosition;
-		auto owner = inTransform->getParent();
-		while (owner)
-		{
-			const Transform& transform = inTransform->getTransform();;
-			localPos -= transform.getPosition();
-			owner = owner->getParent();
-		}
-		return localPos;
+		return Vec3();
 	}
 
-	Vec3 Transform::GetWorldPosition(ITransformable* inTransform, const Vec3& inLocalPosition)
+	Vec3 Transform::LocalToWorldPosition(WorldObject* inWorldObject, const Vec3& inLocalPos)
 	{
-		Vec3 worldPos = inLocalPosition;
-		auto owner = inTransform->getParent();
-		while (owner)
-		{
-			const Transform& transform = inTransform->getTransform();;
-			worldPos += transform.getPosition();
-			owner = owner->getParent();
-		}
-		return worldPos;
+		return Vec3();
 	}
 
-	Quaternion Transform::GetLocalRotation(ITransformable* inTransform, const Quaternion& inWorldRotation)
+	Quaternion Transform::WorldToLocalRotation(WorldObject* inWorldObject, const Quaternion& inWorldRot)
 	{
-		Quaternion localRot = inWorldRotation;
-		auto owner = inTransform->getParent();
-		while (owner)
-		{
-			const Transform& transform = inTransform->getTransform();
-			localRot *= transform.getRotation().conjugated();
-			owner = owner->getParent();
-		}
-		return localRot;
+		return Quaternion();
 	}
 
-	Quaternion Transform::GetWorldRotation(ITransformable* inTransform, const Quaternion& inLocalRotation)
+	Quaternion Transform::LocalToWorldRotation(WorldObject* inWorldObject, const Quaternion& inLocalRot)
 	{
-		Quaternion worldRot = inLocalRotation;
-		auto owner = inTransform->getParent();
-		while (owner)
-		{
-			const Transform& transform = inTransform->getTransform();
-			worldRot *= transform.getRotation();
-			owner = owner->getParent();
-		}
-		return worldRot;
+		return Quaternion();
 	}
 
 }

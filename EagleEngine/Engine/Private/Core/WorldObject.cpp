@@ -7,20 +7,20 @@ namespace eagle
 {
 	double WorldObject::sGlobalTimeDilation = 1.0;
 
-	void WorldObject::_internalAttachToLevel(LevelBase* inLevel)
+	void WorldObject::_internalAttachToLevel(Level* newLevel)
 	{
 		ensure(mLevel.invalid(), "The object is already registered in Level");
-		mLevel = inLevel;
+		mLevel = newLevel;
 	}
 
-	void WorldObject::_internalAttachToOwner(Actor* inOwner)
+	void WorldObject::_internalAttachToOwner(WorldObject* newOwner)
 	{
-		mOwner = inOwner;
+		mOwner = newOwner;
 	}
 
-	bool WorldObject::isOwner(const Actor* const inOwner) const noexcept
+	void WorldObject::_internalDetachToOwner()
 	{
-		return mOwner == *inOwner;
+		mOwner = nullptr;
 	}
 
 	void WorldObject::addTag(const String& newTag)

@@ -2,11 +2,10 @@
 
 #include <Core/WorldObject.hpp>
 #include <Core/ObjectClass.hpp>
-#include <Math/Transform.hpp>
 
 namespace eagle
 {
-	class Actor : public WorldObject, public ITransformable
+	class Actor : public WorldObject
 	{
 	public:
 
@@ -16,11 +15,15 @@ namespace eagle
 	protected:
 
 		virtual bool awake()override { return true; }
+		virtual bool dispose()override { return true; }
 		virtual void start()override {}
 		virtual void update(double)override {}
-		virtual bool dispose()override { return true; }
 
 	public:
+
+		void attachToActor(Actor* newOwner);
+		void attachToComponent(Component* newOwner);
+		void detachToOwner();
 
 		template<Concept::IsComponent ComponentType>
 		ObjectRef<ComponentType> attachComponent()
@@ -73,39 +76,9 @@ namespace eagle
 			return false;
 		}
 
-		/*--- ITransformable --------------------------------------------------*/
-
-		const Transform& getTransform()const override
-		{
-			return mTransform;
-		}
-
-		ObjectRef<Actor> getParent()const override
-		{
-			return getOwner();
-		}
-
-		/*--- Transform -------------------------------------------------------*/
-
-		void setActorTransform(const Transform& newTransform)noexcept
-		{
-			mTransform = newTransform;
-		}
-
-		const Transform& getActorTransform()const noexcept
-		{
-			return mTransform;
-		}
-
-		/*---------------------------------------------------------------------*/
-
 	private:
 
 		ObjectRef<WorldObject> createComponent(const ObjectClass& inObjectClass, const String& newName);
-
-	private:
-
-		Transform mTransform = Transform::Identity();
 
 	};
 

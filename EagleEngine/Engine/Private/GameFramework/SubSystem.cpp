@@ -1,10 +1,21 @@
 ﻿#include <GameFramework/SubSystem.hpp>
 
-#include <GameFramework/LevelBase.hpp>
+#include <GameFramework/Level.hpp>
 
 namespace eagle
 {
-	void SubSystem::_internalAttachToLevel(LevelBase* newLevel)
+	void SubSystem::_internalUpdate(double inDeltaTime)
+	{
+		if (!mStarted)
+		{
+			start();
+			mStarted = true;
+		}
+
+		update(inDeltaTime);
+	}
+
+	void SubSystem::_internalAttachToLevel(Level* newLevel)
 	{
 		ensure(mLevel.invalid(), "The SubSystem is already registered in Level");
 		mLevel = newLevel;

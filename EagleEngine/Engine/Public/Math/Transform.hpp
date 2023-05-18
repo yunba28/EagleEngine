@@ -1,8 +1,7 @@
 ﻿#pragma once
 
 #include <CoreFwd.hpp>
-#include <CoreCommons.hpp>
-#include <Interface/ITransformable.hpp>
+#include <CoreMath.hpp>
 
 namespace eagle
 {
@@ -20,26 +19,26 @@ namespace eagle
 
 		Transform(const Vec3& newPosition)
 			: mPosition(newPosition)
-			, mRotation(Quaternion::Identity())
 			, mScale(Vec3::One())
+			, mRotation(Quaternion::Identity())
 		{}
 
 		Transform(const Vec3& newPosition, const Quaternion& newRotation)
 			: mPosition(newPosition)
-			, mRotation(newRotation)
 			, mScale(Vec3::One())
+			, mRotation(newRotation)
 		{}
 
 		Transform(const Vec3& newPosition, const Quaternion& newRotation, const Vec3& newScale)
 			: mPosition(newPosition)
-			, mRotation(newRotation)
 			, mScale(newScale)
+			, mRotation(newRotation)
 		{}
 
 		Transform(const Vec3& newPosition, const Vec3& newEuler, const Vec3& newScale)
 			: mPosition(newPosition)
-			, mRotation(Quaternion::RollPitchYaw(newEuler.x, newEuler.y, newEuler.z))
 			, mScale(newScale)
+			, mRotation(Quaternion::RollPitchYaw(newEuler.x, newEuler.y, newEuler.z))
 		{}
 
 	public:
@@ -118,19 +117,25 @@ namespace eagle
 			mRotation *= Quaternion::RollPitchYaw(inEuler.x, inEuler.y, inEuler.z);
 		}
 
+		void addScale(const Vec3& inVec)noexcept
+		{
+			mScale += inVec;
+		}
+
 	public:
 
 		static Transform Identity();
-		static Vec3 GetLocalPosition(ITransformable* inTransform, const Vec3& inWorldPosition);
-		static Vec3 GetWorldPosition(ITransformable* inTransform, const Vec3& inLocalPosition);
-		static Quaternion GetLocalRotation(ITransformable* inTransform, const Quaternion& inWorldRotation);
-		static Quaternion GetWorldRotation(ITransformable* inTransform, const Quaternion& inLocalRotation);
+		static Vec3 WorldToLocalPosition(WorldObject* inWorldObject, const Vec3& inWorldPos);
+		static Vec3 LocalToWorldPosition(WorldObject* inWorldObject, const Vec3& inLocalPos);
+		static Quaternion WorldToLocalRotation(WorldObject* inWorldObject, const Quaternion& inWorldRot);
+		static Quaternion LocalToWorldRotation(WorldObject* inWorldObject, const Quaternion& inLocalRot);
 
 	private:
 
 		Vec3 mPosition = Vec3::Zero();
-		Quaternion mRotation = Quaternion::Identity();
 		Vec3 mScale = Vec3::One();
+		Quaternion mRotation = Quaternion::Identity();
 
 	};
+
 }

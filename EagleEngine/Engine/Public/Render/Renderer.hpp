@@ -5,6 +5,8 @@
 
 namespace eagle
 {
+	class RendererSubSystem;
+
 	class Renderer : public Component
 	{
 	public:
@@ -55,7 +57,7 @@ namespace eagle
 
 	private:
 
-		ObjectRef<class RendererSubSystem> mRendererSubSystem;
+		ObjectRef<RendererSubSystem> mRendererSubSystem;
 
 		RenderType mRenderType = RenderType::Screen;
 

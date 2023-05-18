@@ -188,7 +188,7 @@
       <UniqueIdentifier>{b6502e2b-c851-4c16-a7ae-52ca1a943b22}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Public\Interface">
-      <UniqueIdentifier>{c489fe9c-49c7-456c-ace3-3f6442944ca3}</UniqueIdentifier>
+      <UniqueIdentifier>{6e265877-a6d4-43a5-9a9c-55dfa96c0306}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -221,9 +221,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Private\Core\ExecutionOrder.cpp">
       <Filter>Engine\Private\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Private\GameFramework\LevelBase.cpp">
-      <Filter>Engine\Private\GameFramework</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Private\GameFramework\World.cpp">
       <Filter>Engine\Private\GameFramework</Filter>
@@ -917,9 +914,6 @@
     <ClInclude Include="Engine\Public\Container\HashSet.hpp">
       <Filter>Engine\Public\Container</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Public\GameFramework\LevelBase.hpp">
-      <Filter>Engine\Public\GameFramework</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Public\GameFramework\Level.hpp">
       <Filter>Engine\Public\GameFramework</Filter>
     </ClInclude>
@@ -962,9 +956,6 @@
     <ClInclude Include="Engine\Public\Core\ObjectInherited.hpp">
       <Filter>Engine\Public\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Public\GameFramework\SubLevel.hpp">
-      <Filter>Engine\Public\GameFramework</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Public\GameFramework\World.hpp">
       <Filter>Engine\Public\GameFramework</Filter>
     </ClInclude>
@@ -983,7 +974,7 @@
     <ClInclude Include="Engine\Public\Render\RenderType.hpp">
       <Filter>Engine\Public\Render</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Public\CoreCommons.hpp">
+    <ClInclude Include="Engine\Public\CoreMath.hpp">
       <Filter>Engine\Public</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Public\CoreColors.hpp">
@@ -998,7 +989,7 @@
     <ClInclude Include="Engine\Public\Components\Camera3DComponent.hpp">
       <Filter>Engine\Public\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Public\Interface\ITransformable.hpp">
+    <ClInclude Include="Engine\Public\Interface\IUpdatable.hpp">
       <Filter>Engine\Public\Interface</Filter>
     </ClInclude>
   </ItemGroup>

@@ -10,9 +10,7 @@ namespace eagle
 
 	class Renderer;
 
-	class LevelBase;
 	class Level;
-	class SubLevel;
 
 	class SubSystem;
 

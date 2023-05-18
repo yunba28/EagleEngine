@@ -1,9 +1,27 @@
 ﻿#include <GameFramework/Actor.hpp>
 
-#include <gameFramework/LevelBase.hpp>
+#include <GameFramework/Component.hpp>
+#include <GameFramework/Level.hpp>
 
 namespace eagle
 {
+	void Actor::attachToActor(Actor* newOwner)
+	{
+		detachToOwner();
+		_internalAttachToOwner(newOwner);
+	}
+
+	void Actor::attachToComponent(Component* newOwner)
+	{
+		detachToOwner();
+		_internalAttachToOwner(newOwner);
+	}
+
+	void Actor::detachToOwner()
+	{
+		_internalDetachToOwner();
+	}
+
 	ObjectRef<WorldObject> Actor::findComponentByOwner(const TypeIndex& inFindType) const
 	{
 		if (auto level = getLevel(); level)

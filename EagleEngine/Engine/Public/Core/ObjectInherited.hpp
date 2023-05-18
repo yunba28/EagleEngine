@@ -5,18 +5,17 @@
 
 namespace eagle
 {
-	enum class ObjectInherited : uint32
+	enum class ObjectInherited : uint8
 	{
-		None = 0b00000000'00000000,
-		Object = 0b00000000'00000001,
-		WorldObject = 0b00000000'00000010,
-		Actor = 0b00000000'00000100,
-		Component = 0b00000000'00001000,
-		Renderer = 0b00000000'00010000,
-		Level = 0b00000000'00100000,
-		SubLevel = 0b00000000'01000000,
-		SubSystem = 0b00000000'10000000,
-		World = 0b10000000'00000000
+		None			= 0b0000'0000'0000,
+		Object			= 0b0000'0000'0001,
+		WorldObject		= 0b0000'0000'0010,
+		Actor			= 0b0000'0000'0100,
+		Component		= 0b0000'0000'1000,
+		Renderer		= 0b0000'0001'0000,
+		Level			= 0b0000'0010'0000,
+		SubSystem		= 0b0000'0100'0000,
+		World			= 0b0000'1000'0000
 	};
 
 	template<class ObjectType>
@@ -30,8 +29,6 @@ namespace eagle
 			return ObjectInherited::Renderer;
 		else if constexpr (std::is_base_of_v<Level, ObjectType>)
 			return ObjectInherited::Level;
-		else if constexpr (std::is_base_of_v<SubLevel, ObjectType>)
-			return ObjectInherited::SubLevel;
 		else if constexpr (std::is_base_of_v<SubSystem, ObjectType>)
 			return ObjectInherited::SubSystem;
 		else if constexpr (std::is_base_of_v<WorldObject, ObjectType>)
@@ -47,7 +44,7 @@ namespace eagle
 	inline ObjectInherited GetObjectInheritedBits()noexcept
 	{
 		using OI = ObjectInherited;
-		uint32 result = 0;
+		uint8 result = 0;
 
 		if constexpr (std::is_base_of_v<Actor, ObjectType>)
 			result = FromEnum(OI::Object) | FromEnum(OI::WorldObject) | FromEnum(OI::Actor);
@@ -57,8 +54,6 @@ namespace eagle
 			result = FromEnum(OI::Object) | FromEnum(OI::WorldObject) | FromEnum(OI::Component) | FromEnum(OI::Renderer);
 		else if constexpr (std::is_base_of_v<Level, ObjectType>)
 			result = FromEnum(OI::Object) | FromEnum(OI::Level);
-		else if constexpr (std::is_base_of_v<SubLevel, ObjectType>)
-			result = FromEnum(OI::Object) | FromEnum(OI::SubLevel);
 		else if constexpr (std::is_base_of_v<SubSystem, ObjectType>)
 			result = FromEnum(OI::Object) | FromEnum(OI::SubSystem);
 		else if constexpr (std::is_base_of_v<WorldObject, ObjectType>)

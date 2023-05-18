@@ -92,13 +92,6 @@ namespace eagle
 			return Cast<ComponentType>(createObject(objectClass, newName, newOwner));
 		}
 
-		template<Concept::IsSubLevel SubLevelType>
-		ObjectRef<SubLevelType> createSubLevel(const String& newName = U"")
-		{
-			ObjectClass objectClass = CreateObjectClass<SubLevelType>();
-			return Cast<SubLevelType>(createObject(objectClass, newName, nullptr));
-		}
-
 		ObjectRef<WorldObject> findByName(const TypeIndex& inFindType, const String& inName)const;
 
 		template<Concept::IsWorldObject WorldObjectType>

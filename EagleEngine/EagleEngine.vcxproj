@@ -127,7 +127,6 @@
     <ClCompile Include="Engine\Private\Core\WorldObjectSubSystem.cpp" />
     <ClCompile Include="Engine\Private\GameFramework\Actor.cpp" />
     <ClCompile Include="Engine\Private\GameFramework\Level.cpp" />
-    <ClCompile Include="Engine\Private\GameFramework\LevelBase.cpp" />
     <ClCompile Include="Engine\Private\GameFramework\SubSystem.cpp" />
     <ClCompile Include="Engine\Private\GameFramework\World.cpp" />
     <ClCompile Include="Engine\Private\Math\Transform.cpp" />
@@ -342,7 +341,7 @@
     <ClInclude Include="Engine\Public\Container\HashTable.hpp" />
     <ClInclude Include="Engine\Public\Container\String.hpp" />
     <ClInclude Include="Engine\Public\CoreColors.hpp" />
-    <ClInclude Include="Engine\Public\CoreCommons.hpp" />
+    <ClInclude Include="Engine\Public\CoreMath.hpp" />
     <ClInclude Include="Engine\Public\CoreFwd.hpp" />
     <ClInclude Include="Engine\Public\CoreTypes.hpp" />
     <ClInclude Include="Engine\Public\CoreUtility.hpp" />
@@ -359,11 +358,9 @@
     <ClInclude Include="Engine\Public\GameFramework\Actor.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\Component.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\Level.hpp" />
-    <ClInclude Include="Engine\Public\GameFramework\LevelBase.hpp" />
-    <ClInclude Include="Engine\Public\GameFramework\SubLevel.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\SubSystem.hpp" />
     <ClInclude Include="Engine\Public\GameFramework\World.hpp" />
-    <ClInclude Include="Engine\Public\Interface\ITransformable.hpp" />
+    <ClInclude Include="Engine\Public\Interface\IUpdatable.hpp" />
     <ClInclude Include="Engine\Public\Math\Transform.hpp" />
     <ClInclude Include="Engine\Public\Misc\ensure.hpp" />
     <ClInclude Include="Engine\Public\Misc\Function.hpp" />

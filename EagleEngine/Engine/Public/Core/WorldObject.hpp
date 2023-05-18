@@ -2,60 +2,71 @@
 
 #include <Core/Object.hpp>
 #include <Container/Array.hpp>
+#include <Interface/IUpdatable.hpp>
 #include <Math/Transform.hpp>
 #include <Misc/HashString.hpp>
 
 namespace eagle
 {
-	class WorldObject : public Object
+	class WorldObject : public Object, public IUpdatable
 	{
 	public:
 
 		WorldObject() = default;
 		~WorldObject() = default;
 
-	protected:
-
-		virtual void start() = 0;
-		virtual void update(double) = 0;
-
 	public:
 
 		virtual void _internalConstruct()override
 		{
-			if (awake())
-			{
-				start();
-				return;
-			}
-			ensure(false, "Failed to execute the awake function");
+			ensure(awake(), "Failed to execute the awake function");
 		}
 
-		virtual void _internalUpdate(double inDeltaTime)
+		virtual void _internalUpdate(double inDeltaTime)override
 		{
 			if (mActive && mUpdateEnabled)
 			{
+				if (!mStarted)
+				{
+					start();
+					mStarted = true;
+				}
+
 				const double timeDilation = getTimeDilation();
 				update(inDeltaTime * timeDilation);
 			}
 		}
 
-		virtual void _internalAttachToLevel(LevelBase* inLevel);
-		virtual void _internalAttachToOwner(Actor* inOwner);
+		virtual void _internalAttachToLevel(Level* newLevel);
+		virtual void _internalAttachToOwner(WorldObject* newOwner);
+		virtual void _internalDetachToOwner();
 
 	public:
 
-		ObjectRef<LevelBase> getLevel()const noexcept
+		void setTrasform(const Transform& newTransform)
+		{
+			mTransform = newTransform;
+		}
+
+		const Transform& getTransform()const noexcept
+		{
+			return mTransform;
+		}
+
+		ObjectRef<Level> getLevel()const noexcept
 		{
 			return mLevel;
 		}
 
-		ObjectRef<Actor> getOwner()const noexcept
+		ObjectRef<WorldObject> getOwner()const noexcept
 		{
 			return mOwner;
 		}
 
-		bool isOwner(const Actor* const inOwner)const noexcept;
+		bool isOwner(const WorldObject* const inOwner)const noexcept
+		{
+			return mOwner == *inOwner;
+		}
 
 		void addTag(const String& newTag);
 		void addTags(const Array<String>& newTags);
@@ -141,9 +152,11 @@ namespace eagle
 
 	private:
 
-		ObjectRef<LevelBase> mLevel = nullptr;
+		Transform mTransform;
 
-		ObjectRef<Actor> mOwner = nullptr;
+		ObjectRef<Level> mLevel = nullptr;
+
+		ObjectRef<WorldObject> mOwner = nullptr;
 
 		Array<HashString> mTags = {};
 
@@ -155,9 +168,13 @@ namespace eagle
 
 		bool mActive = true;
 
+		bool mStarted = false;
+
 		bool mPendingKill = false;
 
 		bool mUpdateEnabled = true;
 
 	};
+
+	constexpr auto s = sizeof(WorldObject);
 }

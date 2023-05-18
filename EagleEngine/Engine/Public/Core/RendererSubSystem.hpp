@@ -66,7 +66,7 @@ namespace eagle
 
 	public:
 
-		virtual void _internalAttachToLevel(LevelBase* newLevel);
+		virtual void _internalAttachToLevel(Level* newLevel)override;
 
 	public:
 
