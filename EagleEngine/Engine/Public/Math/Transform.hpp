@@ -125,10 +125,10 @@ namespace eagle
 	public:
 
 		static Transform Identity();
-		static Vec3 WorldToLocalPosition(WorldObject* inWorldObject, const Vec3& inWorldPos);
-		static Vec3 LocalToWorldPosition(WorldObject* inWorldObject, const Vec3& inLocalPos);
-		static Quaternion WorldToLocalRotation(WorldObject* inWorldObject, const Quaternion& inWorldRot);
-		static Quaternion LocalToWorldRotation(WorldObject* inWorldObject, const Quaternion& inLocalRot);
+		static Vec3 WorldToLocalPosition(const WorldObject* const inWorldObject, const Vec3& inWorldPos);
+		static Vec3 LocalToWorldPosition(const WorldObject* const inWorldObject, const Vec3& inLocalPos);
+		static Quaternion WorldToLocalRotation(const WorldObject* const inWorldObject, const Quaternion& inWorldRot);
+		static Quaternion LocalToWorldRotation(const WorldObject* const inWorldObject, const Quaternion& inLocalRot);
 
 	private:
 

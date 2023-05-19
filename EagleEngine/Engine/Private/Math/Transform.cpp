@@ -9,24 +9,54 @@ namespace eagle
 		return Transform{ Vec3::Zero(),Quaternion::Identity(),Vec3::One() };
 	}
 
-	Vec3 Transform::WorldToLocalPosition(WorldObject* inWorldObject, const Vec3& inWorldPos)
+	Vec3 Transform::WorldToLocalPosition(const WorldObject* const inWorldObject, const Vec3& inWorldPos)
 	{
-		return Vec3();
+		Vec3 result = inWorldPos;
+		auto owner = inWorldObject->getOwner();
+		while (owner)
+		{
+			result = result * owner->getLocalRotation().conjugated();
+			result = result - owner->getLocalPosition();
+			owner = owner->getOwner();
+		}
+		return result;
 	}
 
-	Vec3 Transform::LocalToWorldPosition(WorldObject* inWorldObject, const Vec3& inLocalPos)
+	Vec3 Transform::LocalToWorldPosition(const WorldObject* const inWorldObject, const Vec3& inLocalPos)
 	{
-		return Vec3();
+		Vec3 result = inLocalPos;
+		auto owner = inWorldObject->getOwner();
+		while (owner)
+		{
+			result = result * owner->getLocalRotation();
+			result = result + owner->getLocalPosition();
+			owner = owner->getOwner();
+		}
+		return result;
 	}
 
-	Quaternion Transform::WorldToLocalRotation(WorldObject* inWorldObject, const Quaternion& inWorldRot)
+	Quaternion Transform::WorldToLocalRotation(const WorldObject* const inWorldObject, const Quaternion& inWorldRot)
 	{
-		return Quaternion();
+		Quaternion result = inWorldRot;
+		auto owner = inWorldObject->getOwner();
+		while (owner)
+		{
+			result *= owner->getLocalRotation().conjugated();
+			owner = owner->getOwner();
+		}
+		return result;
 	}
 
-	Quaternion Transform::LocalToWorldRotation(WorldObject* inWorldObject, const Quaternion& inLocalRot)
+	Quaternion Transform::LocalToWorldRotation(const WorldObject* const inWorldObject, const Quaternion& inLocalRot)
 	{
-		return Quaternion();
+		Quaternion result = inLocalRot;
+		auto owner = inWorldObject->getOwner();
+		while (owner)
+		{
+			result *= owner->getLocalRotation();
+			owner = owner->getOwner();
+		}
+		return result;
 	}
 
 }

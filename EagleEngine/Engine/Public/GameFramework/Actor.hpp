@@ -21,26 +21,38 @@ namespace eagle
 
 	public:
 
-		void attachToActor(Actor* newOwner);
-		void attachToComponent(Component* newOwner);
-		void detachToOwner();
+		template<Concept::IsComponent ComponentType>
+		ObjectRef<ComponentType> createComponent()
+		{
+			return Cast<ComponentType>(_internalCreateComponent(CreateObjectClass<ComponentType>(),U""));
+		}
+
+		template<Concept::IsComponent ComponentType>
+		ObjectRef<ComponentType> createComponent(const String& newName)
+		{
+			return Cast<ComponentType>(_internalCreateComponent(CreateObjectClass<ComponentType>(), newName));
+		}
 
 		template<Concept::IsComponent ComponentType>
 		ObjectRef<ComponentType> attachComponent()
 		{
-			return Cast<ComponentType>(createComponent(
+			auto component = _internalCreateComponent(
 				CreateObjectClass<ComponentType>(),
 				U"{}.Component"_fmt(getName().getSequentialName())
-			));
+			);
+			component->_internalAttachToOwner(this);
+			return Cast<ComponentType>(component);
 		}
 
 		template<Concept::IsComponent ComponentType>
 		ObjectRef<ComponentType> attachComponent(const String& newName)
 		{
-			return Cast<ComponentType>(createComponent(
+			auto component = _internalCreateComponent(
 				CreateObjectClass<ComponentType>(),
 				newName
-			));
+			);
+			component->_internalAttachToOwner(this);
+			return Cast<ComponentType>(component);
 		}
 
 		ObjectRef<WorldObject> findComponentByOwner(const TypeIndex& inFindType)const;
@@ -78,7 +90,7 @@ namespace eagle
 
 	private:
 
-		ObjectRef<WorldObject> createComponent(const ObjectClass& inObjectClass, const String& newName);
+		ObjectRef<WorldObject> _internalCreateComponent(const ObjectClass& inObjectClass, const String& newName);
 
 	};
 

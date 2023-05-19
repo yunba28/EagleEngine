@@ -9,51 +9,13 @@
 
 using namespace eagle;
 
-class PositionComponent : public Component
-{
-private:
-
-	bool awake()override
-	{
-		setUpdateEnable(false);
-		return true;
-	}
-
-public:
-
-	void setPos(Vec2 newPos)
-	{
-		mPosition = newPos;
-	}
-
-	Vec2 getPos()const
-	{
-		return mPosition;
-	}
-
-	void addPos(Vec2 inVec)
-	{
-		mPosition += inVec;
-	}
-
-private:
-
-	Vec2 mPosition = { 0,0 };
-
-};
-
 class CircleRenderer : public Renderer
 {
 private:
 
-	void start()override
-	{
-		mPosComp = Cast<Actor>(getOwner())->findComponent<PositionComponent>();
-	}
-
 	void draw()const override
 	{
-		Circle{ mPosComp->getPos(),mRadius }.draw(mColor);
+		Circle{ getWorldPosition().xy(),mRadius}.draw(mColor);
 	}
 
 public:
@@ -80,68 +42,128 @@ public:
 
 private:
 
-	ObjectRef<PositionComponent> mPosComp = nullptr;
-
 	Color mColor = Palette::White;
 
 	double mRadius = 20;
 
 };
 
-class MoveComponent : public Component
+class QuadComponent : public Renderer
 {
 private:
 
-	void start()override
+	void draw()const override
 	{
-		mPosComp = Cast<Actor>(getOwner())->findComponent<PositionComponent>();
-	}
-
-	void update(double inDeltaTime)override
-	{
-		const double velocity = 300.0 * inDeltaTime;
-
-		Vec2 axis
-		{
-			(KeyRight.pressed() - KeyLeft.pressed()),
-			(KeyDown.pressed() - KeyUp.pressed())
-		};
-
-		if (!axis.isZero())
-		{
-			axis.normalize();
-			mPosComp->addPos(axis * velocity);
-		}
-	}
-
-private:
-
-	ObjectRef<PositionComponent> mPosComp;
-
-};
-
-class PlayableCircleActor : public Actor
-{
-private:
-
-	bool awake()override
-	{
-		attachComponent<PositionComponent>();
-		attachComponent<MoveComponent>();
-		mCR = attachComponent<CircleRenderer>();
-		return true;
+		Vec2 pos = getWorldPosition().xy();
+		RectF rect{ pos,mExtent * 2 };
+		auto rot = getWorldRotation();
+		Vec2 dir = (Vec3{ 1,0,0 }*rot).xy();
+		rect.rotated(dir.getAngle()).draw(mColor);
 	}
 
 public:
 
 	void setColor(const Color& newColor)
 	{
-		mCR->setColor(newColor);
+		mColor = newColor;
+	}
+
+	void setExtent(const Vec2& newExtent)
+	{
+		mExtent = newExtent;
 	}
 
 private:
 
-	ObjectRef<CircleRenderer> mCR;
+	Color mColor = Palette::White;
+	Vec2 mExtent = { 25,25 };
+
+};
+
+class BoxComponent : public Renderer
+{
+public:
+
+	BoxComponent()
+	{
+		setRenderType(RenderType::WorldSpace);
+	}
+
+private:
+
+	void draw()const override
+	{
+		Vec3 pos = getWorldPosition();
+		Box box{ pos,mExtent * 2 };
+		box.draw(getWorldRotation(), mColor);
+	}
+
+public:
+
+	void setColor(const Color& newColor)
+	{
+		mColor = newColor.removeSRGBCurve();
+	}
+
+	void setExtent(const Vec3& newExtent)
+	{
+		mExtent = newExtent;
+	}
+
+private:
+
+	Color mColor = Palette::White.removeSRGBCurve();
+	Vec3 mExtent = { 0.5,0.5,0.5 };
+
+};
+
+class PlayableQuadActor : public Actor
+{
+private:
+
+	bool awake()override
+	{
+		mQC = attachComponent<BoxComponent>();
+		mQC->setExtent(Vec3{ 1,1,1 });
+		mQC2 = createComponent<BoxComponent>();
+		mQC2->attachToComponent(mQC);
+		mQC2->setLocalPosition(Vec3{ 3,0,0 });
+		mQC2->setExtent(Vec3{ 0.5,0.5,0.5 });
+		return true;
+	}
+
+	void update(double inDeltaTime)override
+	{
+		const double angleVelocity = 120 * inDeltaTime;
+
+		Vec3 euler
+		{
+			(KeyQ.pressed() - KeyA.pressed()) * angleVelocity,
+			(KeyW.pressed() - KeyS.pressed()) * angleVelocity,
+			(KeyE.pressed() - KeyD.pressed()) * angleVelocity
+		};
+
+		euler = ToRadians(euler);
+
+		if (KeyR.down())
+		{
+			setLocalRotation(Vec3::Zero());
+		}
+
+		addLocalRotation(euler);
+	}
+
+public:
+
+	void setColor(const Color& newColor)
+	{
+		mQC->setColor(newColor);
+	}
+
+private:
+	
+	ObjectRef<BoxComponent> mQC;
+	ObjectRef<BoxComponent> mQC2;
 
 };
 
@@ -151,7 +173,7 @@ private:
 
 	bool awake()override
 	{
-		createActor<PlayableCircleActor>(U"MyActor")
+		createActor<PlayableQuadActor>(U"MyActor")
 			->setColor(Palette::Orange);
 		return true;
 	}
@@ -172,7 +194,7 @@ private:
 
 	bool awake()override
 	{
-		createActor<PlayableCircleActor>(U"MyActor")
+		createActor<PlayableQuadActor>(U"MyActor")
 			->setColor(Palette::Aliceblue);
 		return true;
 	}

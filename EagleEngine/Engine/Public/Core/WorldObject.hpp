@@ -12,8 +12,7 @@ namespace eagle
 	{
 	public:
 
-		WorldObject() = default;
-		~WorldObject() = default;
+		WorldObject();
 
 	public:
 
@@ -53,15 +52,118 @@ namespace eagle
 			return mTransform;
 		}
 
+		void setLocalPosition(const Vec3& newLocalPos)noexcept
+		{
+			mTransform.setPosition(newLocalPos);
+		}
+
+		const Vec3& getLocalPosition()const noexcept
+		{
+			return mTransform.getPosition();
+		}
+
+		void setWorldPosition(const Vec3& newWorldPos)noexcept
+		{
+			mTransform.setPosition(Transform::WorldToLocalPosition(this, newWorldPos));
+		}
+
+		Vec3 getWorldPosition()const
+		{
+			return Transform::LocalToWorldPosition(this, mTransform.getPosition());
+		}
+
+		void setLocalRotation(const Quaternion& newLocalRot)noexcept
+		{
+			mTransform.setRotation(newLocalRot);
+		}
+
+		void setLocalRotation(const Vec3& newEuler)noexcept
+		{
+			mTransform.setRotation(newEuler);
+		}
+
+		const Quaternion& getLocalRotation()const noexcept
+		{
+			return mTransform.getRotation();
+		}
+
+		void setWorldRotation(const Quaternion& newWorldRot)noexcept
+		{
+			mTransform.setRotation(Transform::WorldToLocalRotation(this, newWorldRot));
+		}
+
+		void setWorldRotation(const Vec3& newEuler)noexcept
+		{
+			auto rot = Quaternion::RollPitchYaw(newEuler.x, newEuler.y, newEuler.z);
+			mTransform.setRotation(Transform::WorldToLocalRotation(this, rot));
+		}
+
+		Quaternion getWorldRotation()const
+		{
+			return Transform::LocalToWorldRotation(this,mTransform.getRotation());
+		}
+
+		void addLocalPosition(const Vec3& inVec)
+		{
+			mTransform.addPosition(inVec);
+		}
+
+		void addWorldPosition(const Vec3& inVec)
+		{
+			getRoot()->addLocalPosition(inVec);
+		}
+
+		void addLocalRotation(const Quaternion& inQuat)
+		{
+			mTransform.addRotation(inQuat);
+		}
+
+		void addLocalRotation(const Vec3& inEuler)
+		{
+			mTransform.addRotation(inEuler);
+		}
+
+		void addWorldRotation(const Quaternion& inQuat)
+		{
+			getRoot()->addLocalRotation(inQuat);
+		}
+
+		void addWorldRotation(const Vec3& inEuler)
+		{
+			getRoot()->addLocalRotation(inEuler);
+		}
+
+		Vec3 getForward()const
+		{
+			return Vec3::Forward() * getWorldRotation();
+		}
+
+		Vec3 getRight()const
+		{
+			return Vec3::Right() * getWorldRotation();
+		}
+
+		Vec3 getUp()const
+		{
+			return Vec3::Up() * getWorldRotation();
+		}
+
 		ObjectRef<Level> getLevel()const noexcept
 		{
 			return mLevel;
 		}
 
+		void attachToActor(Actor* newOwner);
+		void attachToComponent(Component* newOwner);
+
 		ObjectRef<WorldObject> getOwner()const noexcept
 		{
 			return mOwner;
 		}
+
+		ObjectRef<WorldObject> getRoot()const;
+
+		void detachToOwner();
 
 		bool isOwner(const WorldObject* const inOwner)const noexcept
 		{
@@ -154,25 +256,27 @@ namespace eagle
 
 		Transform mTransform;
 
-		ObjectRef<Level> mLevel = nullptr;
+		ObjectRef<Level> mLevel;
 
-		ObjectRef<WorldObject> mOwner = nullptr;
+		ObjectRef<WorldObject> mSelf;
 
-		Array<HashString> mTags = {};
+		ObjectRef<WorldObject> mOwner;
 
-		double mCustomTimeDilation = 1.0;
+		Array<HashString> mTags;
+
+		double mCustomTimeDilation;
 
 		static double sGlobalTimeDilation;
 
-		bool mPreferGlobalTimeDilation = true;
+		bool mPreferGlobalTimeDilation;
 
-		bool mActive = true;
+		bool mActive;
 
-		bool mStarted = false;
+		bool mStarted;
 
-		bool mPendingKill = false;
+		bool mPendingKill;
 
-		bool mUpdateEnabled = true;
+		bool mUpdateEnabled;
 
 	};
 

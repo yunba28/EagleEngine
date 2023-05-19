@@ -1,11 +1,26 @@
 ﻿#include <Core/WorldObject.hpp>
 
 #include <GameFramework/Actor.hpp>
+#include <GameFramework/Component.hpp>
 #include <GameFramework/Level.hpp>
 
 namespace eagle
 {
 	double WorldObject::sGlobalTimeDilation = 1.0;
+
+	WorldObject::WorldObject()
+		: mTransform(Transform::Identity())
+		, mLevel(nullptr)
+		, mSelf(this)
+		, mOwner(nullptr)
+		, mTags()
+		, mCustomTimeDilation(1.0)
+		, mActive(true)
+		, mStarted(false)
+		, mPendingKill(false)
+		, mUpdateEnabled(true)
+	{
+	}
 
 	void WorldObject::_internalAttachToLevel(Level* newLevel)
 	{
@@ -21,6 +36,39 @@ namespace eagle
 	void WorldObject::_internalDetachToOwner()
 	{
 		mOwner = nullptr;
+	}
+
+	void WorldObject::attachToActor(Actor* newOwner)
+	{
+		detachToOwner();
+		_internalAttachToOwner(newOwner);
+	}
+
+	void WorldObject::attachToComponent(Component* newOwner)
+	{
+		detachToOwner();
+		_internalAttachToOwner(newOwner);
+	}
+
+	ObjectRef<WorldObject> WorldObject::getRoot() const
+	{
+		auto owner = getOwner();
+		if (!owner)
+		{
+			return mSelf;
+		}
+		auto tmp = owner->getOwner();
+		while (tmp)
+		{
+			owner = tmp;
+			tmp = owner->getOwner();
+		}
+		return owner;
+	}
+
+	void WorldObject::detachToOwner()
+	{
+		_internalDetachToOwner();
 	}
 
 	void WorldObject::addTag(const String& newTag)

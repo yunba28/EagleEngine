@@ -11,8 +11,10 @@ namespace eagle
 	{
 	public:
 
-		Renderer() = default;
-		~Renderer() = default;
+		Renderer()
+		{
+			setUpdateEnable(false);
+		}
 
 	protected:
 

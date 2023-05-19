@@ -5,22 +5,6 @@
 
 namespace eagle
 {
-	void Actor::attachToActor(Actor* newOwner)
-	{
-		detachToOwner();
-		_internalAttachToOwner(newOwner);
-	}
-
-	void Actor::attachToComponent(Component* newOwner)
-	{
-		detachToOwner();
-		_internalAttachToOwner(newOwner);
-	}
-
-	void Actor::detachToOwner()
-	{
-		_internalDetachToOwner();
-	}
 
 	ObjectRef<WorldObject> Actor::findComponentByOwner(const TypeIndex& inFindType) const
 	{
@@ -49,11 +33,11 @@ namespace eagle
 		return ObjectRef<WorldObject>();
 	}
 
-	ObjectRef<WorldObject> Actor::createComponent(const ObjectClass& inObjectClass, const String& newName)
+	ObjectRef<WorldObject> Actor::_internalCreateComponent(const ObjectClass& inObjectClass, const String& newName)
 	{
 		if (auto level = getLevel(); level)
 		{
-			return level->createComponent(inObjectClass, newName, this);
+			return level->createComponent(inObjectClass, newName, nullptr);
 		}
 		return ObjectRef<WorldObject>();
 	}
