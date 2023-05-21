@@ -24,13 +24,13 @@ namespace eagle
 		template<Concept::IsComponent ComponentType>
 		ObjectRef<ComponentType> createComponent()
 		{
-			return Cast<ComponentType>(_internalCreateComponent(CreateObjectClass<ComponentType>(),U""));
+			return Cast<ComponentType>(_internalCreateComponent(CreateObjectClass<ComponentType>(),U""), nullptr);
 		}
 
 		template<Concept::IsComponent ComponentType>
 		ObjectRef<ComponentType> createComponent(const String& newName)
 		{
-			return Cast<ComponentType>(_internalCreateComponent(CreateObjectClass<ComponentType>(), newName));
+			return Cast<ComponentType>(_internalCreateComponent(CreateObjectClass<ComponentType>(), newName), nullptr);
 		}
 
 		template<Concept::IsComponent ComponentType>
@@ -38,9 +38,9 @@ namespace eagle
 		{
 			auto component = _internalCreateComponent(
 				CreateObjectClass<ComponentType>(),
-				U"{}.Component"_fmt(getName().getSequentialName())
+				U"{}.Component"_fmt(getName().getSequentialName()),
+				this
 			);
-			component->_internalAttachToOwner(this);
 			return Cast<ComponentType>(component);
 		}
 
@@ -49,9 +49,9 @@ namespace eagle
 		{
 			auto component = _internalCreateComponent(
 				CreateObjectClass<ComponentType>(),
-				newName
+				newName,
+				this
 			);
-			component->_internalAttachToOwner(this);
 			return Cast<ComponentType>(component);
 		}
 
@@ -88,9 +88,12 @@ namespace eagle
 			return false;
 		}
 
+		void LookAtForActor(Actor* inTargetActor);
+		void LookAtForComponent(Component* inTargetComponent);
+
 	private:
 
-		ObjectRef<WorldObject> _internalCreateComponent(const ObjectClass& inObjectClass, const String& newName);
+		ObjectRef<WorldObject> _internalCreateComponent(const ObjectClass& inObjectClass, const String& newName, Actor* newOwner);
 
 	};
 

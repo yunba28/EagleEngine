@@ -9,7 +9,7 @@ namespace eagle
 	double WorldObject::sGlobalTimeDilation = 1.0;
 
 	WorldObject::WorldObject()
-		: mTransform(Transform::Identity())
+		: mTransform(nullptr)
 		, mLevel(nullptr)
 		, mSelf(this)
 		, mOwner(nullptr)
@@ -19,6 +19,7 @@ namespace eagle
 		, mStarted(false)
 		, mPendingKill(false)
 		, mUpdateEnabled(true)
+		, bCanCreateTransform(true)
 	{
 	}
 

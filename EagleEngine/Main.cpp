@@ -9,77 +9,6 @@
 
 using namespace eagle;
 
-class CircleRenderer : public Renderer
-{
-private:
-
-	void draw()const override
-	{
-		Circle{ getWorldPosition().xy(),mRadius}.draw(mColor);
-	}
-
-public:
-
-	void setColor(const Color& newColor)
-	{
-		mColor = newColor;
-	}
-
-	const Color& getColor()const
-	{
-		return mColor;
-	}
-
-	void setRadius(double newRadius)
-	{
-		mRadius = newRadius;
-	}
-
-	double getRadius()const
-	{
-		return mRadius;
-	}
-
-private:
-
-	Color mColor = Palette::White;
-
-	double mRadius = 20;
-
-};
-
-class QuadComponent : public Renderer
-{
-private:
-
-	void draw()const override
-	{
-		Vec2 pos = getWorldPosition().xy();
-		RectF rect{ pos,mExtent * 2 };
-		auto rot = getWorldRotation();
-		Vec2 dir = (Vec3{ 1,0,0 }*rot).xy();
-		rect.rotated(dir.getAngle()).draw(mColor);
-	}
-
-public:
-
-	void setColor(const Color& newColor)
-	{
-		mColor = newColor;
-	}
-
-	void setExtent(const Vec2& newExtent)
-	{
-		mExtent = newExtent;
-	}
-
-private:
-
-	Color mColor = Palette::White;
-	Vec2 mExtent = { 25,25 };
-
-};
-
 class BoxComponent : public Renderer
 {
 public:
@@ -93,77 +22,99 @@ private:
 
 	void draw()const override
 	{
-		Vec3 pos = getWorldPosition();
-		Box box{ pos,mExtent * 2 };
-		box.draw(getWorldRotation(), mColor);
+		auto [pos, rot, scl] = static_cast<TransformRaw>(getWorldTransform());
+		Box{ pos,mExtent * 2}.scaled(scl).draw(rot, mColor);
+
+		auto fwd = getWorldForward() * 5;
+		Line3D{ pos,pos + fwd }.draw(Palette::Red);
 	}
 
 public:
 
-	void setColor(const Color& newColor)
-	{
-		mColor = newColor.removeSRGBCurve();
-	}
-
-	void setExtent(const Vec3& newExtent)
+	void setExtent(Vec3 newExtent)
 	{
 		mExtent = newExtent;
 	}
 
+	void setColor(ColorF newColor)
+	{
+		mColor = newColor;
+	}
+
 private:
 
-	Color mColor = Palette::White.removeSRGBCurve();
-	Vec3 mExtent = { 0.5,0.5,0.5 };
+	Vec3 mExtent{ 2.5,2.5,2.5 };
+	ColorF mColor{ Palette::Orange };
 
 };
 
-class PlayableQuadActor : public Actor
+class BoxActor : public Actor
 {
 private:
 
 	bool awake()override
 	{
-		mQC = attachComponent<BoxComponent>();
-		mQC->setExtent(Vec3{ 1,1,1 });
-		mQC2 = createComponent<BoxComponent>();
-		mQC2->attachToComponent(mQC);
-		mQC2->setLocalPosition(Vec3{ 3,0,0 });
-		mQC2->setExtent(Vec3{ 0.5,0.5,0.5 });
+		mBoxComp = attachComponent<BoxComponent>();
 		return true;
-	}
-
-	void update(double inDeltaTime)override
-	{
-		const double angleVelocity = 120 * inDeltaTime;
-
-		Vec3 euler
-		{
-			(KeyQ.pressed() - KeyA.pressed()) * angleVelocity,
-			(KeyW.pressed() - KeyS.pressed()) * angleVelocity,
-			(KeyE.pressed() - KeyD.pressed()) * angleVelocity
-		};
-
-		euler = ToRadians(euler);
-
-		if (KeyR.down())
-		{
-			setLocalRotation(Vec3::Zero());
-		}
-
-		addLocalRotation(euler);
 	}
 
 public:
 
-	void setColor(const Color& newColor)
+	void setExtent(Vec3 newExtent)
 	{
-		mQC->setColor(newColor);
+		mBoxComp->setExtent(newExtent);
+	}
+
+	void setColor(ColorF newColor)
+	{
+		mBoxComp->setColor(newColor);
 	}
 
 private:
-	
-	ObjectRef<BoxComponent> mQC;
-	ObjectRef<BoxComponent> mQC2;
+
+	ObjectRef<BoxComponent> mBoxComp;
+
+};
+
+class MoveComponent : public Component
+{
+public:
+
+	MoveComponent()
+	{
+		bCanCreateTransform = false;
+	}
+
+private:
+
+	bool awake()override
+	{
+		mActOwner = Cast<Actor>(getOwner());
+		return mActOwner;
+	}
+
+	void update(double inDeltaTime)override
+	{
+		Vec3 axis
+		{
+			(KeyD.pressed() - KeyA.pressed()),
+			(KeyUp.pressed() - KeyDown.pressed()),
+			(KeyW.pressed() - KeyS.pressed())
+		};
+
+		if (axis.isZero())
+			return;
+
+		axis.normalize();
+
+		const double speed = 10 * inDeltaTime;
+
+		mActOwner->addLocalPosition(axis * speed);
+	}
+
+private:
+
+	ObjectRef<Actor> mActOwner;
 
 };
 
@@ -173,47 +124,52 @@ private:
 
 	bool awake()override
 	{
-		createActor<PlayableQuadActor>(U"MyActor")
-			->setColor(Palette::Orange);
+		mAct1 = createActor<BoxActor>(U"Act1");
+		{
+			mAct1->attachComponent<MoveComponent>();
+			mAct1->setLocalPosition(Vec3{ 5,0,0 });
+			mAct1->setLocalScale(Vec3{ 1,1,2 });
+			mAct1->setExtent(Vec3{ 1,1,1 });
+			mAct1->setColor(Palette::Orange);
+		}
+
+		mAct2 = createActor<BoxActor>(U"Act2");
+		{
+			mAct2->setLocalPosition(Vec3{ 0,0,0 });
+			mAct2->setExtent(Vec3{ 1,1,1 });
+			mAct2->setColor(Palette::Aliceblue);
+		}
+
 		return true;
 	}
 
 	void update(double)override
 	{
-		if (KeyEnter.down())
-		{
-			getWorld()->changeLevel(U"MyLevel2");
-		}
+		mAct2->LookAtForActor(mAct1);
 	}
+
+private:
+
+	ObjectRef<BoxActor> mAct1;
+	ObjectRef<BoxActor> mAct2;
 
 };
 
-class MyLevel2 : public Level
+class Base
 {
-private:
+protected:
 
-	bool awake()override
-	{
-		createActor<PlayableQuadActor>(U"MyActor")
-			->setColor(Palette::Aliceblue);
-		return true;
-	}
+	void Func1() {}
+	void Func2() {}
 
-	void update(double)override
-	{
-		if (KeyEnter.down())
-		{
-			getWorld()->changeLevel(U"MyLevel");
-		}
-	}
 };
 
 void Main()
 {
+
 	ObjectPtr<World> world = CreateObjectClass<World>()();
 	{
-		world->registerLevel<MyLevel>(U"MyLevel")
-			.registerLevel<MyLevel2>(U"MyLevel2");
+		world->registerLevel<MyLevel>(U"Lv1");
 	}
 
 	while (System::Update())

@@ -2,9 +2,13 @@
 
 #include <CoreFwd.hpp>
 #include <CoreMath.hpp>
+#include <CoreTypes.hpp>
 
 namespace eagle
 {
+
+	using TransformRaw = Tuple<Vec3, Quaternion, Vec3>;
+
 	class Transform
 	{
 	public:
@@ -40,6 +44,13 @@ namespace eagle
 			, mScale(newScale)
 			, mRotation(Quaternion::RollPitchYaw(newEuler.x, newEuler.y, newEuler.z))
 		{}
+
+	public:
+
+		explicit operator Tuple<Vec3, Quaternion, Vec3>()const noexcept
+		{
+			return { mPosition,mRotation,mScale };
+		}
 
 	public:
 
@@ -129,6 +140,8 @@ namespace eagle
 		static Vec3 LocalToWorldPosition(const WorldObject* const inWorldObject, const Vec3& inLocalPos);
 		static Quaternion WorldToLocalRotation(const WorldObject* const inWorldObject, const Quaternion& inWorldRot);
 		static Quaternion LocalToWorldRotation(const WorldObject* const inWorldObject, const Quaternion& inLocalRot);
+		static Vec3 WorldToLocalScale(const WorldObject* const inWorldObject, const Vec3& inWorldScale);
+		static Vec3 LocalToWorldScale(const WorldObject* const inWorldObject, const Vec3& inLocalScale);
 
 	private:
 

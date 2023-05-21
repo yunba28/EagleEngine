@@ -33,11 +33,23 @@ namespace eagle
 		return ObjectRef<WorldObject>();
 	}
 
-	ObjectRef<WorldObject> Actor::_internalCreateComponent(const ObjectClass& inObjectClass, const String& newName)
+	void Actor::LookAtForActor(Actor* inTargetActor)
+	{
+		auto dir = (inTargetActor->getWorldPosition() - getWorldPosition()).normalized();
+		setWorldRotation(Quaternion::FromUnitVectors(Vec3::Forward(), dir));
+	}
+
+	void Actor::LookAtForComponent(Component* inTargetComponent)
+	{
+		auto dir = (inTargetComponent->getWorldPosition() - getWorldPosition()).normalized();
+		setWorldRotation(Quaternion::FromUnitVectors(Vec3::Forward(), dir));
+	}
+
+	ObjectRef<WorldObject> Actor::_internalCreateComponent(const ObjectClass& inObjectClass, const String& newName, Actor* newOwner)
 	{
 		if (auto level = getLevel(); level)
 		{
-			return level->createComponent(inObjectClass, newName, nullptr);
+			return level->createComponent(inObjectClass, newName, newOwner);
 		}
 		return ObjectRef<WorldObject>();
 	}

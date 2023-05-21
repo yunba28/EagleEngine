@@ -18,6 +18,11 @@ namespace eagle
 
 		virtual void _internalConstruct()override
 		{
+			if (bCanCreateTransform)
+			{
+				mTransform = std::make_unique<Transform>(Transform::Identity());
+			}
+
 			ensure(awake(), "Failed to execute the awake function");
 		}
 
@@ -42,70 +47,141 @@ namespace eagle
 
 	public:
 
-		void setTrasform(const Transform& newTransform)
+		void setLocalTrasform(const Transform& newTransform)
 		{
-			mTransform = newTransform;
+			if (mTransform)
+			{
+				*mTransform = newTransform;
+			}
 		}
 
-		const Transform& getTransform()const noexcept
+		Transform getLocalTransform()const
 		{
-			return mTransform;
+			return mTransform ? *mTransform : Transform::Identity();
+		}
+
+		void setWorldTransform(const Transform& newTransform)
+		{
+			if (mTransform)
+			{
+				mTransform->setPosition(Transform::WorldToLocalPosition(this,newTransform.getPosition()));
+				mTransform->setRotation(Transform::WorldToLocalRotation(this, newTransform.getRotation()));
+				mTransform->setScale(Transform::WorldToLocalScale(this, newTransform.getScale()));
+			}
+		}
+
+		Transform getWorldTransform()const
+		{
+			if (mTransform)
+			{
+				return Transform
+				{
+					getWorldPosition(),
+					getWorldRotation(),
+					getWorldScale()
+				};
+			}
+			return Transform::Identity();
 		}
 
 		void setLocalPosition(const Vec3& newLocalPos)noexcept
 		{
-			mTransform.setPosition(newLocalPos);
+			if (mTransform)
+			{
+				mTransform->setPosition(newLocalPos);
+			}
 		}
 
-		const Vec3& getLocalPosition()const noexcept
+		Vec3 getLocalPosition()const noexcept
 		{
-			return mTransform.getPosition();
+			return mTransform ? mTransform->getPosition() : Vec3{};
 		}
 
 		void setWorldPosition(const Vec3& newWorldPos)noexcept
 		{
-			mTransform.setPosition(Transform::WorldToLocalPosition(this, newWorldPos));
+			if (mTransform)
+			{
+				mTransform->setPosition(Transform::WorldToLocalPosition(this, newWorldPos));
+			}
 		}
 
 		Vec3 getWorldPosition()const
 		{
-			return Transform::LocalToWorldPosition(this, mTransform.getPosition());
+			return Transform::LocalToWorldPosition(this, mTransform ? mTransform->getPosition() : Vec3{});
 		}
 
 		void setLocalRotation(const Quaternion& newLocalRot)noexcept
 		{
-			mTransform.setRotation(newLocalRot);
+			if (mTransform)
+			{
+				mTransform->setRotation(newLocalRot);
+			}
 		}
 
 		void setLocalRotation(const Vec3& newEuler)noexcept
 		{
-			mTransform.setRotation(newEuler);
+			if (mTransform)
+			{
+				mTransform->setRotation(newEuler);
+			}
 		}
 
-		const Quaternion& getLocalRotation()const noexcept
+		Quaternion getLocalRotation()const noexcept
 		{
-			return mTransform.getRotation();
+			return mTransform ? mTransform->getRotation() : Quaternion::Identity();
 		}
 
 		void setWorldRotation(const Quaternion& newWorldRot)noexcept
 		{
-			mTransform.setRotation(Transform::WorldToLocalRotation(this, newWorldRot));
+			if (mTransform)
+			{
+				mTransform->setRotation(Transform::WorldToLocalRotation(this, newWorldRot));
+			}
 		}
 
 		void setWorldRotation(const Vec3& newEuler)noexcept
 		{
-			auto rot = Quaternion::RollPitchYaw(newEuler.x, newEuler.y, newEuler.z);
-			mTransform.setRotation(Transform::WorldToLocalRotation(this, rot));
+			if (mTransform)
+			{
+				auto rot = Quaternion::RollPitchYaw(newEuler.x, newEuler.y, newEuler.z);
+				mTransform->setRotation(Transform::WorldToLocalRotation(this, rot));
+			}
 		}
 
 		Quaternion getWorldRotation()const
 		{
-			return Transform::LocalToWorldRotation(this,mTransform.getRotation());
+			return Transform::LocalToWorldRotation(this, mTransform ? mTransform->getRotation() : Quaternion::Identity());
+		}
+
+		void setLocalScale(const Vec3& newScale)noexcept
+		{
+			if (mTransform)
+			{
+				mTransform->setScale(newScale);
+			}
+		}
+
+		Vec3 getLocalScale()const noexcept
+		{
+			return mTransform ? mTransform->getScale() : Vec3{ 1,1,1 };
+		}
+
+		void setWorldScale(const Vec3& newScale)
+		{
+			if (mTransform)
+			{
+				mTransform->setScale(Transform::LocalToWorldScale(this, newScale));
+			}
+		}
+
+		Vec3 getWorldScale()const
+		{
+			return Transform::LocalToWorldScale(this, mTransform ? mTransform->getScale() : Vec3{ 1,1,1 });
 		}
 
 		void addLocalPosition(const Vec3& inVec)
 		{
-			mTransform.addPosition(inVec);
+			mTransform->addPosition(inVec);
 		}
 
 		void addWorldPosition(const Vec3& inVec)
@@ -115,12 +191,12 @@ namespace eagle
 
 		void addLocalRotation(const Quaternion& inQuat)
 		{
-			mTransform.addRotation(inQuat);
+			mTransform->addRotation(inQuat);
 		}
 
 		void addLocalRotation(const Vec3& inEuler)
 		{
-			mTransform.addRotation(inEuler);
+			mTransform->addRotation(inEuler);
 		}
 
 		void addWorldRotation(const Quaternion& inQuat)
@@ -133,20 +209,37 @@ namespace eagle
 			getRoot()->addLocalRotation(inEuler);
 		}
 
-		Vec3 getForward()const
+		Vec3 getLocalForward()const
+		{
+			return Vec3::Forward() * getLocalRotation();
+		}
+
+		Vec3 getLocalRight()const
+		{
+			return Vec3::Right() * getLocalRotation();
+		}
+
+		Vec3 getLocalUp()const
+		{
+			return Vec3::Up() * getLocalRotation();
+		}
+
+		Vec3 getWorldForward()const
 		{
 			return Vec3::Forward() * getWorldRotation();
 		}
 
-		Vec3 getRight()const
+		Vec3 getWorldRight()const
 		{
 			return Vec3::Right() * getWorldRotation();
 		}
 
-		Vec3 getUp()const
+		Vec3 getWorldUp()const
 		{
 			return Vec3::Up() * getWorldRotation();
 		}
+
+	public:
 
 		ObjectRef<Level> getLevel()const noexcept
 		{
@@ -254,7 +347,7 @@ namespace eagle
 
 	private:
 
-		Transform mTransform;
+		std::unique_ptr<Transform> mTransform;
 
 		ObjectRef<Level> mLevel;
 
@@ -277,6 +370,10 @@ namespace eagle
 		bool mPendingKill;
 
 		bool mUpdateEnabled;
+
+	protected:
+
+		bool bCanCreateTransform;
 
 	};
 

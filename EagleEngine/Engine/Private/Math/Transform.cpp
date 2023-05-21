@@ -59,4 +59,28 @@ namespace eagle
 		return result;
 	}
 
+	Vec3 Transform::WorldToLocalScale(const WorldObject* const inWorldObject, const Vec3& inWorldScale)
+	{
+		Vec3 result = inWorldScale;
+		auto owner = inWorldObject->getOwner();
+		while (owner)
+		{
+			result /= owner->getLocalScale();
+			owner = owner->getOwner();
+		}
+		return result;
+	}
+
+	Vec3 Transform::LocalToWorldScale(const WorldObject* const inWorldObject, const Vec3& inLocalScale)
+	{
+		Vec3 result = inLocalScale;
+		auto owner = inWorldObject->getOwner();
+		while (owner)
+		{
+			result *= owner->getLocalScale();
+			owner = owner->getOwner();
+		}
+		return result;
+	}
+
 }
