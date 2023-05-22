@@ -82,16 +82,11 @@ public:
 
 	MoveComponent()
 	{
+		// Transformの生成をしない
 		bCanCreateTransform = false;
 	}
 
 private:
-
-	bool awake()override
-	{
-		mActOwner = Cast<Actor>(getOwner());
-		return mActOwner;
-	}
 
 	void update(double inDeltaTime)override
 	{
@@ -109,12 +104,8 @@ private:
 
 		const double speed = 10 * inDeltaTime;
 
-		mActOwner->addLocalPosition(axis * speed);
+		getOwner()->addLocalPosition(axis * speed);
 	}
-
-private:
-
-	ObjectRef<Actor> mActOwner;
 
 };
 
@@ -152,15 +143,6 @@ private:
 
 	ObjectRef<BoxActor> mAct1;
 	ObjectRef<BoxActor> mAct2;
-
-};
-
-class Base
-{
-protected:
-
-	void Func1() {}
-	void Func2() {}
 
 };
 
